@@ -93,7 +93,7 @@
         "isolatedModules": true
       }
     },
-    "testEnvironment": "jsdom",
+    "testEnvironment": "node",
     "coverageThreshold": {
       "global": {
         "statements": 100
@@ -119,9 +119,9 @@
   "size-limit": [
     {
       "import": {
-        "./index.js": "{ }"
+        "./index.js": "{ autodetect }"
       },
-      "limit": "0 B"
+      "limit": "156 B"
     }
   ],
   "clean-publish": {
