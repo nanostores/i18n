@@ -15,21 +15,21 @@ it('uses default in SSR', () => {
 })
 
 it('uses English as default fallback', () => {
-  expect(autodetect({ between: ['fr', 'en'] }).get()).toBe('en')
+  expect(autodetect({ between: ['fr', 'en'] as const }).get()).toBe('en')
 })
 
 it('finds first available locale', () => {
   setLanguages(['fr_CA', 'pt_BR', 'fr', 'pt'])
-  expect(autodetect({ between: ['fr', 'pt'] }).get()).toBe('fr')
+  expect(autodetect({ between: ['fr', 'pt', 'en'] as const }).get()).toBe('fr')
 })
 
 it('returns fallback on no matches', () => {
   setLanguages(['fr_CA', 'pt_BR', 'fr', 'pt'])
-  expect(autodetect({ between: ['ru', 'uk'] }).get()).toBe('en')
+  expect(autodetect({ between: ['ru', 'uk', 'en'] as const }).get()).toBe('en')
 })
 
 it('is ready for lack of languages support', () => {
   // @ts-ignore
   global.navigator = { language: 'fr' }
-  expect(autodetect({ between: ['fr', 'pt'] }).get()).toBe('fr')
+  expect(autodetect({ between: ['fr', 'pt', 'en'] as const }).get()).toBe('fr')
 })

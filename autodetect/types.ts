@@ -9,8 +9,14 @@ let strict = autodetect({
 })
 test(strict.get())
 
+let fallback = autodetect({
+  between: ['ru', 'fr'] as const,
+  fallback: 'fr'
+})
+console.log(fallback.get())
+
 let string = autodetect({
-  between: ['ru', 'en'],
-  fallback: 'en'
+  between: ['ru', 'fr'],
+  fallback: 'fr'
 })
 console.log(string.get())
