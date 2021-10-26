@@ -1,2 +1,2 @@
 export { localeFrom } from './locale-from/index.js'
-export { autodetect } from './autodetect/index.js'
+export { browser } from './browser/index.js'

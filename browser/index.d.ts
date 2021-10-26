@@ -7,11 +7,11 @@ type AutodetectOpts<Locales extends readonly string[]> = Extract<
   'en'
 > extends never
   ? {
-      between: Locales
+      available: Locales
       fallback: Locales[number]
     }
   : {
-      between: Locales
+      available: Locales
     }
 
 /**
@@ -19,17 +19,17 @@ type AutodetectOpts<Locales extends readonly string[]> = Extract<
  * from `Accept-Languages` header of the browser.
  *
  * ```js
- * import { autodetect, localeFrom } from '@nanostores/i18n'
+ * import { browser, localeFrom } from '@nanostores/i18n'
  *
  * export const locale = localeFrom(
  *   localeSettings,
- *   autodetect({ between: ['en', 'ru'] as const })
+ *   browser({ available: ['en', 'ru'] as const })
  * )
  * ```
  *
  * @param opts Languages supported by application and optional fallback.
  * @returns Store with browser language or fallback.
  */
-export function autodetect<Locales extends readonly string[]>(
+export function browser<Locales extends readonly string[]>(
   opts: AutodetectOpts<Locales>
 ): ReadableAtom<Locales[number]>

@@ -1,6 +1,6 @@
 import { atom, onStart } from 'nanostores'
 
-export function autodetect(opts) {
+export function browser(opts) {
   let fallback = opts.fallback || 'en'
 
   let store = atom(fallback)
@@ -11,7 +11,7 @@ export function autodetect(opts) {
       if (!navigator.languages) languages = [navigator.language]
 
       for (let language of languages) {
-        if (opts.between.includes(language)) {
+        if (opts.available.includes(language)) {
           store.set(language)
           return
         }

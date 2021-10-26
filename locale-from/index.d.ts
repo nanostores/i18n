@@ -5,14 +5,14 @@ import { ReadableAtom, Atom } from 'nanostores'
  * from `localStorage` setting and browser’s locale if previous one is missing.
  *
  * ```ts
- * import { localeFrom, autodetect } from '@nanostores/i18n'
+ * import { localeFrom, browser } from '@nanostores/i18n'
  * import { persistentAtom } from '@nanostores/persistent'
  *
  * export const localeSettings = persistentAtom<'ru' | 'en' | undefined>()
  *
  * export const locale = localeFrom(
  *   localeSettings,
- *   autodetect({ between: ['ru', 'en'] as const })
+ *   browser({ available: ['ru', 'en'] as const })
  * )
  * ```
  *
