@@ -4038,6 +4038,11 @@ nanocolors@^0.1.12:
   resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.1.12.tgz#8577482c58cbd7b5bb1681db4cf48f11a87fd5f6"
   integrity sha512-2nMHqg1x5PU+unxX7PGY7AuYxl2qDx7PSrTRjizr8sxdd3l/3hBuWWaki62qmtYm2U5i4Z5E7GbjlyDFhs9/EQ==
 
+nanodelay@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/nanodelay/-/nanodelay-2.0.2.tgz#768fec34ce38d58a56adfa157515ebaea0670c56"
+  integrity sha512-6AS5aCSXsjoxq2Jr9CdaAeT60yoYDOTp6po9ziqeOeY6vf6uTEHYSqWql6EFILrM3fEfXgkZ4KqE9L0rTm/wlA==
+
 nanoevents@^6.0.1:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/nanoevents/-/nanoevents-6.0.2.tgz#3824031c7beab754b04ae5a17936c0fc7b6a183c"
