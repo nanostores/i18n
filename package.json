@@ -120,9 +120,9 @@
   "size-limit": [
     {
       "import": {
-        "./index.js": "{ localeFrom, browser }"
+        "./index.js": "{ localeFrom, browser, createI18n }"
       },
-      "limit": "293 B"
+      "limit": "473 B"
     }
   ],
   "clean-publish": {

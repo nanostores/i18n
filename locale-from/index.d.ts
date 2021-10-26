@@ -1,5 +1,7 @@
 import { ReadableAtom, Atom } from 'nanostores'
 
+export type LocaleStore<Locale extends string = string> = ReadableAtom<Locale>
+
 /**
  * Choose the first available locale from difference sources. Like use locale
  * from `localStorage` setting and browser’s locale if previous one is missing.
@@ -21,4 +23,4 @@ import { ReadableAtom, Atom } from 'nanostores'
  */
 export function localeFrom<Locale extends string>(
   ...stores: [...Atom<Locale | undefined>[], Atom<Locale>]
-): ReadableAtom<Locale>
+): LocaleStore<Locale>
