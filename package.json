@@ -122,7 +122,7 @@
       "import": {
         "./index.js": "{ localeFrom, browser, createI18n }"
       },
-      "limit": "473 B"
+      "limit": "491 B"
     }
   ],
   "clean-publish": {

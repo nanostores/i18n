@@ -93,9 +93,7 @@ it('is ready for locale change in the middle of request', async () => {
 
   locale.set('ru')
   locale.set('fr')
-  await getResponse({
-    component: { title: 'Titre' }
-  })
+  await getResponse({ component: { title: 'Titre' } })
   expect(i18n.loading.get()).toBe(false)
   expect(events).toEqual(['Title', 'Titre'])
 })
@@ -146,4 +144,26 @@ it('removes listeners', async () => {
   await delay(STORE_UNMOUNT_DELAY)
   expect(locale.lc).toBe(prevLocale)
   expect(i18n.loading.lc).toBe(prevLoading)
+})
+
+it('mixes translations with base', async () => {
+  let locale = atom('ru')
+  let i18n = createI18n(locale, { get })
+  expect(i18n.loading.get()).toBe(true)
+
+  let messages = i18n('component', { title: 'Title', other: 'Other' })
+  let events: string[] = []
+  messages.subscribe(t => {
+    events.push(t.other)
+  })
+
+  await getResponse({
+    component: { title: 'Заголовок' },
+    post: { name: 'Публикация' }
+  })
+  expect(i18n.loading.get()).toBe(false)
+  expect(events).toEqual(['Other', 'Other'])
+
+  let messages2 = i18n('post', { name: 'Post', page: 'Page' })
+  expect(messages2.get()).toEqual({ name: 'Публикация', page: 'Page' })
 })

@@ -10,9 +10,18 @@ export function createI18n(locale, opts = {}) {
 
     onMount(t, () => {
       let waiting = false
+
+      function setTranslation(code) {
+        t.set({
+          ...define.cache[baseLocale][componentName],
+          ...define.cache[code][componentName]
+        })
+        waiting = false
+      }
+
       let unbindLocale = locale.subscribe(code => {
         if (define.cache[code]) {
-          t.set(define.cache[code][componentName])
+          setTranslation(code)
           waiting = false
         } else {
           waiting = true
@@ -20,7 +29,7 @@ export function createI18n(locale, opts = {}) {
       })
       let unbindLoading = loading.subscribe(isLoading => {
         if (waiting && !isLoading) {
-          t.set(define.cache[locale.get()][componentName])
+          setTranslation(locale.get())
           waiting = false
         }
       })
