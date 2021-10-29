@@ -36,15 +36,15 @@
     "@babel/core": "^7.15.8",
     "@logux/core": "^0.7.2",
     "@logux/eslint-config": "^46.0.1",
-    "@logux/sharec-config": "^0.12.2",
-    "@size-limit/preset-small-lib": "^6.0.3",
+    "@logux/sharec-config": "^0.13.0",
+    "@size-limit/preset-small-lib": "^6.0.4",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
-    "check-dts": "^0.6.1",
+    "check-dts": "^0.6.3",
     "clean-publish": "^3.4.2",
-    "eslint": "^8.0.1",
+    "eslint": "^8.1.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jest": "^25.2.2",
@@ -59,7 +59,7 @@
     "nanostores": "^0.5.4",
     "prettier": "^2.4.1",
     "simple-git-hooks": "^2.7.0",
-    "size-limit": "^6.0.3",
+    "size-limit": "^6.0.4",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4",
     "yaspeller": "^8.0.0"
@@ -77,20 +77,13 @@
   },
   "lint-staged": {
     "*.md": "yaspeller",
-    "*.js": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.ts": [
-      "prettier --write",
-      "eslint --fix"
-    ]
+    "*.js": "prettier --write",
+    "*.ts": "prettier --write"
   },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
     "globals": {
       "ts-jest": {
-        "useESM": true,
         "isolatedModules": true
       }
     },
@@ -151,6 +144,6 @@
   },
   "sharec": {
     "config": "@logux/sharec-config",
-    "version": "0.12.2"
+    "version": "0.13.0"
   }
 }
