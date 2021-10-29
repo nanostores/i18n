@@ -106,6 +106,7 @@
     "rules": {
       "@typescript-eslint/unified-signatures": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "security/detect-non-literal-regexp": "off",
       "symbol-description": "off",
       "consistent-return": "off",
       "camelcase": "off"
@@ -123,14 +124,14 @@
       "import": {
         "./index.js": "{ localeFrom, createI18n }"
       },
-      "limit": "386 B"
+      "limit": "448 B"
     },
     {
       "name": "Maximum",
       "import": {
-        "./index.js": "{ localeFrom, browser, createI18n }"
+        "./index.js": "{ localeFrom, browser, createI18n, params, count }"
       },
-      "limit": "491 B"
+      "limit": "788 B"
     }
   ],
   "clean-publish": {

@@ -2,30 +2,45 @@ import { ReadableAtom } from 'nanostores'
 
 import { LocaleStore } from '../locale-from/index.js'
 
+export type TranslationJSON = string | TranslationsJSON
+
+export interface TranslationsJSON {
+  [key: string]: TranslationJSON
+}
+
+export interface ComponentsJSON {
+  [component: string]: TranslationsJSON
+}
+
+export interface TranslationFunction<
+  Arguments extends any[] = any[],
+  Output extends TranslationJSON = TranslationJSON
+> {
+  (...args: Arguments): Output
+}
+
+export type Translation = string | TranslationFunction
+
 export interface Translations {
-  [component: string]: Translation
+  [key: string]: Translation
 }
 
-export interface Translation {
-  [key: string]: string
-}
-
-export interface BaseTranslation {
-  [key: string]: string
+export interface Components {
+  [component: string]: Translations
 }
 
 export interface I18n<Locale extends string> {
   loading: ReadableAtom<boolean>
-  cache: Record<Locale, Translation>
+  cache: Record<Locale, Translations>
 
-  <Base extends BaseTranslation>(
+  <Body extends Translations>(
     componentName: string,
-    baseTranslation: Base
-  ): ReadableAtom<Base>
+    baseTranslation: Body
+  ): ReadableAtom<Body>
 }
 
 export interface TranslationLoader<Locale extends string = string> {
-  (code: Locale): Promise<Translations>
+  (code: Locale): Promise<ComponentsJSON>
 }
 
 /**

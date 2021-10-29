@@ -1,13 +1,13 @@
-import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
+import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { delay } from 'nanodelay'
 
-import { createI18n, Translations } from '../index.js'
+import { createI18n, ComponentsJSON, count, params } from '../index.js'
 
 let getCalls: string[] = []
-let resolveGet: (translations: Translations) => void = () => {}
+let resolveGet: (translations: ComponentsJSON) => void = () => {}
 let requestsByLocale: Record<string, typeof resolveGet> = {}
 
-function get(code: string): Promise<Translations> {
+function get(code: string): Promise<ComponentsJSON> {
   getCalls.push(code)
   return new Promise(resolve => {
     requestsByLocale[code] = resolve
@@ -16,7 +16,7 @@ function get(code: string): Promise<Translations> {
 }
 
 async function getResponse(
-  translations: Translations,
+  translations: ComponentsJSON,
   code?: string
 ): Promise<void> {
   if (code) {
@@ -166,4 +166,61 @@ it('mixes translations with base', async () => {
 
   let messages2 = i18n('post', { name: 'Post', page: 'Page' })
   expect(messages2.get()).toEqual({ name: 'Публикация', page: 'Page' })
+})
+
+it('applies transforms', async () => {
+  let locale = atom('en')
+  let i18n = createI18n(locale, { get })
+  let messages = i18n('component', {
+    pages: params<{ category: number }>(
+      count({
+        one: 'One page in {category}',
+        many: '{count} pages in {category}'
+      })
+    )
+  })
+
+  let t: StoreValue<typeof messages> | undefined
+  messages.subscribe(value => {
+    t = value
+  })
+  if (typeof t === 'undefined') throw new Error('t was not set')
+
+  expect(t.pages({ category: 10 })(2)).toBe('2 pages in 10')
+
+  locale.set('ru')
+  await getResponse({
+    component: {
+      pages: {
+        one: '{count} страница в {category}',
+        few: '{count} страницы в {category}',
+        many: '{count} страниц в {category}'
+      }
+    }
+  })
+  expect(t.pages({ category: 10 })(2)).toBe('2 страницы в 10')
+})
+
+it('unofficially support reverse transform', () => {
+  let locale = atom('en')
+  let i18n = createI18n(locale, { get })
+  let messages = i18n('component', {
+    // @ts-expect-error
+    reverse: count(
+      // @ts-expect-error
+      params<{ category: number }>({
+        one: 'One page in {category}',
+        many: '{count} pages in {category}'
+      })
+    )
+  })
+
+  let t: StoreValue<typeof messages> | undefined
+  messages.subscribe(value => {
+    t = value
+  })
+  if (typeof t === 'undefined') throw new Error('t was not set')
+
+  // @ts-expect-error
+  expect(t.reverse(1)({ category: 10 })).toBe('One page in 10')
 })
