@@ -6,7 +6,7 @@
 Tiny and flexible JS library to make your web application translatable.
 Uses [Nano Stores] state manager and [JS Internationalization API].
 
-* **Small.** Between 448 and 788 bytes (minified and gzipped).
+* **Small.** Between 448 and 844 bytes (minified and gzipped).
   Zero dependencies.
 * Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
 * Supports **tree-shaking** and translation **on-demand download**.
@@ -20,22 +20,23 @@ Uses [Nano Stores] state manager and [JS Internationalization API].
 // components/post.jsx
 import { params, count } from '@nanostores/i18n' // You can use own functions
 import { useStore } from 'nanostores'
-import { i18n } from '../stores/i18n.js'
+import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n({
   title: 'Post details',
-  author: params<{ name: string }>('The post was written by {name}')
+  publishedAt: params<{ at: string }>('Was published at {date}')
   posts: count({
     one: '{count} comment',
     many: '{count} comments'
   })
 })
 
-export const Post = ({ author, comments }) => {
+export const Post = ({ author, comments, publishedAt }) => {
   const t = useStore(messages)
+  const { time } = useStore(format)
   return <article>
     <h1>{t.title}</h1>
-    <p>{t.author({ author })}</p>
+    <p>{t.publishedAt({ date: time(publishedAt) })}</p>
     <p>{t.comments(comments.length)}</p>
   </article>
 }
@@ -43,7 +44,7 @@ export const Post = ({ author, comments }) => {
 
 ```ts
 // stores/i18n.js
-import { createI18n, localeFrom, browser } from '@nanostores/i18n'
+import { createI18n, localeFrom, browser, formatter } from '@nanostores/i18n'
 import availableLocales from './locales.js'
 import localStoreLocale from './locale-store-locale.js'
 
@@ -57,13 +58,15 @@ export const i18n = createI18n({
     return fetchJSON(`/translations/${locale}.json`)
   }
 })
+
+export const format = formatter(locale)
 ```
 
 ```js
 // public/translations/ru.json
 {
   "title": "Данные о публикации",
-  "author": "За авторством {author}",
+  "publishedAt": "Опубликован {date}",
   "comments": {
     "one": "{count} комментарий",
     "few": "{count} комментария",

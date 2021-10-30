@@ -123,9 +123,9 @@
     {
       "name": "Maximum",
       "import": {
-        "./index.js": "{ localeFrom, browser, createI18n, params, count }"
+        "./index.js": "{ localeFrom, browser, createI18n, params, count, formatter }"
       },
-      "limit": "788 B"
+      "limit": "844 B"
     }
   ],
   "clean-publish": {
