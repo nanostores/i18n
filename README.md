@@ -4,22 +4,21 @@
      src="https://nanostores.github.io/nanostores/logo.svg">
 
 Tiny and flexible JS library to make your web application translatable.
-Uses [Nano Stores] state manager and [JS Internationalization API].
+Uses [Nano Stores] state manager and [JS Internationalization API].
 
 * **Small.** Between 448 and 788 bytes (minified and gzipped).
-  Zero dependencies. It uses [Size Limit] to control size.
+  Zero dependencies.
 * Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
 * Supports **tree-shaking** and translation **on-demand download**.
-* **plain JSON** translations compatible with
+* **Plain JSON** translations compatible with
   online translation services like [Weblate].
 * Out of the box **TypeScript** support for translations.
-* **Flexible variable translations**. In additional to pluralization
-  and variables, you can define own functions and change translation,
-  for instance, depends on screen size.
+* **Flexible variable translations**. You can define own functions
+  and change translation, for instance, depends on screen size.
 
 ```tsx
 // components/post.jsx
-import { params, count } from '@nanostores/i18n'
+import { params, count } from '@nanostores/i18n' // You can use own functions
 import { useStore } from 'nanostores'
 import { i18n } from '../stores/i18n.js'
 
@@ -74,7 +73,7 @@ export const i18n = createI18n({
 ```
 
 [JS Internationalization API]: https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/
-[Nano Stores]: https://github.com/nanostores/nanostores
+[Nano Stores]: https://github.com/nanostores/nanostores
 [Weblate]: https://weblate.org/ru/
 
 <a href="https://evilmartians.com/?utm_source=nanostores-i18n">
