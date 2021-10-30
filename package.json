@@ -101,6 +101,7 @@
       "@typescript-eslint/unified-signatures": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "security/detect-non-literal-regexp": "off",
+      "jest/no-conditional-expect": "off",
       "symbol-description": "off",
       "consistent-return": "off",
       "camelcase": "off"
