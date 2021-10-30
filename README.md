@@ -94,4 +94,18 @@ npm install nanostores @nanostores/i18n
 
 ## Usage
 
+### Locale
+
+*Under construction*
+
+### Date & Number Format
+
+*Under construction*
+
+### Translations
+
+*Under construction*
+
+### Variable Translations
+
 *Under construction*
