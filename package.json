@@ -33,10 +33,10 @@
     "nanostores": "^0.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.16.0",
     "@logux/core": "^0.7.2",
     "@logux/eslint-config": "^46.0.1",
-    "@logux/sharec-config": "^0.13.0",
+    "@logux/sharec-config": "^0.13.1",
     "@size-limit/preset-small-lib": "^6.0.4",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.6",
@@ -65,7 +65,7 @@
     "yaspeller": "^8.0.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "./node_modules/.bin/lint-staged"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -145,6 +145,6 @@
   },
   "sharec": {
     "config": "@logux/sharec-config",
-    "version": "0.13.0"
+    "version": "0.13.1"
   }
 }
