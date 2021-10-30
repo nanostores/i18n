@@ -13,8 +13,8 @@ Uses [Nano Stores] state manager and [JS Internationalization API].
 * **Plain JSON** translations compatible with
   online translation services like [Weblate].
 * Out of the box **TypeScript** support for translations.
-* **Flexible variable translations**. You can define own functions
-  and change translation, for instance, depends on screen size.
+* **Flexible variable translations**. You can change translation,
+  for instance, depends on screen size.
 
 ```tsx
 // components/post.jsx
