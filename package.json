@@ -1,7 +1,7 @@
 {
   "name": "@nanostores/i18n",
   "version": "0.0.0",
-  "description": "",
+  "description": "A tiny (<500 bytes) i18n library for React/Preact/Vue/Svelte",
   "keywords": [
     "nano",
     "nanostores",
@@ -140,7 +140,14 @@
     ],
     "dictionary": [
       "Versioning",
-      "I18n"
+      "I18n",
+      "gzipped",
+      "Preact",
+      "Vue",
+      "pluralization",
+      "Internationalization",
+      "JS",
+      "Weblate"
     ]
   },
   "sharec": {
