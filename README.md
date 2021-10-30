@@ -106,6 +106,14 @@ npm install nanostores @nanostores/i18n
 
 *Under construction*
 
-### Variable Translations
+#### Pluralization
+
+*Under construction*
+
+#### Parameters
+
+*Under construction*
+
+### Custom Variable Translations
 
 *Under construction*
