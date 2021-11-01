@@ -3,7 +3,7 @@ import { TranslationJSON, TranslationFunction } from '../create-i18n/index.js'
 export type CountInput = {
   one?: TranslationJSON
   few?: TranslationJSON
-  many?: TranslationJSON
+  many: TranslationJSON
 }
 
 /**
