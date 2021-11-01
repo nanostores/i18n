@@ -22,9 +22,9 @@ import { params, count } from '@nanostores/i18n' // You can use own functions
 import { useStore } from 'nanostores'
 import { i18n, format } from '../stores/i18n.js'
 
-export const messages = i18n({
+export const messages = i18n('post', {
   title: 'Post details',
-  publishedAt: params<{ at: string }>('Was published at {date}')
+  published: params<{ at: string }>('Was published at {at}')
   posts: count({
     one: '{count} comment',
     many: '{count} comments'
@@ -36,7 +36,7 @@ export const Post = ({ author, comments, publishedAt }) => {
   const { time } = useStore(format)
   return <article>
     <h1>{t.title}</h1>
-    <p>{t.publishedAt({ date: time(publishedAt) })}</p>
+    <p>{t.published({ at: time(publishedAt) })}</p>
     <p>{t.comments(comments.length)}</p>
   </article>
 }
@@ -45,32 +45,33 @@ export const Post = ({ author, comments, publishedAt }) => {
 ```ts
 // stores/i18n.js
 import { createI18n, localeFrom, browser, formatter } from '@nanostores/i18n'
-import availableLocales from './locales.js'
-import localStoreLocale from './locale-store-locale.js'
+import localeSettings from './locale-settings.js'
 
 export const locale = localeFrom(
-  localStoreLocale,                        // Can be also locale from URL
-  browser({ available: availableLocales }) // Browser’s locale autodetect
+  localeSettings,                            // User’s locale from localStorage
+  browser({ available: ['en', 'fr', 'ru'] }) // or browser’s locale autodetect
 )
 
+export const format = formatter(locale)
+
 export const i18n = createI18n({
-  get (locale) {
-    return fetchJSON(`/translations/${locale}.json`)
+  get (code) {
+    return fetchJSON(`/translations/${code}.json`)
   }
 })
-
-export const format = formatter(locale)
 ```
 
 ```js
 // public/translations/ru.json
 {
-  "title": "Данные о публикации",
-  "publishedAt": "Опубликован {date}",
-  "comments": {
-    "one": "{count} комментарий",
-    "few": "{count} комментария",
-    "many": "{count} комментариев",
+  "post": {
+    "title": "Данные о публикации",
+    "published": "Опубликован {at}",
+    "comments": {
+      "one": "{count} комментарий",
+      "few": "{count} комментария",
+      "many": "{count} комментариев",
+    }
   }
 }
 ```
@@ -211,7 +212,23 @@ time(date, {
 
 ### I18n Object
 
-*Under construction*
+I18n objects is used to define new component and download translations
+on locale changes.
+
+```ts
+import { createI18n } from '@nanostores/i18n'
+
+export const i18n = createI18n(locale, {
+  async get (code) {
+    return await fetchJSON(`/translations/${code}.json`)
+  }
+})
+```
+
+In every component you will have base translation with functions and types.
+This translation will not be download from the server. By default, you should
+use English. You can change base locale in components with `baseLocale` option.
+
 
 ### Translations
 
