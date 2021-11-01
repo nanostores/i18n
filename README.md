@@ -94,11 +94,122 @@ npm install nanostores @nanostores/i18n
 
 ## Usage
 
+We store locale, time/number formatting functions and translations
+in Nano Stores’ atoms. See [Nano Stores docs] to learn how to use atoms
+in your framework.
+
+[Nano Stores docs]: https://github.com/nanostores/nanostores#guide
+
+
 ### Locale
 
-*Under construction*
+Locale is a code of user’s language and dialect like `hi` (Hindi), `de-AT`
+(German as used in Austria). We use [Intl locale format].
+
+Current locale should be stored in store. We have `localeFrom()` store
+builder to find user’s locale in first available source:
+
+```js
+import { localFrom } from '@nanostores/i18n'
+
+export const locale = localeFrom(store1, store2, store3)
+```
+
+We have store with a locale from browser settings. You need to pass list
+of available translations of your application. If store will not find common
+locale, it will use fallback locale (`en`, but can be changed
+by `fallback` option).
+
+```js
+import { localeFrom, browser } from '@nanostores/i18n'
+
+export const locale = localeFrom(
+  …,
+  browser({ available: ['en', 'fr', 'ru'] })
+)
+```
+
+Before `browser` store, you can put a store, which will allow user to override
+locale manually. For instance, you can keep an locale’s override
+in `localStorage`.
+
+```ts
+import { persistentAtom } from '@nanostores/persistent'
+
+export const localeSettings = persistentAtom<string>('locale')
+
+export const locale = localeFrom(
+  localeSettings,
+  browser({ available: ['en', 'fr', 'ru'] })
+)
+```
+
+Or you can take user’s locale from URL router:
+
+```ts
+import { computed } from 'nanostores'
+import { router } from './router.js'
+
+const urlLocale = computer(router, page => page?.params.locale)
+
+export const locale = localeFrom(
+  urlLocale,
+  browser({ available: ['en', 'fr', 'ru'] })
+)
+```
+
+For tests you can use simple atom:
+
+```ts
+import { atom } from 'nanostores'
+
+const locale = atom('en')
+locale.set('fr')
+```
+
+[Intl locale format]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation
+
 
 ### Date & Number Format
+
+`formatter()` creates a store with a functions to format number and time.
+
+```ts
+import { formatter } from '@nanostores/i18n'
+
+export const format = formatter(locale)
+```
+
+This store will have `time()` and `number()` functions.
+
+```js
+import { useStore } from 'nanostores'
+import { format } from '../stores/i18n.js'
+
+export Date = (date) => {
+  let { time } = useStore(format)
+  return time(date)
+}
+```
+
+These functions accepts options
+of [`Intl.DateTimeFormat`] and [`Intl.NumberFormat`].
+
+```ts
+time(date, {
+  hour12: false,
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}) //=> "November 1, 01:56:33"
+```
+
+[`Intl.DateTimeFormat`]: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+[`Intl.NumberFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+
+
+### I18n Object
 
 *Under construction*
 
@@ -114,6 +225,6 @@ npm install nanostores @nanostores/i18n
 
 *Under construction*
 
-### Custom Variable Translations
+#### Custom Variable Translations
 
 *Under construction*
