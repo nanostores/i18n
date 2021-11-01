@@ -160,12 +160,18 @@ export const locale = localeFrom(
 )
 ```
 
-You can use locale in components as any Nano Store:
+You can use locale as any Nano Store:
 
 ```jsx
 import { useStore } from 'nanostores'
 import { locale } from '../stores/i18n.js'
 
+// Pure JS example
+locale.listen(code => {
+  console.log(`Locale was changed to ${code}`)
+})
+
+// React example
 export const CurrentLocale = () => {
   let code = useStore(locale)
   return `Your current locale: ${code}`
