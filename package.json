@@ -148,7 +148,9 @@
       "pluralization",
       "Internationalization",
       "JS",
-      "Weblate"
+      "Weblate",
+      "JSONs",
+      "CI"
     ]
   },
   "sharec": {

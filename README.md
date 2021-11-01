@@ -356,4 +356,22 @@ export const messages = i18n('hi', {
 
 ### Translation Process
 
-*Under construction*
+The good I18n support is not about the I18n library,
+but about translation process.
+
+1. Developer creates base translation in component’s source.
+2. CI runs script to extract base translation to JSON.
+
+   ```ts
+   import { messagesToJSON } from '@nanostores/i18n'
+
+   const files = await glob('src/*.tsx')
+   const components = await Promise.all(files.map(file => {
+     return (await import(file).messages)
+   }))
+   const json = messagesToJSON(...components)
+   ```
+
+3. CI uploads JSON with base translation to online translation service.
+4. Translators translate application on this service.
+5. CI or translation service download translation JSONs to the project.

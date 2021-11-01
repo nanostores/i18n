@@ -12,7 +12,7 @@ import { Messages, ComponentsJSON } from '../create-i18n/index.js'
  * const files = await glob('src/*.tsx')
  * const components = await Promise.all(files.map(file => {
  *   return (await import(file).messages)
- * })
+ * }))
  * const json = messagesToJSON(...components)
  * ```
  *
