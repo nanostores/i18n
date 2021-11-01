@@ -72,7 +72,8 @@ export const i18n = createI18n({
       "few": "{count} комментария",
       "many": "{count} комментариев",
     }
-  }
+  },
+  // Translations for all other components
 }
 ```
 
@@ -157,6 +158,18 @@ export const locale = localeFrom(
   urlLocale,
   browser({ available: ['en', 'fr', 'ru'] })
 )
+```
+
+You can use locale in components as any Nano Store:
+
+```jsx
+import { useStore } from 'nanostores'
+import { locale } from '../stores/i18n.js'
+
+export const CurrentLocale = () => {
+  let code = useStore(locale)
+  return `Your current locale: ${code}`
+}
 ```
 
 For tests you can use simple atom:
