@@ -232,22 +232,126 @@ use English. You can change base locale in components with `baseLocale` option.
 
 ### Translations
 
-*Under construction*
+We have 2 types of translations:
 
+**Base translation.** Developers write it in component sources. It is used
+for TypeScript types and translation functions (`count()`, `params()`, etc).
 
-#### Pluralization
+```ts
+export const messages = i18n('post', {
+  title: 'Post details',
+  published: params<{ at: string }>('Was published at {at}')
+  posts: count({
+    one: '{count} comment',
+    many: '{count} comments'
+  })
+})
+```
 
-*Under construction*
+**Other translations** They use JSON format and will be created by translators.
+
+```json
+{
+  "post": {
+    "title": "Данные о публикации",
+    "published": "Опубликован {at}",
+    "comments": {
+      "one": "{count} комментарий",
+      "few": "{count} комментария",
+      "many": "{count} комментариев",
+    }
+  }
+}
+```
 
 
 #### Parameters
 
-*Under construction*
+`params()` translation transform replaces parameters in translation string.
+
+```js
+import { params } from '@nanostores/i18n'
+
+export const messages = i18n('hi', {
+  hello: params<{ name: string }>('Hello, {name}')
+})
+
+export const Robots = ({ name }) => {
+  const t = useStore(messages)
+  return t.hello({ name })
+}
+```
+
+You can use `time()` and `number()` [formatting functions].
+
+[formatting functions]: https://github.com/nanostores/i18n/#date--number-format
+
+
+#### Pluralization
+
+In many languages, text could be different depends on items count.
+Compare `1 robot`/`2 robots` in English with
+`1 робот`/`2 робота`/`3 робота`/`21 робот` in Russian.
+
+We hide this complexity with `count()` translation transform:
+
+```js
+import { count } from '@nanostores/i18n'
+
+export const messages = i18n('robots', {
+  howMany: count({
+    one: '{count} robot',
+    many: '{count} robots'
+  })
+})
+
+export const Robots = ({ robots }) => {
+  const t = useStore(messages)
+  return t.howMany(robots.length)
+}
+```
+
+```json
+{
+  "robots": {
+    "howMany": {
+      "one": "{count} робот",
+      "few": "{count} робота",
+      "many": "{count} роботов",
+    }
+  }
+}
+```
+
+`count()` uses [`Intl.PluralRules`] to get pluralization rules for each locale.
+
+[`Intl.PluralRules`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules
 
 
 #### Custom Variable Translations
 
-*Under construction*
+In additional to `params()` and `count()` you can define your own translation
+transforms. Or you can change pluralization or parameters syntax by replacing
+`count()` and `params()`.
+
+```js
+import { transform, strings } from '@nanostores/i18n'
+
+// Add paramets syntax like hello: "Hi, %1"
+export const paramsList = transform((locale, translation, ...args) => {
+  return strings(translation, str => {
+    return str.replace(/%\d/g, pattern => args[pattern.slice(1)])
+  })
+})
+```
+
+```ts
+import { paramsList } from '../lib/paramsList.ts'
+
+export const messages = i18n('hi', {
+  hello: paramsList('Hello, %1')
+})
+```
 
 
 ### Translation Process
