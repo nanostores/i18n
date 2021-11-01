@@ -49,7 +49,7 @@ import localeSettings from './locale-settings.js'
 
 export const locale = localeFrom(
   localeSettings,                            // User’s locale from localStorage
-  browser({ available: ['en', 'fr', 'ru'] }) // or browser’s locale autodetect
+  browser({ available: ['en', 'fr', 'ru'] }) // or browser’s locale auto-detect
 )
 
 export const format = formatter(locale)
@@ -337,7 +337,7 @@ transforms. Or you can change pluralization or parameters syntax by replacing
 ```js
 import { transform, strings } from '@nanostores/i18n'
 
-// Add paramets syntax like hello: "Hi, %1"
+// Add parameters syntax like hello: "Hi, %1"
 export const paramsList = transform((locale, translation, ...args) => {
   return strings(translation, str => {
     return str.replace(/%\d/g, pattern => args[pattern.slice(1)])
