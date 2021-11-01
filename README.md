@@ -234,14 +234,22 @@ use English. You can change base locale in components with `baseLocale` option.
 
 *Under construction*
 
+
 #### Pluralization
 
 *Under construction*
+
 
 #### Parameters
 
 *Under construction*
 
+
 #### Custom Variable Translations
+
+*Under construction*
+
+
+### Translation Process
 
 *Under construction*

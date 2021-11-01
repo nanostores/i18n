@@ -19,6 +19,11 @@ export function createI18n(locale, opts) {
     define.cache[baseLocale][componentName] = baseTranslation
     let t = atom(baseTranslation)
 
+    if (process.env.NODE_ENV !== 'production') {
+      t.component = componentName
+      t.base = base
+    }
+
     onMount(t, () => {
       let waiting = false
 

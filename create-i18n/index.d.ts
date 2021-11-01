@@ -29,14 +29,17 @@ export interface Components {
   [component: string]: Translations
 }
 
-export interface I18n<Locale extends string> {
+export type Messages<Body extends Translations = Translations> =
+  ReadableAtom<Body>
+
+export interface I18n<Locale extends string = string> {
   loading: ReadableAtom<boolean>
   cache: Record<Locale, Translations>
 
   <Body extends Translations>(
     componentName: string,
     baseTranslation: Body
-  ): ReadableAtom<Body>
+  ): Messages<Body>
 }
 
 export interface TranslationLoader<Locale extends string = string> {

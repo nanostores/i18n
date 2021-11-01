@@ -1,7 +1,7 @@
 import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { delay } from 'nanodelay'
 
-import { createI18n, ComponentsJSON, count, params } from '../index.js'
+import { ComponentsJSON, createI18n, params, count } from '../index.js'
 
 let getCalls: string[] = []
 let resolveGet: (translations: ComponentsJSON) => void = () => {}
