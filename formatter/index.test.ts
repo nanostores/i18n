@@ -1,8 +1,10 @@
 import { atom, StoreValue } from 'nanostores'
+import { equal } from 'uvu/assert'
+import { test } from 'uvu'
 
 import { formatter } from '../index.js'
 
-it('has number and date formatter', () => {
+test('has number and date formatter', () => {
   let locale = atom('en')
   let format = formatter(locale)
 
@@ -12,12 +14,14 @@ it('has number and date formatter', () => {
   })
   if (typeof f === 'undefined') throw new Error('t was not set')
 
-  expect(f.number(10000)).toBe('10,000')
-  expect(f.time(new Date(86400000))).toBe('1/2/1970')
+  equal(f.number(10000), '10,000')
+  equal(f.time(new Date(86400000)), '1/2/1970')
 
   if (!process.version.startsWith('v12.')) {
     locale.set('ru')
-    expect(f.number(10000)).toBe('10 000')
-    expect(f.time(new Date(86400000))).toBe('02.01.1970')
+    equal(f.number(10000), '10 000')
+    equal(f.time(new Date(86400000)), '02.01.1970')
   }
 })
+
+test.run()

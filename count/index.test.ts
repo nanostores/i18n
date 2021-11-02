@@ -1,4 +1,6 @@
+import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
+import { test } from 'uvu'
 
 import { createI18n, count } from '../index.js'
 
@@ -9,7 +11,7 @@ let i18n = createI18n(locale, {
   }
 })
 
-it('uses pluralization rules', () => {
+test('uses pluralization rules', () => {
   let messages = i18n('templates', {
     robots: count({
       one: '{count} робот',
@@ -21,11 +23,13 @@ it('uses pluralization rules', () => {
     })
   })
 
-  expect(messages.get().robots(1)).toBe('1 робот')
-  expect(messages.get().robots(21)).toBe('21 робот')
-  expect(messages.get().robots(2)).toBe('2 робота')
-  expect(messages.get().robots(5)).toBe('5 роботов')
+  equal(messages.get().robots(1), '1 робот')
+  equal(messages.get().robots(21), '21 робот')
+  equal(messages.get().robots(2), '2 робота')
+  equal(messages.get().robots(5), '5 роботов')
 
-  expect(messages.get().onlyMany(1)).toBe('много')
-  expect(messages.get().onlyMany(2)).toBe('много')
+  equal(messages.get().onlyMany(1), 'много')
+  equal(messages.get().onlyMany(2), 'много')
 })
+
+test.run()

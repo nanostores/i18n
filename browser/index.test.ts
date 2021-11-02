@@ -1,3 +1,6 @@
+import { equal } from 'uvu/assert'
+import { test } from 'uvu'
+
 import { browser } from '../index.js'
 
 function setLanguages(languages: string[]): void {
@@ -5,31 +8,33 @@ function setLanguages(languages: string[]): void {
   global.navigator = { languages }
 }
 
-afterEach(() => {
+test.after.each(() => {
   // @ts-ignore
   delete global.navigator
 })
 
-it('uses default in SSR', () => {
-  expect(browser({ available: ['fr', 'en'], fallback: 'fr' }).get()).toBe('fr')
+test('uses default in SSR', () => {
+  equal(browser({ available: ['fr', 'en'], fallback: 'fr' }).get(), 'fr')
 })
 
-it('uses English as default fallback', () => {
-  expect(browser({ available: ['fr', 'en'] as const }).get()).toBe('en')
+test('uses English as default fallback', () => {
+  equal(browser({ available: ['fr', 'en'] as const }).get(), 'en')
 })
 
-it('finds first available locale', () => {
+test('finds first available locale', () => {
   setLanguages(['fr_CA', 'pt_BR', 'fr', 'pt'])
-  expect(browser({ available: ['fr', 'pt', 'en'] as const }).get()).toBe('fr')
+  equal(browser({ available: ['fr', 'pt', 'en'] as const }).get(), 'fr')
 })
 
-it('returns fallback on no matches', () => {
+test('returns fallback on no matches', () => {
   setLanguages(['fr_CA', 'pt_BR', 'fr', 'pt'])
-  expect(browser({ available: ['ru', 'uk', 'en'] as const }).get()).toBe('en')
+  equal(browser({ available: ['ru', 'uk', 'en'] as const }).get(), 'en')
 })
 
-it('is ready for lack of languages support', () => {
+test('is ready for lack of languages support', () => {
   // @ts-ignore
   global.navigator = { language: 'fr' }
-  expect(browser({ available: ['fr', 'pt', 'en'] as const }).get()).toBe('fr')
+  equal(browser({ available: ['fr', 'pt', 'en'] as const }).get(), 'fr')
 })
+
+test.run()

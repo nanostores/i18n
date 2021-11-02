@@ -1,8 +1,10 @@
+import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
+import { test } from 'uvu'
 
 import { messagesToJSON, createI18n, params, count } from '../index.js'
 
-it('converts base translations to JSON', () => {
+test('converts base translations to JSON', () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get: async () => ({}) })
 
@@ -19,7 +21,7 @@ it('converts base translations to JSON', () => {
     title: 'Title'
   })
 
-  expect(messagesToJSON(messages1, messages2)).toEqual({
+  equal(messagesToJSON(messages1, messages2), {
     list: {
       pages: {
         one: 'One page in {category}',
@@ -31,3 +33,5 @@ it('converts base translations to JSON', () => {
     }
   })
 })
+
+test.run()

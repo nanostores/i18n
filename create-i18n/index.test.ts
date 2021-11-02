@@ -1,5 +1,7 @@
 import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
+import { equal } from 'uvu/assert'
 import { delay } from 'nanodelay'
+import { test } from 'uvu'
 
 import { ComponentsJSON, createI18n, params, count } from '../index.js'
 
@@ -26,63 +28,63 @@ async function getResponse(
   }
 }
 
-afterEach(() => {
+test.after.each(() => {
   getCalls = []
 })
 
-it('is loaded from the start', () => {
+test('is loaded from the start', () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
 
-  expect(i18n.loading.get()).toBe(false)
-  expect(getCalls).toHaveLength(0)
+  equal(i18n.loading.get(), false)
+  equal(getCalls, [])
 
   let messages = i18n('component', { title: 'Title' })
-  expect(messages.get()).toEqual({ title: 'Title' })
+  equal(messages.get(), { title: 'Title' })
 })
 
-it('loads locale', async () => {
+test('loads locale', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('ru')
   let i18n = createI18n(locale, { get })
 
-  expect(i18n.loading.get()).toBe(true)
-  expect(getCalls).toEqual(['ru'])
+  equal(i18n.loading.get(), true)
+  equal(getCalls, ['ru'])
 
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.title)
   })
-  expect(events).toEqual(['Title'])
+  equal(events, ['Title'])
 
   await getResponse({
     component: { title: 'Заголовок' }
   })
-  expect(events).toEqual(['Title', 'Заголовок'])
-  expect(messages.get()).toEqual({ title: 'Заголовок' })
+  equal(events, ['Title', 'Заголовок'])
+  equal(messages.get(), { title: 'Заголовок' })
 
   locale.set('en')
-  expect(i18n.loading.get()).toBe(false)
-  expect(events).toEqual(['Title', 'Заголовок', 'Title'])
+  equal(i18n.loading.get(), false)
+  equal(events, ['Title', 'Заголовок', 'Title'])
 
   locale.set('ru')
-  expect(i18n.loading.get()).toBe(false)
-  expect(getCalls).toEqual(['ru'])
-  expect(events).toEqual(['Title', 'Заголовок', 'Title', 'Заголовок'])
+  equal(i18n.loading.get(), false)
+  equal(getCalls, ['ru'])
+  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
 
   locale.set('fr')
-  expect(i18n.loading.get()).toBe(true)
-  expect(getCalls).toEqual(['ru', 'fr'])
-  expect(events).toEqual(['Title', 'Заголовок', 'Title', 'Заголовок'])
+  equal(i18n.loading.get(), true)
+  equal(getCalls, ['ru', 'fr'])
+  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
 
   await getResponse({
     component: { title: 'Titre' }
   })
-  expect(i18n.loading.get()).toBe(false)
-  expect(events).toEqual(['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
+  equal(i18n.loading.get(), false)
+  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
 })
 
-it('is ready for locale change in the middle of request', async () => {
+test('is ready for locale change in the middle of request', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', { title: 'Title' })
@@ -94,11 +96,11 @@ it('is ready for locale change in the middle of request', async () => {
   locale.set('ru')
   locale.set('fr')
   await getResponse({ component: { title: 'Titre' } })
-  expect(i18n.loading.get()).toBe(false)
-  expect(events).toEqual(['Title', 'Titre'])
+  equal(i18n.loading.get(), false)
+  equal(events, ['Title', 'Titre'])
 })
 
-it('is ready for wrong response order', async () => {
+test('is ready for wrong response order', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', { title: 'Title' })
@@ -111,27 +113,27 @@ it('is ready for wrong response order', async () => {
   locale.set('fr')
 
   await getResponse({ component: { title: 'Заголовок' } }, 'ru')
-  expect(i18n.cache.ru).toEqual({ component: { title: 'Заголовок' } })
-  expect(i18n.loading.get()).toBe(true)
-  expect(events).toEqual(['Title'])
+  equal(i18n.cache.ru, { component: { title: 'Заголовок' } })
+  equal(i18n.loading.get(), true)
+  equal(events, ['Title'])
 
   await getResponse({ component: { title: 'Titre' } }, 'fr')
-  expect(i18n.loading.get()).toBe(false)
-  expect(events).toEqual(['Title', 'Titre'])
+  equal(i18n.loading.get(), false)
+  equal(events, ['Title', 'Titre'])
 })
 
-it('changes base locale', () => {
+test('changes base locale', () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, { baseLocale: 'ru', get })
 
-  expect(i18n.loading.get()).toBe(false)
-  expect(getCalls).toHaveLength(0)
+  equal(i18n.loading.get(), false)
+  equal(getCalls, [])
 
   let messages = i18n('component', { title: 'Заголовок' })
-  expect(messages.get()).toEqual({ title: 'Заголовок' })
+  equal(messages.get(), { title: 'Заголовок' })
 })
 
-it('removes listeners', async () => {
+test('removes listeners', async () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
   let prevLocale = locale.lc
@@ -142,14 +144,14 @@ it('removes listeners', async () => {
   unbind()
 
   await delay(STORE_UNMOUNT_DELAY)
-  expect(locale.lc).toBe(prevLocale)
-  expect(i18n.loading.lc).toBe(prevLoading)
+  equal(locale.lc, prevLocale)
+  equal(i18n.loading.lc, prevLoading)
 })
 
-it('mixes translations with base', async () => {
+test('mixes translations with base', async () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, { get })
-  expect(i18n.loading.get()).toBe(true)
+  equal(i18n.loading.get(), true)
 
   let messages = i18n('component', { title: 'Title', other: 'Other' })
   let events: string[] = []
@@ -161,14 +163,14 @@ it('mixes translations with base', async () => {
     component: { title: 'Заголовок' },
     post: { name: 'Публикация' }
   })
-  expect(i18n.loading.get()).toBe(false)
-  expect(events).toEqual(['Other', 'Other'])
+  equal(i18n.loading.get(), false)
+  equal(events, ['Other', 'Other'])
 
   let messages2 = i18n('post', { name: 'Post', page: 'Page' })
-  expect(messages2.get()).toEqual({ name: 'Публикация', page: 'Page' })
+  equal(messages2.get(), { name: 'Публикация', page: 'Page' })
 })
 
-it('applies transforms', async () => {
+test('applies transforms', async () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', {
@@ -186,7 +188,7 @@ it('applies transforms', async () => {
   })
   if (typeof t === 'undefined') throw new Error('t was not set')
 
-  expect(t.pages({ category: 10 })(2)).toBe('2 pages in 10')
+  equal(t.pages({ category: 10 })(2), '2 pages in 10')
 
   locale.set('ru')
   await getResponse({
@@ -198,10 +200,10 @@ it('applies transforms', async () => {
       }
     }
   })
-  expect(t.pages({ category: 10 })(2)).toBe('2 страницы в 10')
+  equal(t.pages({ category: 10 })(2), '2 страницы в 10')
 })
 
-it('unofficially support reverse transform', () => {
+test('unofficially support reverse transform', () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', {
@@ -222,5 +224,7 @@ it('unofficially support reverse transform', () => {
   if (typeof t === 'undefined') throw new Error('t was not set')
 
   // @ts-expect-error
-  expect(t.reverse(1)({ category: 10 })).toBe('One page in 10')
+  equal(t.reverse(1)({ category: 10 }), 'One page in 10')
 })
+
+test.run()
