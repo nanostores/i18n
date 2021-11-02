@@ -150,7 +150,8 @@
       "JS",
       "Weblate",
       "JSONs",
-      "CI"
+      "CI",
+      "SSR"
     ]
   },
   "sharec": {

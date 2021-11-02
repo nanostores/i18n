@@ -394,3 +394,42 @@ but about translation process.
 3. CI uploads JSON with base translation to online translation service.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
+
+
+### Server-Side Rendering
+
+For SSR you may want to use own `locale` store and custom `i18n` instance
+with another way to load translations.
+
+```js
+import { locale } from 'nanostores'
+
+let locale, i18n
+
+if (isServer) {
+  locale = atom(db.getUser(userId).locale || parseHttpLocaleHeader())
+  i18n = createI18n(locale, {
+    async get (code) {
+      return JSON.parse(await readFile(`public/translations/${code}.json`))
+    }
+  })
+} else {
+  …
+}
+
+export { locale, i18n }
+```
+
+You may need to wait for translation loading before rendering the HTML.
+
+```js
+await new Promise(resolve => {
+  let unbind = i18n.loading.listen(loaded => {
+    if (loaded) {
+      resolve()
+      unbind()
+    }
+  })
+})
+const html = ReactDOMServer.renderToString(<App />)
+```
