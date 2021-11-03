@@ -15,8 +15,7 @@
   ],
   "scripts": {
     "unit": "tsm node_modules/uvu/bin.js . \\.test\\.ts$",
-    "coverage": "c8 --check-coverage --lines 100 --exclude deprecated yarn unit",
-    "test": "yarn coverage && eslint . && check-dts && size-limit"
+    "test": "c8 yarn unit && eslint . && check-dts && size-limit"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
@@ -64,6 +63,13 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "none"
+  },
+  "c8": {
+    "exclude": [
+      "**/*.test.*"
+    ],
+    "lines": 100,
+    "check-coverage": true
   },
   "eslintConfig": {
     "extends": "@logux/eslint-config/esm",
