@@ -16,13 +16,20 @@ export function createI18n(locale, opts) {
       }
     }
 
-    define.cache[baseLocale][componentName] = baseTranslation
     let t = atom(baseTranslation)
-
     if (process.env.NODE_ENV !== 'production') {
       t.component = componentName
       t.base = base
+      if (define.cache[baseLocale][componentName]) {
+        throw new Error(
+          `I18n component ${componentName} was defined multiple times. ` +
+            'It could lead to cache issues. Try to move i18n definition from ' +
+            'component’s render function.'
+        )
+      }
     }
+
+    define.cache[baseLocale][componentName] = baseTranslation
 
     onMount(t, () => {
       let waiting = false

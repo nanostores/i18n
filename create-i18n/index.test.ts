@@ -1,5 +1,5 @@
 import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { equal } from 'uvu/assert'
+import { equal, throws } from 'uvu/assert'
 import { delay } from 'nanodelay'
 import { test } from 'uvu'
 
@@ -225,6 +225,15 @@ test('unofficially support reverse transform', () => {
 
   // @ts-expect-error
   equal(t.reverse(1)({ category: 10 }), 'One page in 10')
+})
+
+test('tracks double definition', () => {
+  let locale = atom('en')
+  let i18n = createI18n(locale, { get })
+  i18n('double', {})
+  throws(() => {
+    i18n('double', {})
+  }, /I18n component double was defined multiple times/)
 })
 
 test.run()
