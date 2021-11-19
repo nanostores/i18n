@@ -92,17 +92,13 @@
   "size-limit": [
     {
       "name": "Minimum",
-      "import": {
-        "./index.js": "{ localeFrom, createI18n }"
-      },
+      "import": "{ localeFrom, createI18n }",
       "limit": "481 B"
     },
     {
       "name": "Maximum",
-      "import": {
-        "./index.js": "{ localeFrom, browser, createI18n, params, count, formatter }"
-      },
-      "limit": "885 B"
+      "import": "{ localeFrom, browser, createI18n, params, count, formatter }",
+      "limit": "887 B"
     }
   ],
   "clean-publish": {
