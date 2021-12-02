@@ -19,7 +19,7 @@ Uses [Nano Stores] state manager and [JS Internationalization API].
 ```tsx
 // components/post.jsx
 import { params, count } from '@nanostores/i18n' // You can use own functions
-import { useStore } from 'nanostores'
+import { useStore } from '@nanostores/react'
 import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
