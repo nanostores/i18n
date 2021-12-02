@@ -11,7 +11,7 @@ function testString(arg: string): void {
 }
 
 createI18n(locale, {
-  // THROWS '"fr"' is not assignable to type '"ru" | "en" | undefined'
+  // THROWS '"fr"' is not assignable to type '"en" | "ru" | undefined'
   baseLocale: 'fr',
   async get() {
     return {}
