@@ -1,7 +1,5 @@
 import { ReadableAtom } from 'nanostores'
 
-type A = Extract<'fr' | 'ru', 'en'>
-
 type AutodetectOpts<Locales extends readonly string[]> = Extract<
   Locales[number],
   'en'
