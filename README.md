@@ -152,7 +152,7 @@ Or you can take user’s locale from URL router:
 import { computed } from 'nanostores'
 import { router } from './router.js'
 
-const urlLocale = computer(router, page => page?.params.locale)
+const urlLocale = computed(router, page => page?.params.locale)
 
 export const locale = localeFrom(
   urlLocale,
@@ -163,7 +163,7 @@ export const locale = localeFrom(
 You can use locale as any Nano Store:
 
 ```jsx
-import { useStore } from 'nanostores'
+import { useStore } from '@nanostores/react'
 import { locale } from '../stores/i18n.js'
 
 // Pure JS example
@@ -203,10 +203,10 @@ export const format = formatter(locale)
 This store will have `time()` and `number()` functions.
 
 ```js
-import { useStore } from 'nanostores'
+import { useStore } from '@nanostores/react'
 import { format } from '../stores/i18n.js'
 
-export Date = (date) => {
+export const Date = (date) => {
   let { time } = useStore(format)
   return time(date)
 }
@@ -289,7 +289,9 @@ export const messages = i18n('post', {
 `params()` translation transform replaces parameters in translation string.
 
 ```js
+import { useStore } from '@nanostores/react'
 import { params } from '@nanostores/i18n'
+import { i18n } from '../stores/i18n.js'
 
 export const messages = i18n('hi', {
   hello: params<{ name: string }>('Hello, {name}')
@@ -315,7 +317,9 @@ Compare `1 robot`/`2 robots` in English with
 We hide this complexity with `count()` translation transform:
 
 ```js
+import { useStore } from '@nanostores/react'
 import { count } from '@nanostores/i18n'
+import { i18n } from '../stores/i18n.js'
 
 export const messages = i18n('robots', {
   howMany: count({
@@ -402,7 +406,8 @@ For SSR you may want to use own `locale` store and custom `i18n` instance
 with another way to load translations.
 
 ```js
-import { locale } from 'nanostores'
+import { createI18n } from '@nanostores/i18n'
+import { atom } from 'nanostores'
 
 let locale, i18n
 
@@ -423,13 +428,15 @@ export { locale, i18n }
 You may need to wait for translation loading before rendering the HTML.
 
 ```js
-await new Promise(resolve => {
-  let unbind = i18n.loading.listen(loaded => {
-    if (loaded) {
-      resolve()
-      unbind()
-    }
+if (i18n.loading.get()) {
+  await new Promise(resolve => {
+    let unbind = i18n.loading.listen(loading => {
+      if (!loading) {
+        resolve()
+        unbind()
+      }
+    })
   })
-})
+}
 const html = ReactDOMServer.renderToString(<App />)
 ```
