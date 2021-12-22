@@ -54,7 +54,7 @@ export const locale = localeFrom(
 
 export const format = formatter(locale)
 
-export const i18n = createI18n({
+export const i18n = createI18n(format, {
   get (code) {
     return fetchJSON(`/translations/${code}.json`)
   }
