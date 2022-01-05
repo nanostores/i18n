@@ -440,3 +440,53 @@ if (i18n.loading.get()) {
 }
 const html = ReactDOMServer.renderToString(<App />)
 ```
+### Preprocessors
+
+Global translation preprocessor applied to all messages.
+For instance, we can create screen size transform:
+
+```js
+// stores/i18n.js
+import { atom, onMount } from 'nanostores'
+import { createI18n, createPreprocessor } from '@nanostores/i18n'
+
+const screenSize = atom('big')
+// create preproessor and bind store for listen
+const sizePreprocessor = createPreprocessor(screenSize)
+
+onMount(screenSize, () => {
+  let media = window.matchMedia('(min-width: 600px)')
+  const check = () => {
+    screenSize.set(media.matches ? 'big' : 'small')
+  }
+  media.addEventListener('change', check)
+  return () => {
+    media.removeEventListener('change', check)
+  }
+})
+
+export const i18n = createI18n(locale, {
+  get: …,
+  preprocessors: [
+    sizePreprocessor // I18n will listen for `screenSize` and will re-build translations on `screenSize` changes
+  ]
+})
+```
+
+```js
+// components/send-to-user.jsx
+import { i18n, sizePreprocessor } from '../stores/i18n.js'
+
+export const messages = i18n({
+  send: sizePreprocessor.process({
+    big: 'Send message',
+    small: 'send'
+  }),
+  name: 'User name'
+})
+
+export const SendLabel = () => {
+  const t = useStore(messages)
+  return t.send()
+}
+```
