@@ -98,7 +98,7 @@
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createPreprocessor }",
-      "limit": "919 B"
+      "limit": "949 B"
     }
   ],
   "clean-publish": {
