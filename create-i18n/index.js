@@ -2,6 +2,7 @@ import { atom, onMount } from 'nanostores'
 
 export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
+  let preprocessors = opts.preprocessors || []
   let loading = atom(true)
 
   let define = (componentName, base) => {
@@ -62,6 +63,11 @@ export function createI18n(locale, opts) {
           waiting = false
         }
       })
+      for (let i in preprocessors) {
+        preprocessors[i].source.listen(() => {
+          setTranslation(locale.get())
+        })
+      }
       return () => {
         unbindLocale()
         unbindLoading()

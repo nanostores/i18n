@@ -1,6 +1,7 @@
 import { ReadableAtom } from 'nanostores'
 
 import { LocaleStore } from '../locale-from/index.js'
+import { Preprocessor } from '../preprocessor/index.js'
 
 export type TranslationJSON = string | TranslationsJSON
 
@@ -70,5 +71,6 @@ export function createI18n<Locale extends string, BaseLocale extends Locale>(
   opts: {
     baseLocale?: BaseLocale
     get: TranslationLoader<Locale>
+    preprocessors?: Preprocessor[]
   }
 ): I18n<Locale>
