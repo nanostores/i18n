@@ -2,20 +2,20 @@ import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
 
-import { createI18n, createPreprocessor } from '../index.js'
+import { createI18n, createProcessor } from '../index.js'
 
 let locale = atom('en')
 let screenSize = atom('big')
-let sizeProcessor = createPreprocessor(screenSize)
+let size = createProcessor(screenSize)
 
 let i18n = createI18n(locale, {
   get: async () => ({}),
-  preprocessors: [sizeProcessor]
+  processors: [size]
 })
 
-test('use size preprocessor', () => {
+test('uses size processor', () => {
   let messages = i18n('templates', {
-    title: sizeProcessor.process({
+    title: size({
       big: 'big screen',
       small: 'small screen'
     })

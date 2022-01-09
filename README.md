@@ -442,20 +442,17 @@ const html = ReactDOMServer.renderToString(<App />)
 ```
 
 
-### Preprocessors
+### Processors
 
-Global translation preprocessor applied to all messages.
+Global translation processor applied to all messages.
 For instance, we can create screen size transform:
 
 ```js
 // stores/i18n.js
 import { atom, onMount } from 'nanostores'
-import { createI18n, createPreprocessor } from '@nanostores/i18n'
+import { createI18n, createProcessor } from '@nanostores/i18n'
 
 const screenSize = atom('big')
-// create preproessor and bind store for listen
-const sizePreprocessor = createPreprocessor(screenSize)
-
 onMount(screenSize, () => {
   let media = window.matchMedia('(min-width: 600px)')
   const check = () => {
@@ -467,20 +464,22 @@ onMount(screenSize, () => {
   }
 })
 
+export const size = createProcessor(screenSize)
+
 export const i18n = createI18n(locale, {
   get: …,
-  preprocessors: [
-    sizePreprocessor // I18n will listen for `screenSize` and will re-build translations on `screenSize` changes
+  processors: [
+    size
   ]
 })
 ```
 
 ```js
 // components/send-to-user.jsx
-import { i18n, sizePreprocessor } from '../stores/i18n.js'
+import { i18n, size } from '../stores/i18n.js'
 
 export const messages = i18n({
-  send: sizePreprocessor.process({
+  send: size({
     big: 'Send message',
     small: 'send'
   }),
