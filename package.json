@@ -1,6 +1,6 @@
 {
   "name": "@nanostores/i18n",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A tiny (≈500 bytes) i18n library for React/Preact/Vue/Svelte",
   "keywords": [
     "nano",
