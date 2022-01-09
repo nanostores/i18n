@@ -1,7 +1,7 @@
 {
   "name": "@nanostores/i18n",
   "version": "0.1.1",
-  "description": "A tiny (<500 bytes) i18n library for React/Preact/Vue/Svelte",
+  "description": "A tiny (≈500 bytes) i18n library for React/Preact/Vue/Svelte",
   "keywords": [
     "nano",
     "nanostores",
@@ -93,12 +93,12 @@
     {
       "name": "Minimum",
       "import": "{ localeFrom, createI18n }",
-      "limit": "513 B"
+      "limit": "521 B"
     },
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createPreprocessor }",
-      "limit": "949 B"
+      "limit": "955 B"
     }
   ],
   "clean-publish": {
