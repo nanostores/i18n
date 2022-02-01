@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.2.1
+* Fixed `params()` and `count()` in pure JS.
+* Fixed `formatter` types.
+
 ## 0.2
 * Added translation processors (by Sergey Korolev).
 * Fixed docs (by Dmitry Rybin).
