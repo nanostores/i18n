@@ -17,7 +17,7 @@ export function createI18n(locale, opts) {
       }
     }
 
-    let t = atom(baseTranslation)
+    let t = atom()
     if (process.env.NODE_ENV !== 'production') {
       t.component = componentName
       t.base = base
@@ -32,23 +32,23 @@ export function createI18n(locale, opts) {
 
     define.cache[baseLocale][componentName] = baseTranslation
 
-    onMount(t, () => {
-      let waiting = false
-
-      function setTranslation(code) {
-        let translations = {
-          ...define.cache[baseLocale][componentName],
-          ...define.cache[code][componentName]
-        }
-        for (let i in transforms) {
-          let nodeTransform = transforms[i]
-          let input = translations[i]
-          translations[i] = (...args) => nodeTransform(code, input, args)
-        }
-        t.set(translations)
-        waiting = false
+    let waiting = false
+    function setTranslation(code) {
+      let translations = {
+        ...define.cache[baseLocale][componentName],
+        ...define.cache[code][componentName]
       }
+      for (let i in transforms) {
+        let nodeTransform = transforms[i]
+        let input = translations[i]
+        translations[i] = (...args) => nodeTransform(code, input, args)
+      }
+      t.set(translations)
+      waiting = false
+    }
+    setTranslation(baseLocale)
 
+    onMount(t, () => {
       let unbindLocale = locale.subscribe(code => {
         if (define.cache[code]) {
           setTranslation(code)

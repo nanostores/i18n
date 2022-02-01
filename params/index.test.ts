@@ -14,6 +14,7 @@ test('replaces templates', () => {
     multiple: params<{ one: number; two: number }>('{one} {one} {two}')
   })
   equal(messages.get().multiple({ one: 1, two: 2 }), '1 1 2')
+  equal((messages as any).value.multiple({ one: 1, two: 2 }), '1 1 2')
 })
 
 test.run()
