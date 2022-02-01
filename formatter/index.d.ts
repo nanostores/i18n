@@ -3,8 +3,8 @@ import { ReadableAtom } from 'nanostores'
 import { LocaleStore } from '../locale-from/index.js'
 
 export interface Formatter {
-  number: Intl.NumberFormat['format']
-  time: Intl.DateTimeFormat['format']
+  number(num: number, opts?: Intl.NumberFormatOptions): string
+  time(date?: Date | number, opts?: Intl.DateTimeFormatOptions): string
 }
 
 /**
