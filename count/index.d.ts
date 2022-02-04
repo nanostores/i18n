@@ -32,6 +32,6 @@ export function count<Input extends CountInput>(
   input: Input
 ): TranslationFunction<
   [number],
-  // @ts-ignore
+  // @ts-expect-error
   Input[keyof Input]
 >

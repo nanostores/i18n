@@ -4,12 +4,12 @@ import { test } from 'uvu'
 import { browser } from '../index.js'
 
 function setLanguages(languages: string[]): void {
-  // @ts-ignore
+  // @ts-expect-error
   global.navigator = { languages }
 }
 
 test.after.each(() => {
-  // @ts-ignore
+  // @ts-expect-error
   delete global.navigator
 })
 
@@ -32,7 +32,7 @@ test('returns fallback on no matches', () => {
 })
 
 test('is ready for lack of languages support', () => {
-  // @ts-ignore
+  // @ts-expect-error
   global.navigator = { language: 'fr' }
   equal(browser({ available: ['fr', 'pt', 'en'] as const }).get(), 'fr')
 })
