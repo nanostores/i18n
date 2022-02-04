@@ -4,11 +4,9 @@ import { TranslationJSON, TranslationFunction } from '../create-i18n/index.js'
 
 export interface Processor<Key extends string = string> {
   from: ReadableAtom<Key>
-  (input: Record<Key, TranslationJSON>): TranslationFunction<
-    [],
-    // @ts-ignore
-    Input[keyof Input]
-  >
+  <Input extends Record<Key, TranslationJSON>>(
+    input: Input
+  ): TranslationFunction<[], Input[keyof Input]>
 }
 
 /**
