@@ -55,7 +55,7 @@
     "nanostores": "^0.5.9",
     "size-limit": "^7.0.5",
     "tsm": "^2.2.1",
-    "typescript": "^4.5.5",
+    "typescript": "https://typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz",
     "uvu": "^0.5.3",
     "vite": "^2.7.13"
   },

@@ -21,7 +21,7 @@ specifiers:
   nanostores: ^0.5.9
   size-limit: ^7.0.5
   tsm: ^2.2.1
-  typescript: ^4.5.5
+  typescript: https://typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz
   uvu: ^0.5.3
   vite: ^2.7.13
 
@@ -31,10 +31,10 @@ devDependencies:
   '@nanostores/persistent': 0.5.1_nanostores@0.5.9
   '@size-limit/preset-small-lib': 7.0.5_size-limit@7.0.5
   '@types/node': 17.0.14
-  '@typescript-eslint/eslint-plugin': 5.10.2_2595c2126aec4d4b6e944b931dabb4c2
-  '@typescript-eslint/parser': 5.10.2_eslint@8.8.0+typescript@4.5.5
+  '@typescript-eslint/eslint-plugin': 5.10.2_2ed723017db43c4d4f654448cba2528e
+  '@typescript-eslint/parser': 5.10.2_26afa13466ad3cc52838ba679d6ca2d4
   c8: 7.11.0
-  check-dts: 0.6.6_typescript@4.5.5
+  check-dts: 0.6.6_98e344cfb920a29afa04ed5b69202b2b
   clean-publish: 4.0.0
   eslint: 8.8.0
   eslint-config-standard: 16.0.3_3fa03ca42f6626059a4867a76f65b153
@@ -46,7 +46,7 @@ devDependencies:
   nanostores: 0.5.9
   size-limit: 7.0.5
   tsm: 2.2.1
-  typescript: 4.5.5
+  typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
   uvu: 0.5.3
   vite: 2.7.13
 
@@ -200,7 +200,7 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: true
 
-  /@typescript-eslint/eslint-plugin/5.10.2_2595c2126aec4d4b6e944b931dabb4c2:
+  /@typescript-eslint/eslint-plugin/5.10.2_2ed723017db43c4d4f654448cba2528e:
     resolution: {integrity: sha512-4W/9lLuE+v27O/oe7hXJKjNtBLnZE8tQAFpapdxwSVHqtmIoPB1gph3+ahNwVuNL37BX7YQHyGF9Xv6XCnIX2Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -211,23 +211,23 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/parser': 5.10.2_26afa13466ad3cc52838ba679d6ca2d4
       '@typescript-eslint/scope-manager': 5.10.2
-      '@typescript-eslint/type-utils': 5.10.2_eslint@8.8.0+typescript@4.5.5
-      '@typescript-eslint/utils': 5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/type-utils': 5.10.2_26afa13466ad3cc52838ba679d6ca2d4
+      '@typescript-eslint/utils': 5.10.2_26afa13466ad3cc52838ba679d6ca2d4
       debug: 4.3.3
       eslint: 8.8.0
       functional-red-black-tree: 1.0.1
       ignore: 5.2.0
       regexpp: 3.2.0
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.5.5
-      typescript: 4.5.5
+      tsutils: 3.21.0_98e344cfb920a29afa04ed5b69202b2b
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  /@typescript-eslint/parser/5.10.2_26afa13466ad3cc52838ba679d6ca2d4:
     resolution: {integrity: sha512-JaNYGkaQVhP6HNF+lkdOr2cAs2wdSZBoalE22uYWq8IEv/OVH0RksSGydk+sW8cLoSeYmC+OHvRyv2i4AQ7Czg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -239,10 +239,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.10.2
       '@typescript-eslint/types': 5.10.2
-      '@typescript-eslint/typescript-estree': 5.10.2_typescript@4.5.5
+      '@typescript-eslint/typescript-estree': 5.10.2_98e344cfb920a29afa04ed5b69202b2b
       debug: 4.3.3
       eslint: 8.8.0
-      typescript: 4.5.5
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -255,7 +255,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.10.2
     dev: true
 
-  /@typescript-eslint/type-utils/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  /@typescript-eslint/type-utils/5.10.2_26afa13466ad3cc52838ba679d6ca2d4:
     resolution: {integrity: sha512-uRKSvw/Ccs5FYEoXW04Z5VfzF2iiZcx8Fu7DGIB7RHozuP0VbKNzP1KfZkHBTM75pCpsWxIthEH1B33dmGBKHw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -265,11 +265,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/utils': 5.10.2_26afa13466ad3cc52838ba679d6ca2d4
       debug: 4.3.3
       eslint: 8.8.0
-      tsutils: 3.21.0_typescript@4.5.5
-      typescript: 4.5.5
+      tsutils: 3.21.0_98e344cfb920a29afa04ed5b69202b2b
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -279,7 +279,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@typescript-eslint/typescript-estree/5.10.2_typescript@4.5.5:
+  /@typescript-eslint/typescript-estree/5.10.2_98e344cfb920a29afa04ed5b69202b2b:
     resolution: {integrity: sha512-WHHw6a9vvZls6JkTgGljwCsMkv8wu8XU8WaYKeYhxhWXH/atZeiMW6uDFPLZOvzNOGmuSMvHtZKd6AuC8PrwKQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -294,13 +294,13 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.5.5
-      typescript: 4.5.5
+      tsutils: 3.21.0_98e344cfb920a29afa04ed5b69202b2b
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/utils/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  /@typescript-eslint/utils/5.10.2_26afa13466ad3cc52838ba679d6ca2d4:
     resolution: {integrity: sha512-vuJaBeig1NnBRkf7q9tgMLREiYD7zsMrsN1DA3wcoMDvr3BTFiIpKjGiYZoKPllfEwN7spUjv7ZqD+JhbVjEPg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -309,7 +309,7 @@ packages:
       '@types/json-schema': 7.0.9
       '@typescript-eslint/scope-manager': 5.10.2
       '@typescript-eslint/types': 5.10.2
-      '@typescript-eslint/typescript-estree': 5.10.2_typescript@4.5.5
+      '@typescript-eslint/typescript-estree': 5.10.2_98e344cfb920a29afa04ed5b69202b2b
       eslint: 8.8.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0_eslint@8.8.0
@@ -465,7 +465,7 @@ packages:
       supports-color: 7.2.0
     dev: true
 
-  /check-dts/0.6.6_typescript@4.5.5:
+  /check-dts/0.6.6_98e344cfb920a29afa04ed5b69202b2b:
     resolution: {integrity: sha512-2KzynoH1f8wVhZXUeqxeW2dOOFliktitYlyyOsLfZBk5K5n1U1B3uzJLFiJfwqlwoT1Ug7RNbi8xmMpUKKmwhg==}
     engines: {node: '>=12.16.0'}
     hasBin: true
@@ -475,7 +475,7 @@ packages:
       fast-glob: 3.2.11
       nanospinner: 0.6.0
       picocolors: 1.0.0
-      typescript: 4.5.5
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
       vfile-location: 4.0.1
     dev: true
 
@@ -2141,14 +2141,14 @@ packages:
       esbuild: 0.14.16
     dev: true
 
-  /tsutils/3.21.0_typescript@4.5.5:
+  /tsutils/3.21.0_98e344cfb920a29afa04ed5b69202b2b:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.5.5
+      typescript: '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz'
     dev: true
 
   /type-check/0.4.0:
@@ -2161,12 +2161,6 @@ packages:
   /type-fest/0.20.2:
     resolution: {integrity: sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==}
     engines: {node: '>=10'}
-    dev: true
-
-  /typescript/4.5.5:
-    resolution: {integrity: sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: true
 
   /unbox-primitive/1.0.1:
@@ -2327,4 +2321,12 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: true
+
+  '@typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz':
+    resolution: {tarball: https://typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/118471/artifacts?artifactName=tgz&fileId=FF39DBB5AC3B7BEC02A06BD26CB78374E48B26F7BF664AFD9F5C327F28B1B7BA02&fileName=/typescript-4.6.0-insiders.20220127.tgz}
+    name: typescript
+    version: 4.6.0-insiders.20220127
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
