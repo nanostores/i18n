@@ -30,8 +30,4 @@ export type CountInput = {
  */
 export function count<Input extends CountInput>(
   input: Input
-): TranslationFunction<
-  [number],
-  // @ts-expect-error
-  Input[keyof Input]
->
+): TranslationFunction<[number], Input[keyof Input]>
