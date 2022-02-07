@@ -1,5 +1,4 @@
 import { TranslationFunction } from '../create-i18n/index.js'
-import { CountInput } from '../count/index.js'
 
 interface Params {
   /**
@@ -15,6 +14,7 @@ interface Params {
    * ```
    *
    * ```js
+   * const t = useStore(messages);
    * t.page({ page: 1, all: 10 })
    * ```
    *
@@ -25,8 +25,8 @@ interface Params {
     input: string
   ): TranslationFunction<[Parameters], string>
   <Parameters extends Record<string, string | number>>(
-    input: CountInput
-  ): TranslationFunction<[Parameters], CountInput>
+    input: TranslationFunction<[number], string>
+  ): TranslationFunction<[Parameters], TranslationFunction<[number], string>>
   <Parameters extends Record<string, string | number>>(
     input: any
   ): TranslationFunction<[Parameters], any>
