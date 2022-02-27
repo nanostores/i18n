@@ -1,4 +1,7 @@
-import { TranslationFunction } from '../create-i18n/index.js'
+import {
+  TranslationFunctionAlternatives,
+  TranslationFunction
+} from '../create-i18n/index.js'
 
 interface Params {
   /**
@@ -26,7 +29,7 @@ interface Params {
   ): TranslationFunction<[Parameters], string>
   <Parameters extends Record<string, string | number>>(
     input: TranslationFunction<[number], string>
-  ): TranslationFunction<[Parameters], TranslationFunction<[number], string>>
+  ): TranslationFunctionAlternatives<Parameters>
   <Parameters extends Record<string, string | number>>(
     input: any
   ): TranslationFunction<[Parameters], any>

@@ -20,6 +20,13 @@ export interface TranslationFunction<
   (...args: Arguments): Output
 }
 
+export type TranslationFunctionAlternatives<
+  Parameters extends Record<string, unknown>
+> = {
+  (input: Parameters): TranslationFunction<[number], string>
+  (input: number): TranslationFunction<[Parameters], string>
+}
+
 export type Translation = string | TranslationFunction
 
 export interface Translations {
