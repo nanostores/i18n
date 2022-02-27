@@ -207,9 +207,7 @@ test('unofficially support reverse transform', () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', {
-    // @ts-expect-error
     reverse: count(
-      // @ts-expect-error
       params<{ category: number }>({
         one: 'One page in {category}',
         many: '{count} pages in {category}'

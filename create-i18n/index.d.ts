@@ -15,7 +15,7 @@ export interface ComponentsJSON {
 
 export interface TranslationFunction<
   Arguments extends any[] = any[],
-  Output = TranslationJSON
+  Output = TranslationJSON | Translation
 > {
   (...args: Arguments): Output
 }
