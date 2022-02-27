@@ -221,7 +221,6 @@ test('unofficially support reverse transform', () => {
   })
   if (typeof t === 'undefined') throw new Error('t was not set')
 
-  // @ts-expect-error
   equal(t.reverse(1)({ category: 10 }), 'One page in 10')
 })
 
