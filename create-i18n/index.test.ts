@@ -203,7 +203,7 @@ test('applies transforms', async () => {
   equal(t.pages({ category: 10 })(2), '2 страницы в 10')
 })
 
-test('unofficially support reverse transform', () => {
+test('supports reverse transform', () => {
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', {
