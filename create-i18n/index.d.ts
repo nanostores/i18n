@@ -15,9 +15,16 @@ export interface ComponentsJSON {
 
 export interface TranslationFunction<
   Arguments extends any[] = any[],
-  Output extends TranslationJSON = TranslationJSON
+  Output = TranslationJSON | Translation
 > {
   (...args: Arguments): Output
+}
+
+export type TranslationFunctionAlternatives<
+  Parameters extends Record<string, unknown>
+> = {
+  (input: number): TranslationFunction<[Parameters], string>
+  (input: Parameters): TranslationFunction<[number], string>
 }
 
 export type Translation = string | TranslationFunction

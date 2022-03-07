@@ -11,6 +11,7 @@ specifiers:
   c8: ^7.11.0
   check-dts: ^0.6.6
   clean-publish: ^4.0.0
+  conditional-type-checks: ^1.0.5
   eslint: ^8.8.0
   eslint-config-standard: ^16.0.3
   eslint-plugin-import: ^2.25.4
@@ -36,6 +37,7 @@ devDependencies:
   c8: 7.11.0
   check-dts: 0.6.6_typescript@4.5.5
   clean-publish: 4.0.0
+  conditional-type-checks: 1.0.5
   eslint: 8.8.0
   eslint-config-standard: 16.0.3_3fa03ca42f6626059a4867a76f65b153
   eslint-plugin-import: 2.25.4_eslint@8.8.0
@@ -529,6 +531,10 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    dev: true
+
+  /conditional-type-checks/1.0.5:
+    resolution: {integrity: sha512-DkfkvmjXVe4ye4llJ1JADtO3dNvqqcQM08cA9BhNt9Oe8pyRW8X1CZyBg9Qst05bDV9BJM01KLmnFh78NcJgNg==}
     dev: true
 
   /convert-source-map/1.8.0:

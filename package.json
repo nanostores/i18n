@@ -45,6 +45,7 @@
     "c8": "^7.11.0",
     "check-dts": "^0.6.6",
     "clean-publish": "^4.0.0",
+    "conditional-type-checks": "^1.0.5",
     "eslint": "^8.8.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
