@@ -50,8 +50,13 @@ export interface I18n<Locale extends string = string> {
   ): Messages<Body>
 }
 
-export interface TranslationLoader<Locale extends string = string> {
-  (code: Locale): Promise<ComponentsJSON>
+export interface TranslationLoader<
+  Locale extends string = string,
+  ComponentNames extends string[] = string[]
+> {
+  (code: Locale, components: ComponentNames):
+    | Promise<Promise<ComponentsJSON>[]>
+    | Promise<ComponentsJSON>
 }
 
 /**
@@ -79,5 +84,6 @@ export function createI18n<Locale extends string, BaseLocale extends Locale>(
     baseLocale?: BaseLocale
     get: TranslationLoader<Locale>
     processors?: Processor[]
+    chunks?: boolean
   }
 ): I18n<Locale>

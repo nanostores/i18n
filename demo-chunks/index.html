@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Nano Stores I18n Demo</title>
+  <link rel="icon" href="https://nanostores.github.io/nanostores/logo.svg" type="image/svg+xml">
+  <style>
+    html {
+      font-family: sans-serif;
+      line-height: 2;
+      color-scheme: light dark;
+    }
+
+    html,
+    select,
+    button {
+      font-size: 16px;
+    }
+
+    #loading {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #loading.is-hidden {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html {
+        background: #333;
+        color: white;
+      }
+
+      #loading {
+        background: rgba(0, 0, 0, 0.7);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading">Loading</div>
+
+  <article>
+    <h1>Loading</h1>
+    <span>Loading</span>
+  </article>
+
+  <footer>
+    <div>
+      Current language:
+      <strong>Loading</strong>
+    </div>
+
+    <div>
+      Change language:
+      <select>
+        <option value="en">English</option>
+        <option value="ru">Russian</option>
+      </select>
+      <button>Clear</button>
+    </div>
+  </footer>
+
+  <script type="module" src="./index.js" defer></script>
+</body>
+
+</html>

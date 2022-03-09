@@ -16,7 +16,8 @@
   "scripts": {
     "unit": "tsm node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
     "test": "c8 yarn unit && eslint . && check-dts && size-limit",
-    "start": "vite demo/"
+    "start": "vite demo/",
+    "demo": "vite demo-chunks/"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
