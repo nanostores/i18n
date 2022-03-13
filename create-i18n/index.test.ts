@@ -28,8 +28,35 @@ async function getResponse(
   }
 }
 
+let getChunkCalls: object[] = []
+let resolveGetChunk: (translations: ComponentsJSON[]) => void = () => {}
+let requestsChunkByLocale: Record<string, typeof resolveGetChunk> = {}
+
+function getChunk(
+  code: string,
+  components: string[]
+): Promise<ComponentsJSON[]> {
+  getChunkCalls.push({ [code]: components })
+  return new Promise(resolve => {
+    requestsChunkByLocale[code] = resolve
+    resolveGetChunk = resolve
+  })
+}
+
+async function getChunkResponse(
+  translations: ComponentsJSON[],
+  code?: string
+): Promise<void> {
+  if (code) {
+    requestsChunkByLocale[code](translations)
+  } else {
+    resolveGetChunk(translations)
+  }
+}
+
 test.after.each(() => {
   getCalls = []
+  getChunkCalls = []
 })
 
 test('is loaded from the start', () => {
@@ -43,12 +70,23 @@ test('is loaded from the start', () => {
   equal(messages.get(), { title: 'Title' })
 })
 
+test('is loaded from the start (fetch chunks)', () => {
+  let locale = atom('en')
+  let i18nChunk = createI18n(locale, { get: getChunk })
+
+  equal(i18nChunk.loading.get(), false)
+  equal(getChunkCalls, [])
+
+  let messagesChunk = i18nChunk('component', { title: 'Title' })
+  equal(messagesChunk.get(), { title: 'Title' })
+})
+
 test('loads locale', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('ru')
   let i18n = createI18n(locale, { get })
 
-  equal(i18n.loading.get(), true)
-  equal(getCalls, ['ru'])
+  // equal(i18n.loading.get(), true)
+  // equal(getCalls, ['ru'])
 
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
@@ -82,6 +120,51 @@ test('loads locale', async () => {
   })
   equal(i18n.loading.get(), false)
   equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
+})
+
+test('loads locale (fetch chunks)', async () => {
+  let locale = atom<'en' | 'ru' | 'fr'>('ru')
+  let i18nChunk = createI18n(locale, { get: getChunk })
+
+  equal(i18nChunk.loading.get(), true)
+  equal(getChunkCalls, ['ru'])
+
+  let messagesChunk = i18nChunk('component', { title: 'Title' })
+  let eventsChunk: string[] = []
+  messagesChunk.subscribe(t => {
+    eventsChunk.push(t.title)
+  })
+  equal(eventsChunk, ['Title'])
+
+  await getChunkResponse([
+    {
+      component: { title: 'Заголовок' }
+    }
+  ])
+  equal(eventsChunk, ['Title', 'Заголовок'])
+  equal(messagesChunk.get(), { title: 'Заголовок' })
+
+  locale.set('en')
+  equal(i18nChunk.loading.get(), false)
+  equal(eventsChunk, ['Title', 'Заголовок', 'Title'])
+
+  locale.set('ru')
+  equal(i18nChunk.loading.get(), false)
+  equal(getChunkCalls, ['ru'])
+  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок'])
+
+  locale.set('fr')
+  equal(i18nChunk.loading.get(), true)
+  equal(getChunkCalls, ['ru', 'fr'])
+  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок'])
+
+  await getChunkResponse([
+    {
+      component: { title: 'Titre' }
+    }
+  ])
+  equal(i18nChunk.loading.get(), false)
+  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
 })
 
 test('is ready for locale change in the middle of request', async () => {

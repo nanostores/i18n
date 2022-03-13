@@ -1,11 +1,10 @@
-import { atom, onMount, onStop } from 'nanostores'
+import { atom, onMount } from 'nanostores'
 
 export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
   let processors = opts.processors || []
-  let chunks = opts.chunks === true
   let loading = atom(true)
-  let mountedComponents = []
+  let mountedComponents = new Set()
 
   let define = (componentName, base) => {
     let transforms = {}
@@ -48,45 +47,29 @@ export function createI18n(locale, opts) {
     }
     setTranslation(baseLocale)
 
-    onStop(t, () => {
-      let index = mountedComponents.indexOf(t.component)
-      if (~index) {
-        mountedComponents.splice(index, 1)
-      }
-    })
-
     onMount(t, () => {
-      if (!mountedComponents.includes(t.component)) {
-        mountedComponents.push(t.component)
-      }
+      mountedComponents.add(t.component)
       let currentLocale = locale.get()
-      if (
-        !define.cache[currentLocale]?.[t.component] &&
-        currentLocale !== baseLocale
-      ) {
-        fetchTranslation(currentLocale)
-      } else {
-        loading.set(false)
+      let isTranslationCached =
+        currentLocale === baseLocale ||
+        define.cache[currentLocale]?.[t.component]
+      if (isTranslationCached) {
         setTranslation(currentLocale)
+      } else {
+        getTranslation(currentLocale)
       }
       for (let i in processors) {
         processors[i].from.listen(() => {
           setTranslation(currentLocale)
         })
       }
-
-      let unbindLocale = locale.listen(code => {
-        if (define.cache[code] && !loading.get()) {
-          setTranslation(code)
-        }
-      })
       let unbindLoading = loading.listen(isLoading => {
         if (!isLoading) {
           setTranslation(locale.get())
         }
       })
       return () => {
-        unbindLocale()
+        mountedComponents.delete(t.component)
         unbindLoading()
       }
     })
@@ -98,44 +81,36 @@ export function createI18n(locale, opts) {
   }
   define.loading = loading
 
-  function fetchTranslation(code) {
+  async function getTranslation(code) {
     loading.set(true)
-    if (chunks) {
-      opts
-        .get(code, mountedComponents)
-        .then(promises => Promise.all(promises))
-        .then(translations =>
-          translations.forEach(
-            translation =>
-              (define.cache[code] = { ...define.cache[code], ...translation })
-          )
-        )
-        .then(() => {
-          if (code === locale.get()) loading.set(false)
-        })
-    } else {
-      opts.get(code).then(translation => {
-        define.cache[code] = translation
-        if (code === locale.get()) loading.set(false)
-      })
+    let nonCachedComponents = Array.from(mountedComponents).filter(
+      component => !define.cache[code]?.[component]
+    )
+    let translations = await opts.get(code, nonCachedComponents)
+    if (Array.isArray(translations)) {
+      translations = translations.reduce((obj, item) =>
+        Object.assign(obj, item)
+      )
     }
+    define.cache[code] = { ...define.cache[code], ...translations }
+    if (code === locale.get()) loading.set(false)
   }
 
   locale.listen(code => {
     if (define.cache[code]) {
-      let cachedComponents = Object.keys(define.cache[code])
-      let isTranslationCached = mountedComponents.every(component => {
-        return cachedComponents.includes(component)
-      })
+      let isTranslationCached = Array.from(mountedComponents).every(
+        component => !!define.cache[code][component]
+      )
       if (isTranslationCached) {
         loading.set(false)
       } else {
-        fetchTranslation(code)
+        getTranslation(code)
       }
     } else {
-      fetchTranslation(code)
+      getTranslation(code)
     }
   })
 
+  loading.set(false)
   return define
 }
