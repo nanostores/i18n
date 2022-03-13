@@ -28,35 +28,35 @@ async function getResponse(
   }
 }
 
-let getChunkCalls: object[] = []
-let resolveGetChunk: (translations: ComponentsJSON[]) => void = () => {}
-let requestsChunkByLocale: Record<string, typeof resolveGetChunk> = {}
+// let partialGetCalls: object[] = []
+// let partialResolveGet: (translations: ComponentsJSON[]) => void = () => {}
+// let partialRequestsByLocale: Record<string, typeof resolveGetChunk> = {}
 
-function getChunk(
-  code: string,
-  components: string[]
-): Promise<ComponentsJSON[]> {
-  getChunkCalls.push({ [code]: components })
-  return new Promise(resolve => {
-    requestsChunkByLocale[code] = resolve
-    resolveGetChunk = resolve
-  })
-}
+// function partialGet(
+//   code: string,
+//   components: string[]
+// ): Promise<ComponentsJSON[]> {
+//   getChunkCalls.push({ [code]: components })
+//   return new Promise(resolve => {
+//     requestsChunkByLocale[code] = resolve
+//     resolveGetChunk = resolve
+//   })
+// }
 
-async function getChunkResponse(
-  translations: ComponentsJSON[],
-  code?: string
-): Promise<void> {
-  if (code) {
-    requestsChunkByLocale[code](translations)
-  } else {
-    resolveGetChunk(translations)
-  }
-}
+// async function partialGetResponse(
+//   translations: ComponentsJSON[],
+//   code?: string
+// ): Promise<void> {
+//   if (code) {
+//     requestsChunkByLocale[code](translations)
+//   } else {
+//     resolveGetChunk(translations)
+//   }
+// }
 
 test.after.each(() => {
   getCalls = []
-  getChunkCalls = []
+  // partialGetChunkCalls = []
 })
 
 test('is loaded from the start', () => {
@@ -70,29 +70,20 @@ test('is loaded from the start', () => {
   equal(messages.get(), { title: 'Title' })
 })
 
-test('is loaded from the start (fetch chunks)', () => {
-  let locale = atom('en')
-  let i18nChunk = createI18n(locale, { get: getChunk })
-
-  equal(i18nChunk.loading.get(), false)
-  equal(getChunkCalls, [])
-
-  let messagesChunk = i18nChunk('component', { title: 'Title' })
-  equal(messagesChunk.get(), { title: 'Title' })
-})
-
 test('loads locale', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('ru')
   let i18n = createI18n(locale, { get })
 
-  // equal(i18n.loading.get(), true)
-  // equal(getCalls, ['ru'])
+  equal(i18n.loading.get(), false)
+  equal(getCalls, [])
 
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.title)
   })
+  equal(i18n.loading.get(), true)
+  equal(getCalls, ['ru'])
   equal(events, ['Title'])
 
   await getResponse({
@@ -120,51 +111,6 @@ test('loads locale', async () => {
   })
   equal(i18n.loading.get(), false)
   equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
-})
-
-test('loads locale (fetch chunks)', async () => {
-  let locale = atom<'en' | 'ru' | 'fr'>('ru')
-  let i18nChunk = createI18n(locale, { get: getChunk })
-
-  equal(i18nChunk.loading.get(), true)
-  equal(getChunkCalls, ['ru'])
-
-  let messagesChunk = i18nChunk('component', { title: 'Title' })
-  let eventsChunk: string[] = []
-  messagesChunk.subscribe(t => {
-    eventsChunk.push(t.title)
-  })
-  equal(eventsChunk, ['Title'])
-
-  await getChunkResponse([
-    {
-      component: { title: 'Заголовок' }
-    }
-  ])
-  equal(eventsChunk, ['Title', 'Заголовок'])
-  equal(messagesChunk.get(), { title: 'Заголовок' })
-
-  locale.set('en')
-  equal(i18nChunk.loading.get(), false)
-  equal(eventsChunk, ['Title', 'Заголовок', 'Title'])
-
-  locale.set('ru')
-  equal(i18nChunk.loading.get(), false)
-  equal(getChunkCalls, ['ru'])
-  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок'])
-
-  locale.set('fr')
-  equal(i18nChunk.loading.get(), true)
-  equal(getChunkCalls, ['ru', 'fr'])
-  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок'])
-
-  await getChunkResponse([
-    {
-      component: { title: 'Titre' }
-    }
-  ])
-  equal(i18nChunk.loading.get(), false)
-  equal(eventsChunk, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
 })
 
 test('is ready for locale change in the middle of request', async () => {
@@ -234,13 +180,14 @@ test('removes listeners', async () => {
 test('mixes translations with base', async () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, { get })
-  equal(i18n.loading.get(), true)
+  equal(i18n.loading.get(), false)
 
   let messages = i18n('component', { title: 'Title', other: 'Other' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.other)
   })
+  equal(i18n.loading.get(), true)
 
   await getResponse({
     component: { title: 'Заголовок' },
