@@ -2,25 +2,47 @@ import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
 
-import { createI18n, count } from '../index.js'
+import { createI18n, count, ComponentsJSON } from '../index.js'
+
+let resolveGet: (translations: ComponentsJSON) => void = () => {}
+
+function get(): Promise<ComponentsJSON> {
+  return new Promise(resolve => {
+    resolveGet = resolve
+  })
+}
+
+async function getResponse(translations: ComponentsJSON): Promise<void> {
+  resolveGet(translations)
+}
 
 let locale = atom('ru')
-let i18n = createI18n(locale, {
-  async get() {
-    return {}
-  }
-})
+let i18n = createI18n(locale, { get })
 
-test('uses pluralization rules', () => {
+test('uses pluralization rules', async () => {
   let messages = i18n('templates', {
     robots: count({
-      one: '{count} робот',
-      few: '{count} робота',
-      many: '{count} роботов'
+      one: '{count} robot',
+      many: '{count} robots'
     }),
     onlyMany: count({
-      many: 'много'
+      many: 'many'
     })
+  })
+
+  messages.subscribe(() => {})
+
+  await getResponse({
+    templates: {
+      robots: {
+        one: '{count} робот',
+        few: '{count} робота',
+        many: '{count} роботов'
+      },
+      onlyMany: {
+        many: 'много'
+      }
+    }
   })
 
   equal(messages.get().robots(1), '1 робот')
