@@ -98,10 +98,10 @@ export function createI18n(locale, opts) {
 
   locale.listen(code => {
     if (define.cache[code]) {
-      let isTranslationCached = Array.from(mountedComponents).every(
+      let isTranslationsCached = Array.from(mountedComponents).every(
         component => !!define.cache[code][component]
       )
-      if (isTranslationCached) {
+      if (isTranslationsCached) {
         loading.set(false)
       } else {
         getTranslation(code)
