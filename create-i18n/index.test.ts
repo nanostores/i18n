@@ -28,35 +28,8 @@ async function getResponse(
   }
 }
 
-let partialGetCalls: object[] = []
-let partialResolveGet: (translations: ComponentsJSON[]) => void = () => {}
-let partialRequestsByLocale: Record<string, typeof partialResolveGet> = {}
-
-function partialGet(
-  code: string,
-  components: string[]
-): Promise<ComponentsJSON[]> {
-  partialGetCalls.push({ [code]: components })
-  return new Promise(resolve => {
-    partialRequestsByLocale[code] = resolve
-    partialResolveGet = resolve
-  })
-}
-
-async function partialGetResponse(
-  translations: ComponentsJSON[],
-  code?: string
-): Promise<void> {
-  if (code) {
-    partialRequestsByLocale[code](translations)
-  } else {
-    partialResolveGet(translations)
-  }
-}
-
 test.after.each(() => {
   getCalls = []
-  partialGetCalls = []
 })
 
 test('is loaded from the start', () => {
@@ -263,26 +236,65 @@ test('tracks double definition', () => {
   }, /I18n component double was defined multiple times/)
 })
 
-test('loads locale partial', async () => {
-  let locale = atom<'en' | 'ru' | 'fr' | 'de'>('ru')
-  let i18n = createI18n(locale, { get: partialGet })
+/* 
+----------- Partial loading testing -----------
+*/
 
+let partialGetCalls: object[] = []
+let partialResolveGet: (translations: ComponentsJSON[]) => void = () => {}
+let partialRequestsByLocale: Record<string, typeof partialResolveGet> = {}
+
+function partialGet(
+  code: string,
+  components: string[]
+): Promise<ComponentsJSON[]> {
+  partialGetCalls.push({ [code]: components })
+  return new Promise(resolve => {
+    partialRequestsByLocale[code] = resolve
+    partialResolveGet = resolve
+  })
+}
+
+async function partialGetResponse(
+  translations: ComponentsJSON[],
+  code?: string
+): Promise<void> {
+  if (code) {
+    partialRequestsByLocale[code](translations)
+  } else {
+    partialResolveGet(translations)
+  }
+}
+
+test.after.each(() => {
+  partialGetCalls = []
+})
+
+let locale = atom<'en' | 'ru' | 'fr' | 'de'>('ru')
+let i18n = createI18n(locale, { get: partialGet })
+let events: string[] = []
+
+let post = i18n('main/post', { title: 'Post' })
+let heading = i18n('main/heading', { title: 'Title' })
+let comment = i18n('main/comment', { title: 'Comment' })
+let message = i18n('chat/message', { title: 'Message' })
+
+let postUnbind: () => void
+let headingUnbind: () => void
+let commentUnbind: () => void
+
+test('loads translations partial', async () => {
   equal(i18n.loading.get(), false)
   equal(partialGetCalls, [])
 
-  let post = i18n('main/post', { title: 'Post' })
-  let heading = i18n('main/heading', { title: 'Title' })
-  let comment = i18n('main/comment', { title: 'Comment' })
-  let message = i18n('chat/message', { title: 'Message' })
-  let events: string[] = []
-  post.subscribe(t => {
+  postUnbind = post.subscribe(t => {
     events.push(t.title)
   })
-  heading.subscribe(t => {
+  headingUnbind = heading.subscribe(t => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(partialGetCalls, [{ ru: ['main/post', 'main/heading'] }])
+  equal(partialGetCalls, [{ ru: ['main/post'] }, { ru: ['main/heading'] }])
   equal(events, ['Post', 'Title'])
 
   await partialGetResponse([
@@ -292,75 +304,67 @@ test('loads locale partial', async () => {
       'main/comment': { title: 'Комментарий' }
     }
   ])
+  equal(i18n.loading.get(), false)
   equal(events, ['Post', 'Title', 'Публикация', 'Заголовок'])
   equal(post.get(), { title: 'Публикация' })
   equal(heading.get(), { title: 'Заголовок' })
-  equal(comment.get(), { title: 'Comment' })
+  equal(comment.get(), { title: 'Комментарий' })
+})
 
-  equal(i18n.loading.get(), false)
-  comment.subscribe(t => {
+test("component mounting shouldn't load cached translations", async () => {
+  commentUnbind = comment.subscribe(t => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), false)
-  equal(comment.get(), { title: 'Комментарий' })
+  equal(partialGetCalls, [])
   equal(events, ['Post', 'Title', 'Публикация', 'Заголовок', 'Комментарий'])
   events = []
+})
 
-  locale.set('en')
-  equal(i18n.loading.get(), false)
-  equal(events, ['Post', 'Title', 'Comment'])
-  events = []
-
-  locale.set('ru')
-  equal(i18n.loading.get(), false)
-  equal(partialGetCalls, [{ ru: ['main/post', 'main/heading'] }])
-  equal(events, ['Публикация', 'Заголовок', 'Комментарий'])
-  events = []
-
-  post.off()
-
-  locale.set('fr')
-  equal(i18n.loading.get(), true)
-  equal(partialGetCalls, [
-    { ru: ['main/post', 'main/heading'] },
-    { fr: ['main/heading', 'main/comment'] }
-  ])
-  equal(events, [])
-
-  await partialGetResponse([
-    {
-      'main/body': { title: 'La publication' },
-      'main/heading': { title: 'Titre' },
-      'main/comment': { title: 'Commentaire' }
-    }
-  ])
-  equal(i18n.loading.get(), false)
-  equal(events, ['Titre', 'Commentaire'])
-
-  equal(heading.get(), { title: 'Titre' })
-  equal(comment.get(), { title: 'Commentaire' })
-  equal(post.get(), { title: 'Публикация' })
-
-  post.subscribe(t => {
-    events.push(t.title)
-  })
-  equal(post.get(), { title: 'La publication' })
-  equal(events, ['Titre', 'Commentaire', 'La publication'])
-  events = []
-
-  post.off()
-  heading.off()
-  comment.off()
-
+test('loads translation after component mounted', async () => {
   message.subscribe(t => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(partialGetCalls, [
-    { ru: ['main/post', 'main/heading'] },
-    { fr: ['main/heading', 'main/comment'] },
-    { fr: ['chat/message'] }
+  equal(partialGetCalls, [{ ru: ['chat/message'] }])
+  equal(events, ['Message'])
+
+  await partialGetResponse([
+    {
+      'chat/message': { title: 'Сообщение' }
+    }
   ])
+  equal(i18n.loading.get(), false)
+  equal(events, [
+    'Message',
+    'Публикация',
+    'Заголовок',
+    'Комментарий',
+    'Сообщение'
+  ])
+  equal(message.get(), { title: 'Сообщение' })
+  events = []
+})
+
+test("locale changing shouldn't load cached translations", async () => {
+  locale.set('en')
+  equal(i18n.loading.get(), false)
+  equal(partialGetCalls, [])
+  equal(events, ['Post', 'Title', 'Comment', 'Message'])
+  events = []
+})
+
+test('locale changing should load translations for mounted components only', async () => {
+  postUnbind()
+  headingUnbind()
+  commentUnbind()
+
+  // 1s delay for components unmounting
+  await new Promise(resolve => setTimeout(resolve, 1100))
+
+  locale.set('fr')
+  equal(i18n.loading.get(), true)
+  equal(partialGetCalls, [{ fr: ['chat/message'] }])
   equal(events, [])
 
   await partialGetResponse([
@@ -370,26 +374,36 @@ test('loads locale partial', async () => {
   ])
   equal(i18n.loading.get(), false)
   equal(events, ['Le message'])
+  equal(post.get(), { title: 'Post' })
+  equal(heading.get(), { title: 'Title' })
+  equal(comment.get(), { title: 'Comment' })
+  equal(message.get(), { title: 'Le message' })
+  events = []
+})
+
+test('if get returns array of ComponentsJSON, it transforms to object before cached', async () => {
+  locale.set('en')
 
   post.subscribe(t => {
     events.push(t.title)
   })
-  equal(i18n.loading.get(), false)
-  equal(events, ['Le message', 'La publication'])
+  heading.subscribe(t => {
+    events.push(t.title)
+  })
+  comment.subscribe(t => {
+    events.push(t.title)
+  })
 
   locale.set('de')
   equal(i18n.loading.get(), true)
   equal(partialGetCalls, [
-    { ru: ['main/post', 'main/heading'] },
-    { fr: ['main/heading', 'main/comment'] },
-    { fr: ['chat/message'] },
-    { de: ['chat/message', 'main/post'] }
+    { de: ['chat/message', 'main/post', 'main/heading', 'main/comment'] }
   ])
-  equal(events, ['Le message', 'La publication'])
+  equal(events, ['Message', 'Post', 'Title', 'Comment'])
 
   await partialGetResponse([
     {
-      'main/body': { title: 'Publikation' },
+      'main/post': { title: 'Publikation' },
       'main/heading': { title: 'Titel' },
       'main/comment': { title: 'Kommentar' }
     },
@@ -397,10 +411,23 @@ test('loads locale partial', async () => {
       'chat/message': { title: 'Nachricht' }
     }
   ])
+  equal(i18n.cache.de, {
+    'main/post': { title: 'Publikation' },
+    'main/heading': { title: 'Titel' },
+    'main/comment': { title: 'Kommentar' },
+    'chat/message': { title: 'Nachricht' }
+  })
   equal(i18n.loading.get(), false)
-  equal(events, ['Le message', 'La publication', 'Nachricht', 'Publikation'])
-
-  events = []
+  equal(events, [
+    'Message',
+    'Post',
+    'Title',
+    'Comment',
+    'Nachricht',
+    'Publikation',
+    'Titel',
+    'Kommentar'
+  ])
 })
 
 test.run()

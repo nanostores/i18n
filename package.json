@@ -15,9 +15,8 @@
   ],
   "scripts": {
     "unit": "tsm node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
-    "test": "c8 pnpm unit && eslint . && check-dts && size-limit",
-    "start": "vite demo/",
-    "demo": "vite demo-chunks/"
+    "test": "c8 yarn unit && eslint . && check-dts && size-limit",
+    "start": "vite demo/"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
@@ -99,12 +98,12 @@
     {
       "name": "Minimum",
       "import": "{ localeFrom, createI18n }",
-      "limit": "520 B"
+      "limit": "643 B"
     },
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor }",
-      "limit": "953 B"
+      "limit": "1.08 kB"
     }
   ],
   "clean-publish": {

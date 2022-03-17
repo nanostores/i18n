@@ -4,7 +4,7 @@ export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
   let processors = opts.processors || []
   let loading = atom(true)
-  let mountedComponents = new Set()
+  let mounted = new Set()
 
   let define = (componentName, base) => {
     let transforms = {}
@@ -48,19 +48,19 @@ export function createI18n(locale, opts) {
     setTranslation(baseLocale)
 
     onMount(t, () => {
-      mountedComponents.add(t.component)
-      let currentLocale = locale.get()
-      let isTranslationCached =
-        currentLocale === baseLocale ||
-        define.cache[currentLocale]?.[t.component]
-      if (isTranslationCached) {
-        setTranslation(currentLocale)
+      mounted.add(t.component)
+      let code = locale.get()
+      let isCached =
+        code === baseLocale ||
+        define.cache[code]?.[t.component]
+      if (isCached) {
+        setTranslation(code)
       } else {
-        getTranslation(currentLocale)
+        getTranslation(code, [t.component])
       }
       for (let i in processors) {
         processors[i].from.listen(() => {
-          setTranslation(currentLocale)
+          setTranslation(code)
         })
       }
       let unbindLoading = loading.listen(isLoading => {
@@ -69,7 +69,7 @@ export function createI18n(locale, opts) {
         }
       })
       return () => {
-        mountedComponents.delete(t.component)
+        mounted.delete(t.component)
         unbindLoading()
       }
     })
@@ -81,12 +81,9 @@ export function createI18n(locale, opts) {
   }
   define.loading = loading
 
-  async function getTranslation(code) {
+  async function getTranslation(code, components) {
     loading.set(true)
-    let nonCachedComponents = Array.from(mountedComponents).filter(
-      component => !define.cache[code]?.[component]
-    )
-    let translations = await opts.get(code, nonCachedComponents)
+    let translations = await opts.get(code, components)
     if (Array.isArray(translations)) {
       translations = translations.reduce((obj, item) =>
         Object.assign(obj, item)
@@ -97,17 +94,13 @@ export function createI18n(locale, opts) {
   }
 
   locale.listen(code => {
-    if (define.cache[code]) {
-      let isTranslationsCached = Array.from(mountedComponents).every(
-        component => !!define.cache[code][component]
-      )
-      if (isTranslationsCached) {
-        loading.set(false)
-      } else {
-        getTranslation(code)
-      }
+    let nonCached = Array.from(mounted).filter(
+      component => !define.cache[code]?.[component]
+    )
+    if (nonCached.length) {
+      getTranslation(code, nonCached)
     } else {
-      getTranslation(code)
+      loading.set(false)
     }
   })
 
