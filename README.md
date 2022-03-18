@@ -431,11 +431,14 @@ translations for them partial.
     })
     ```
 
-2. We can define that components are more commonly used and give them same prefixes like `main/heading` , `main/post` and `main/comment`.
+2. We can define that components are more commonly used and give them
+same prefixes like `main/heading` , `main/post` and `main/comment`.
 
-3. During rendering `i18n` collects all components names that are used in a moment and send them to `get` with second argument.
+3. During rendering `i18n` collects all components names that are
+used in a moment and send them to `get` with second argument.
 
-4. We can pass `get` function that split the prefixes, filter unique of them and make fetch for needed translations.
+4. We can pass `get` function that split the prefixes, filter unique
+of them and make fetch for needed translations.
 
     ```ts
     export const i18n = createI18n(locale, {
@@ -451,7 +454,8 @@ translations for them partial.
     })
     ```
 
-5. `I18n` will tracks all new renderings and get the translations if they were not fetched early.
+5. `I18n` will tracks all new renderings and get the translations
+if they were not fetched early.
 
 ### Server-Side Rendering
 
