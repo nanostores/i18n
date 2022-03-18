@@ -399,6 +399,59 @@ but about translation process.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
 
+### Lazy loading
+
+In general case developer pass `get` function like this to fetch all
+translations on locale change.
+
+```ts
+export const i18n = createI18n(locale, {
+  async get (code) {
+    return fetchJSON(`/translations/${code}.json`)
+  }
+})
+```
+
+Then define `post` component with `i18n`.
+
+```ts
+export const messages = i18n('post', {
+  post: 'Post details'
+})
+```
+
+Many application parts are rarely used, so there is a way to get
+translations for them partial.
+
+1. We can use component names like `main/post` or `settings/user`.
+
+    ```ts
+    export const messages = i18n('main/post', {
+      post: 'Post details'
+    })
+    ```
+
+2. We can define that components are more commonly used and give them same prefixes like `main/heading` , `main/post` and `main/comment`.
+
+3. During rendering `i18n` collects all components names that are used in a moment and send them to `get` with second argument.
+
+4. We can pass `get` function that split the prefixes, filter unique of them and make fetch for needed translations.
+
+    ```ts
+    export const i18n = createI18n(locale, {
+      async get(code, components) {
+        const prefixes = components.map(name => name.split('/')[0])
+        const unique = Array.from(new Set(prefixes))
+        return Promise.all(
+          unique.map(chunk =>
+            fetchJSON(`/translations/${code}/${chunk}.json`)
+          )
+        )
+      }
+    })
+    ```
+
+5. `I18n` will tracks all new renderings and get the translations if they were not fetched early.
 
 ### Server-Side Rendering
 
