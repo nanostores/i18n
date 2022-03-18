@@ -443,8 +443,8 @@ of them and make fetch for needed translations.
     ```ts
     export const i18n = createI18n(locale, {
       async get(code, components) {
-        const prefixes = components.map(name => name.split('/')[0])
-        const unique = Array.from(new Set(prefixes))
+        let prefixes = components.map(name => name.split('/')[0])
+        let unique = Array.from(new Set(prefixes))
         return Promise.all(
           unique.map(chunk =>
             fetchJSON(`/translations/${code}/${chunk}.json`)

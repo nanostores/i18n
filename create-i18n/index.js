@@ -5,6 +5,7 @@ export function createI18n(locale, opts) {
   let processors = opts.processors || []
   let loading = atom(true)
   let mounted = new Set()
+  let fetched = new Set()
 
   let define = (componentName, base) => {
     let transforms = {}
@@ -56,7 +57,13 @@ export function createI18n(locale, opts) {
       if (isCached) {
         setTranslation(code)
       } else {
-        getTranslation(code, [t.component])
+        let prefix = t.component.split('/')[0]
+        if (!fetched.has(prefix)) {
+          fetched.add(prefix)
+          getTranslation(code, [t.component]).then(() => {
+            fetched.delete(prefix)
+          })
+        }
       }
       for (let i in processors) {
         processors[i].from.listen(() => {
