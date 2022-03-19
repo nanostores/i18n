@@ -278,12 +278,14 @@ let post = i18n('main/post', { title: 'Post' })
 let heading = i18n('main/heading', { title: 'Title' })
 let comment = i18n('main/comment', { title: 'Comment' })
 let message = i18n('chat/message', { title: 'Message' })
+let user = i18n('settings/user', { title: 'User' })
+let games = i18n('games', { title: 'Games' })
 
 let postUnbind: () => void
 let headingUnbind: () => void
 let commentUnbind: () => void
 
-test('loads translations partial', async () => {
+test("after components mount shouldn't load translations with same prefix in componentName", async () => {
   equal(i18n.loading.get(), false)
   equal(partialGetCalls, [])
 
@@ -294,9 +296,11 @@ test('loads translations partial', async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(partialGetCalls, [{ ru: ['main/post'] }, { ru: ['main/heading'] }])
+  equal(partialGetCalls, [{ ru: ['main/post'] }])
   equal(events, ['Post', 'Title'])
+})
 
+test('loads translations partial', async () => {
   await partialGetResponse([
     {
       'main/post': { title: 'Публикация' },
@@ -309,6 +313,41 @@ test('loads translations partial', async () => {
   equal(post.get(), { title: 'Публикация' })
   equal(heading.get(), { title: 'Заголовок' })
   equal(comment.get(), { title: 'Комментарий' })
+  events = []
+})
+
+test('after components mount should load translations with different prefix or without prefix names', async () => {
+  equal(i18n.loading.get(), false)
+  equal(partialGetCalls, [])
+
+  let userUnbind = user.subscribe(t => {
+    events.push(t.title)
+  })
+  let gamesUnbind = games.subscribe(t => {
+    events.push(t.title)
+  })
+  equal(i18n.loading.get(), true)
+  equal(partialGetCalls, [{ ru: ['settings/user'] }, { ru: ['games'] }])
+  equal(events, ['User', 'Games'])
+
+  await partialGetResponse([
+    {
+      'settings/user': { title: 'Пользователь' },
+      'games': { title: 'Игры' }
+    }
+  ])
+  equal(i18n.loading.get(), false)
+  equal(events, [
+    'User',
+    'Games',
+    'Публикация',
+    'Заголовок',
+    'Пользователь',
+    'Игры'
+  ])
+  userUnbind()
+  gamesUnbind()
+  events = []
 })
 
 test("component mounting shouldn't load cached translations", async () => {
@@ -317,7 +356,7 @@ test("component mounting shouldn't load cached translations", async () => {
   })
   equal(i18n.loading.get(), false)
   equal(partialGetCalls, [])
-  equal(events, ['Post', 'Title', 'Публикация', 'Заголовок', 'Комментарий'])
+  equal(events, ['Комментарий'])
   events = []
 })
 

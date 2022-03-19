@@ -51,9 +51,7 @@ export function createI18n(locale, opts) {
     onMount(t, () => {
       mounted.add(t.component)
       let code = locale.get()
-      let isCached =
-        code === baseLocale ||
-        define.cache[code]?.[t.component]
+      let isCached = code === baseLocale || define.cache[code]?.[t.component]
       if (isCached) {
         setTranslation(code)
       } else {

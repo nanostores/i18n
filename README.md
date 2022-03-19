@@ -434,10 +434,28 @@ translations for them partial.
 2. We can define that components are more commonly used and give them
 same prefixes like `main/heading` , `main/post` and `main/comment`.
 
-3. During rendering `i18n` collects all components names that are
-used in a moment and send them to `get` with second argument.
+3. Translations should be named:
 
-4. We can pass `get` function that split the prefixes, filter unique
+    ```js
+    // public/translations/ru/main.json
+    {
+      "main/post": {
+        "post": "Данные о публикации"
+      },
+      "main/heading": {
+        "heading": "Заголовок"
+      },
+      "main/comment": {
+        "comment": "Комментарий"
+      }
+    }
+    // public/translations/ru/settings.json
+    ```
+
+4. During rendering `i18n` saves all component names that are used.
+When locale changed `i18n` send names to `get` function.
+
+5. We can pass `get` function that split the prefixes, filter unique
 of them and make fetch for needed translations.
 
     ```ts
@@ -454,8 +472,15 @@ of them and make fetch for needed translations.
     })
     ```
 
-5. `I18n` will tracks all new renderings and get the translations
-if they were not fetched early.
+6. After each of new renderings `i18n` checks translations in cache.
+If not in cache:
+    * Splits component unique prefix or get name without prefix.
+    * Checks if translations for it were fetched, but response not
+    received yet.
+    * Calls `get` function for component name if needed -
+    `main` or `settings`.
+
+7. Fetch will be called for all new rendered component with unique name. To prevent this we might want to give them same prefixes.
 
 ### Server-Side Rendering
 
