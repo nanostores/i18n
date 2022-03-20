@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.3
+* Added partial translation loading (by Ivan Baklanov).
+* Fixed types with new TypeScript features (by Alexey Berezin).
+
 ## 0.2.1
 * Fixed `params()` and `count()` in pure JS.
 * Fixed `formatter` types.
