@@ -35,7 +35,6 @@
     "nanostores": "^0.5.0"
   },
   "devDependencies": {
-    "@logux/core": "^0.7.2",
     "@logux/eslint-config": "^46.1.1",
     "@nanostores/persistent": "^0.5.1",
     "@size-limit/preset-small-lib": "^7.0.5",
