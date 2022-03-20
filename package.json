@@ -1,7 +1,7 @@
 {
   "name": "@nanostores/i18n",
   "version": "0.2.1",
-  "description": "A tiny (≈500 bytes) i18n library for React/Preact/Vue/Svelte",
+  "description": "A tiny (≈600 bytes) i18n library for React/Preact/Vue/Svelte",
   "keywords": [
     "nano",
     "nanostores",
@@ -36,28 +36,28 @@
   },
   "devDependencies": {
     "@logux/eslint-config": "^46.1.1",
-    "@nanostores/persistent": "^0.5.1",
-    "@size-limit/preset-small-lib": "^7.0.5",
-    "@types/node": "^17.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
+    "@nanostores/persistent": "^0.5.2",
+    "@size-limit/preset-small-lib": "^7.0.8",
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
     "c8": "^7.11.0",
     "check-dts": "^0.6.6",
     "clean-publish": "^4.0.0",
     "conditional-type-checks": "^1.0.5",
-    "eslint": "^8.8.0",
+    "eslint": "^8.11.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.0.0",
     "nanodelay": "^2.0.2",
-    "nanostores": "^0.5.9",
-    "size-limit": "^7.0.5",
+    "nanostores": "^0.5.12",
+    "size-limit": "^7.0.8",
     "tsm": "^2.2.1",
-    "typescript": "^4.5.5",
+    "typescript": "^4.6.2",
     "uvu": "^0.5.3",
-    "vite": "^2.7.13"
+    "vite": "^2.8.6"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -97,12 +97,12 @@
     {
       "name": "Minimum",
       "import": "{ localeFrom, createI18n }",
-      "limit": "690 B"
+      "limit": "673 B"
     },
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor }",
-      "limit": "1157 B"
+      "limit": "1106 B"
     }
   ],
   "clean-publish": {
