@@ -47,14 +47,16 @@ test('loads locale', async () => {
   let locale = atom<'en' | 'ru' | 'fr'>('ru')
   let i18n = createI18n(locale, { get })
 
-  equal(i18n.loading.get(), true)
-  equal(getCalls, ['ru'])
+  equal(i18n.loading.get(), false)
+  equal(getCalls, [])
 
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.title)
   })
+  equal(i18n.loading.get(), true)
+  equal(getCalls, ['ru'])
   equal(events, ['Title'])
 
   await getResponse({
@@ -151,13 +153,14 @@ test('removes listeners', async () => {
 test('mixes translations with base', async () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, { get })
-  equal(i18n.loading.get(), true)
+  equal(i18n.loading.get(), false)
 
   let messages = i18n('component', { title: 'Title', other: 'Other' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.other)
   })
+  equal(i18n.loading.get(), true)
 
   await getResponse({
     component: { title: 'Заголовок' },

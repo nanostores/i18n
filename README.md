@@ -399,6 +399,88 @@ but about translation process.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
 
+### Lazy loading
+
+In general case developer pass `get` function like this to fetch all
+translations on locale change.
+
+```ts
+export const i18n = createI18n(locale, {
+  async get (code) {
+    return fetchJSON(`/translations/${code}.json`)
+  }
+})
+```
+
+Then define `post` component with `i18n`.
+
+```ts
+export const messages = i18n('post', {
+  post: 'Post details'
+})
+```
+
+Many application parts are rarely used, so there is a way to get
+translations for them partial.
+
+1. We can use component names like `main/post` or `settings/user`.
+
+    ```ts
+    export const messages = i18n('main/post', {
+      post: 'Post details'
+    })
+    ```
+
+2. We can define that components are more commonly used and give them
+same prefixes like `main/heading` , `main/post` and `main/comment`.
+
+3. Translations should be named:
+
+    ```js
+    // public/translations/ru/main.json
+    {
+      "main/post": {
+        "post": "Данные о публикации"
+      },
+      "main/heading": {
+        "heading": "Заголовок"
+      },
+      "main/comment": {
+        "comment": "Комментарий"
+      }
+    }
+    // public/translations/ru/settings.json
+    ```
+
+4. During rendering `i18n` saves all component names that are used.
+When locale changed `i18n` send names to `get` function.
+
+5. We can pass `get` function that split the prefixes, filter unique
+of them and make fetch for needed translations.
+
+    ```ts
+    export const i18n = createI18n(locale, {
+      async get(code, components) {
+        let prefixes = components.map(name => name.split('/')[0])
+        let unique = Array.from(new Set(prefixes))
+        return Promise.all(
+          unique.map(chunk =>
+            fetchJSON(`/translations/${code}/${chunk}.json`)
+          )
+        )
+      }
+    })
+    ```
+
+6. After each of new renderings `i18n` checks translations in cache.
+If not in cache:
+    * Splits component unique prefix or get name without prefix.
+    * Checks if translations for it were fetched, but response not
+    received yet.
+    * Calls `get` function for component name if needed -
+    `main` or `settings`.
+
+7. Fetch will be called for all new rendered component with unique name. To prevent this we might want to give them same prefixes.
 
 ### Server-Side Rendering
 
