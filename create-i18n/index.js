@@ -51,7 +51,9 @@ export function createI18n(locale, opts) {
     onMount(t, () => {
       mounted.add(t.component)
       let code = locale.get()
-      let isCached = code === baseLocale || define.cache[code]?.[t.component]
+      let isCached =
+        code === baseLocale ||
+        (define.cache[code] && define.cache[code][t.component])
       if (isCached) {
         setTranslation(code)
       } else {
@@ -100,7 +102,7 @@ export function createI18n(locale, opts) {
 
   locale.listen(code => {
     let nonCached = Array.from(mounted).filter(
-      component => !define.cache[code]?.[component]
+      component => !(define.cache[code] && define.cache[code][component])
     )
     if (nonCached.length) {
       getTranslation(code, nonCached)
