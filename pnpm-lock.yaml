@@ -18,6 +18,7 @@ specifiers:
   eslint-plugin-prefer-let: ^3.0.1
   eslint-plugin-promise: ^6.0.0
   nanodelay: ^2.0.2
+  nanospy: ^0.5.0
   nanostores: ^0.5.12
   size-limit: ^7.0.8
   tsm: ^2.2.1
@@ -43,6 +44,7 @@ devDependencies:
   eslint-plugin-prefer-let: 3.0.1
   eslint-plugin-promise: 6.0.0_eslint@8.12.0
   nanodelay: 2.0.2
+  nanospy: 0.5.0
   nanostores: 0.5.12
   size-limit: 7.0.8
   tsm: 2.2.1
@@ -1598,6 +1600,11 @@ packages:
     resolution: {integrity: sha512-14c2r2QQ9xfTmdbqdF51FKCNvww+0ZON9GeEHur+pBdOufoFvxD4CZQRaYWmFrGH3Nuv7PZ/9Q+wsV+hFSp32g==}
     dependencies:
       picocolors: 1.0.0
+    dev: true
+
+  /nanospy/0.5.0:
+    resolution: {integrity: sha512-QxH93ntkjRiSP+gJrBLcgOO3neU6pGhUKjPAJ7rAFag/+tJ+/0lw6dXic+iXUQ/3Cxk4Dp/FwLnf57xnQsjecQ==}
+    engines: {node: ^8.0.0 || ^10.0.0 || ^12.0.0 || ^14.0.0 || >=16.0.0}
     dev: true
 
   /nanostores/0.5.12:
