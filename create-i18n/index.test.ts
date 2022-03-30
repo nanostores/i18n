@@ -1,5 +1,6 @@
 import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { equal, throws } from 'uvu/assert'
+import { restoreAll, spyOn } from 'nanospy'
+import { equal, match } from 'uvu/assert'
 import { delay } from 'nanodelay'
 import { test } from 'uvu'
 
@@ -30,6 +31,7 @@ async function getResponse(
 
 test.after.each(() => {
   getCalls = []
+  restoreAll()
 })
 
 test('is loaded from the start', () => {
@@ -228,12 +230,16 @@ test('supports reverse transform', () => {
 })
 
 test('tracks double definition', () => {
+  let warn = spyOn(console, 'warn', () => {})
   let locale = atom('en')
   let i18n = createI18n(locale, { get })
+
   i18n('double', {})
-  throws(() => {
-    i18n('double', {})
-  }, /I18n component double was defined multiple times/)
+  equal(warn.callCount, 0)
+
+  i18n('double', {})
+  equal(warn.callCount, 1)
+  match(warn.calls[0][0], /defined multiple times/)
 })
 
 test.run()
