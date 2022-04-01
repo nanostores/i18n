@@ -25,7 +25,7 @@ import { i18n, format } from '../stores/i18n.js'
 export const messages = i18n('post', {
   title: 'Post details',
   published: params<{ at: string }>('Was published at {at}')
-  posts: count({
+  comments: count({
     one: '{count} comment',
     many: '{count} comments'
   })
@@ -260,7 +260,7 @@ for TypeScript types and translation functions (`count()`, `params()`, etc).
 export const messages = i18n('post', {
   title: 'Post details',
   published: params<{ at: string }>('Was published at {at}')
-  posts: count({
+  comments: count({
     one: '{count} comment',
     many: '{count} comments'
   })
