@@ -13,6 +13,7 @@ export {
 export { TranslationTransform, strings, transform } from './transforms/index.js'
 export { localeFrom, LocaleStore } from './locale-from/index.js'
 export { formatter, Formatter } from './formatter/index.js'
+export { translationsLoading } from './translations-loading/index.js'
 export { count, CountInput } from './count/index.js'
 export { createProcessor } from './processor/index.js'
 export { messagesToJSON } from './messages-to-json/index.js'

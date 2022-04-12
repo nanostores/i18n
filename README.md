@@ -399,6 +399,7 @@ but about translation process.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
 
+
 ### Lazy loading
 
 In general case developer pass `get` function like this to fetch all
@@ -482,6 +483,7 @@ If not in cache:
 
 7. Fetch will be called for all new rendered component with unique name. To prevent this we might want to give them same prefixes.
 
+
 ### Server-Side Rendering
 
 For SSR you may want to use own `locale` store and custom `i18n` instance
@@ -510,15 +512,10 @@ export { locale, i18n }
 You may need to wait for translation loading before rendering the HTML.
 
 ```js
+import { translationsLoading } from '@nanostores/i18n'
+
 if (i18n.loading.get()) {
-  await new Promise(resolve => {
-    let unbind = i18n.loading.listen(loading => {
-      if (!loading) {
-        resolve()
-        unbind()
-      }
-    })
-  })
+  await translationsLoading(i18n)
 }
 const html = ReactDOMServer.renderToString(<App />)
 ```
