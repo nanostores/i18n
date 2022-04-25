@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.5.1
+* Fixed `t.component` error in production.
+
 ## 0.5
 * Added `translationsLoading` helper.
 
