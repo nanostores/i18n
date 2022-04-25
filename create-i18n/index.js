@@ -5,7 +5,7 @@ export function createI18n(locale, opts) {
   let processors = opts.processors || []
   let loading = atom(true)
   let mounted = new Set()
-  let fetched = new Set()
+  let requested = new Set()
 
   let define = (componentName, base) => {
     let transforms = {}
@@ -57,19 +57,19 @@ export function createI18n(locale, opts) {
     setTranslation(baseLocale)
 
     onMount(t, () => {
-      mounted.add(t.component)
+      mounted.add(componentName)
       let code = locale.get()
       let isCached =
         code === baseLocale ||
-        (define.cache[code] && define.cache[code][t.component])
+        (define.cache[code] && define.cache[code][componentName])
       if (isCached) {
         setTranslation(code)
       } else {
-        let prefix = t.component.split('/')[0]
-        if (!fetched.has(prefix)) {
-          fetched.add(prefix)
-          getTranslation(code, [t.component]).then(() => {
-            fetched.delete(prefix)
+        let prefix = componentName.split('/')[0]
+        if (!requested.has(prefix)) {
+          requested.add(prefix)
+          getTranslation(code, [componentName]).then(() => {
+            requested.delete(prefix)
           })
         }
       }
@@ -84,7 +84,7 @@ export function createI18n(locale, opts) {
         }
       })
       return () => {
-        mounted.delete(t.component)
+        mounted.delete(componentName)
         unbindLoading()
       }
     })
