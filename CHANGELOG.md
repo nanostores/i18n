@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.6
+* Dropped Node.js 12 support.
+* Moved to Nano Stores 0.6.
+
 ## 0.5.1
 * Fixed `t.component` error in production.
 
