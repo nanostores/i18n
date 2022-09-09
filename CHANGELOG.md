@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7
+* Moved to Nano Stores 0.7.
+
 ## 0.6
 * Dropped Node.js 12 support.
 * Moved to Nano Stores 0.6.
