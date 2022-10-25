@@ -1,6 +1,6 @@
-import { ReadableAtom, Atom } from 'nanostores'
+import { WritableAtom, Atom } from 'nanostores'
 
-export type LocaleStore<Locale extends string = string> = ReadableAtom<Locale>
+export type LocaleStore<Locale extends string = string> = WritableAtom<Locale>
 
 /**
  * Choose the first available locale from difference sources. Like use locale
