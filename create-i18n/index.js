@@ -26,7 +26,7 @@ export function createI18n(locale, opts) {
       if (define.cache[baseLocale][componentName]) {
         if (import.meta && (import.meta.hot || import.meta.webpackHot)) {
           /* c8 ignore next 3 */
-          for (let i of define.cache) {
+          for (let i in define.cache) {
             delete define.cache[i][componentName]
           }
         } else {
