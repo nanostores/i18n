@@ -92,6 +92,7 @@ export function createI18n(locale, opts) {
   }
 
   define.cache = {
+    ...opts.cache,
     [baseLocale]: {}
   }
   define.loading = loading
