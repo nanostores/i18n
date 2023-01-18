@@ -486,8 +486,8 @@ If not in cache:
 
 ### Server-Side Rendering
 
-For SSR you may want to use own `locale` store and custom `i18n` instance
-with another way to load translations.
+For SSR you may want to use own `locale` store and set `cache` options
+in custom `i18n` to avoid translations loading:
 
 ```js
 import { createI18n } from '@nanostores/i18n'
@@ -498,8 +498,11 @@ let locale, i18n
 if (isServer) {
   locale = atom(db.getUser(userId).locale || parseHttpLocaleHeader())
   i18n = createI18n(locale, {
-    async get (code) {
-      return JSON.parse(await readFile(`public/translations/${code}.json`))
+    async get () {
+      return {}
+    },
+    cache: {
+      fr: frMessages
     }
   })
 } else {
@@ -507,17 +510,6 @@ if (isServer) {
 }
 
 export { locale, i18n }
-```
-
-You may need to wait for translation loading before rendering the HTML.
-
-```js
-import { translationsLoading } from '@nanostores/i18n'
-
-if (i18n.loading.get()) {
-  await translationsLoading(i18n)
-}
-const html = ReactDOMServer.renderToString(<App />)
 ```
 
 
