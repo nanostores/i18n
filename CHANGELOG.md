@@ -2,7 +2,7 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 0.7.1
-* Fix cache cleaning (by Azat S).
+* Fixed cache cleaning (by Azat S).
 
 ## 0.7
 * Moved to Nano Stores 0.7.
