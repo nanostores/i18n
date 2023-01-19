@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.8
+* Added `cache` option for SSR (by Vladislav Andryushin).
+
 ## 0.7.1
 * Fixed cache cleaning (by Azat S).
 
