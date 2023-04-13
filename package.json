@@ -31,6 +31,12 @@
   "engines": {
     "node": "^16.0.0 || >=18.0.0"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ai"
+    }
+  ],
   "peerDependencies": {
     "nanostores": "^0.7.0"
   },
