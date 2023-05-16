@@ -24,6 +24,7 @@ import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   title: 'Post details',
+  // You need to manually mark interpolation like {at} for better TS support
   published: params<{ at: string }>('Was published at {at}'),
   comments: count({
     one: '{count} comment',
@@ -45,11 +46,16 @@ export const Post = ({ author, comments, publishedAt }) => {
 ```ts
 // stores/i18n.js
 import { createI18n, localeFrom, browser, formatter } from '@nanostores/i18n'
-import localeSettings from './locale-settings.js'
+import { persistentAtom } from '@nanostores/persistent'
+
+export const setting = persistentAtom<string | undefined>('locale', undefined)
 
 export const locale = localeFrom(
-  localeSettings,                            // User’s locale from localStorage
-  browser({ available: ['en', 'fr', 'ru'] }) // or browser’s locale auto-detect
+  setting,  // User’s locale from localStorage
+  browser({ // or browser’s locale auto-detect
+    available: ['en', 'fr', 'ru'],
+    fallback: 'en'
+  })
 )
 
 export const format = formatter(locale)
