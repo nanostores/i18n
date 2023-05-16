@@ -112,7 +112,7 @@ Current locale should be stored in store. We have `localeFrom()` store
 builder to find user’s locale in first available source:
 
 ```js
-import { localFrom } from '@nanostores/i18n'
+import { localeFrom } from '@nanostores/i18n'
 
 export const locale = localeFrom(store1, store2, store3)
 ```
