@@ -24,7 +24,7 @@ import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   title: 'Post details',
-  published: params<{ at: string }>('Was published at {at}')
+  published: params<{ at: string }>('Was published at {at}'),
   comments: count({
     one: '{count} comment',
     many: '{count} comments'
