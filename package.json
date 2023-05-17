@@ -96,12 +96,12 @@
     {
       "name": "Minimum",
       "import": "{ localeFrom, createI18n }",
-      "limit": "654 B"
+      "limit": "658 B"
     },
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor }",
-      "limit": "1088 B"
+      "limit": "1091 B"
     }
   ],
   "clean-publish": {

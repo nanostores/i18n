@@ -45,7 +45,7 @@ export function createI18n(locale, opts) {
     function setTranslation(code) {
       let translations = {
         ...define.cache[baseLocale][componentName],
-        ...define.cache[code][componentName]
+        ...define.cache[code]?.[componentName]
       }
       for (let i in transforms) {
         let nodeTransform = transforms[i]
@@ -54,7 +54,7 @@ export function createI18n(locale, opts) {
       }
       t.set(translations)
     }
-    setTranslation(baseLocale)
+    setTranslation(locale.get())
 
     onMount(t, () => {
       mounted.add(componentName)
