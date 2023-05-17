@@ -265,7 +265,7 @@ for TypeScript types and translation functions (`count()`, `params()`, etc).
 ```ts
 export const messages = i18n('post', {
   title: 'Post details',
-  published: params<{ at: string }>('Was published at {at}')
+  published: params<{ at: string }>('Was published at {at}'),
   comments: count({
     one: '{count} comment',
     many: '{count} comments'
@@ -283,7 +283,7 @@ export const messages = i18n('post', {
     "comments": {
       "one": "{count} комментарий",
       "few": "{count} комментария",
-      "many": "{count} комментариев",
+      "many": "{count} комментариев"
     }
   }
 }
@@ -346,7 +346,7 @@ export const Robots = ({ robots }) => {
     "howMany": {
       "one": "{count} робот",
       "few": "{count} робота",
-      "many": "{count} роботов",
+      "many": "{count} роботов"
     }
   }
 }
@@ -395,7 +395,7 @@ but about translation process.
    import { messagesToJSON } from '@nanostores/i18n'
 
    const files = await glob('src/*.tsx')
-   const components = await Promise.all(files.map(file => {
+   const components = await Promise.all(files.map(async (file) => {
      return (await import(file).messages)
    }))
    const json = messagesToJSON(...components)
