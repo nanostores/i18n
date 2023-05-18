@@ -10,9 +10,8 @@ Uses [Nano Stores] state manager and [JS Internationalization API].
   Zero dependencies.
 * Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
 * Supports **tree-shaking** and translation **on-demand download**.
-* **Plain JSON** translations compatible with
-  online translation services like [Weblate]
-  (only flat JSON is supported).
+* **Plain flat JSON** translations compatible with
+  online translation services like [Weblate].
 * Out of the box **TypeScript** support for translations.
 * **Flexible variable translations**. You can change translation,
   for instance, depends on screen size.
@@ -290,9 +289,10 @@ export const messages = i18n('post', {
 }
 ```
 
-**Note:**: translations cannot have a higher level of nesting than the example
-above. This means that translations are limited to a single level for each
-component; pluralization does not introduce additional nesting.
+Translations should be a flat structure (key → translation), without a nested
+keys. pluralization (`count()`) and other helpers doesn’t introduce
+additional nesting, since they are count as an translation.
+
 
 #### Parameters
 
