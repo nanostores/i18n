@@ -82,7 +82,7 @@ export function createI18n<Locale extends string, BaseLocale extends Locale>(
   locale: LocaleStore<Locale>,
   opts: {
     baseLocale?: BaseLocale
-    cache?: Record<Locale, Translations>
+    cache?: Record<Locale, Components>
     get: TranslationLoader<Locale>
     processors?: Processor[]
   }
