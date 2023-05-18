@@ -1,4 +1,4 @@
-import { ReadableAtom, Atom } from 'nanostores'
+import type { ReadableAtom, Atom } from 'nanostores'
 
 export type LocaleStore<Locale extends string = string> = ReadableAtom<Locale>
 

@@ -1,10 +1,10 @@
-import { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
+import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
+import type { TranslationFunction } from '../create-i18n'
 
 import { params } from '.'
 // eslint-disable-next-line import/extensions
 import { count } from '../count'
 // eslint-disable-next-line import/extensions
-import { TranslationFunction } from '../create-i18n'
 
 const f1 = params<{ category: number }>('Pages in {category}')
 const f2 = params<{ category: number }>(

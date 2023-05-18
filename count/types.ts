@@ -1,10 +1,7 @@
-import { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
+import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
+import type { TranslationFunction } from '../create-i18n'
 
-import { count } from '.'
-// eslint-disable-next-line import/extensions
-import { TranslationFunction } from '../create-i18n'
-// eslint-disable-next-line import/extensions
-import { params } from '../params'
+import { count, params } from '..'
 
 const f1 = count({
   one: 'One page',

@@ -1,4 +1,4 @@
-import { I18n } from '../create-i18n/index.js'
+import type { I18n } from '../create-i18n/index.js'
 
 /**
  * Return a promise until current translation loading will be finished.

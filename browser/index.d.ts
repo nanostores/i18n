@@ -1,4 +1,4 @@
-import { ReadableAtom } from 'nanostores'
+import type { ReadableAtom } from 'nanostores'
 
 type AutodetectOpts<Locales extends readonly string[]> = Extract<
   Locales[number],

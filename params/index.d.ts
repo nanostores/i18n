@@ -1,4 +1,4 @@
-import {
+import type {
   TranslationFunctionAlternatives,
   TranslationFunction
 } from '../create-i18n/index.js'

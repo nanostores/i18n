@@ -1,9 +1,11 @@
+import type { ComponentsJSON } from '../index.js'
+
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { equal } from 'uvu/assert'
 import { delay } from 'nanodelay'
 import { test } from 'uvu'
 
-import { ComponentsJSON, createI18n } from '../index.js'
+import { createI18n } from '../index.js'
 
 let getCalls: object[] = []
 let resolveGet: (translations: ComponentsJSON[]) => void = () => {}

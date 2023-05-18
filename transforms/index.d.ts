@@ -1,4 +1,7 @@
-import { TranslationFunction, TranslationJSON } from '../create-i18n/index.js'
+import type {
+  TranslationFunction,
+  TranslationJSON
+} from '../create-i18n/index.js'
 
 export type TranslationTransform<
   Arguments extends any[],

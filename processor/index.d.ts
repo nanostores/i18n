@@ -1,6 +1,8 @@
-import { ReadableAtom } from 'nanostores'
-
-import { TranslationJSON, TranslationFunction } from '../create-i18n/index.js'
+import type { ReadableAtom } from 'nanostores'
+import type {
+  TranslationJSON,
+  TranslationFunction
+} from '../create-i18n/index.js'
 
 export interface Processor<Key extends string = string> {
   from: ReadableAtom<Key>

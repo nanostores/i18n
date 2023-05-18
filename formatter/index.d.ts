@@ -1,6 +1,5 @@
-import { ReadableAtom } from 'nanostores'
-
-import { LocaleStore } from '../locale-from/index.js'
+import type { ReadableAtom } from 'nanostores'
+import type { LocaleStore } from '../locale-from/index.js'
 
 export interface Formatter {
   number(num: number, opts?: Intl.NumberFormatOptions): string

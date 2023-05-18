@@ -1,9 +1,11 @@
+import type { ComponentsJSON } from '../index.js'
+
 import { equal } from 'uvu/assert'
 import { delay } from 'nanodelay'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
 
-import { createI18n, translationsLoading, ComponentsJSON } from '../index.js'
+import { createI18n, translationsLoading } from '../index.js'
 
 test('waits for translation loading', async () => {
   let locale = atom('en')

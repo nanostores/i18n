@@ -1,7 +1,6 @@
-import { ReadableAtom } from 'nanostores'
-
-import { LocaleStore } from '../locale-from/index.js'
-import { Processor } from '../processor/index.js'
+import type { ReadableAtom } from 'nanostores'
+import type { LocaleStore } from '../locale-from/index.js'
+import type { Processor } from '../processor/index.js'
 
 export type TranslationJSON = string | TranslationsJSON
 

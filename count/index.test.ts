@@ -1,8 +1,10 @@
+import type { ComponentsJSON } from '../index.js'
+
 import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
 
-import { createI18n, count, ComponentsJSON } from '../index.js'
+import { createI18n, count } from '../index.js'
 
 let resolveGet: (translations: ComponentsJSON) => void = () => {}
 

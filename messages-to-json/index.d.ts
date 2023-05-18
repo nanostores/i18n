@@ -1,4 +1,4 @@
-import { Messages, ComponentsJSON } from '../create-i18n/index.js'
+import type { Messages, ComponentsJSON } from '../create-i18n/index.js'
 
 /**
  * Convert base transations to JSON.

@@ -1,10 +1,13 @@
-import { atom, StoreValue, STORE_UNMOUNT_DELAY } from 'nanostores'
+import type { StoreValue } from 'nanostores'
+import type { ComponentsJSON } from '../index.js'
+
+import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { restoreAll, spyOn } from 'nanospy'
 import { equal, match } from 'uvu/assert'
 import { delay } from 'nanodelay'
 import { test } from 'uvu'
 
-import { ComponentsJSON, createI18n, params, count } from '../index.js'
+import { createI18n, params, count } from '../index.js'
 
 let getCalls: string[] = []
 let resolveGet: (translations: ComponentsJSON) => void = () => {}
