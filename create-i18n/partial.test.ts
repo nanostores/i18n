@@ -77,13 +77,13 @@ test('loads translations partial', async () => {
   equal(post.get(), { title: 'Публикация' })
   equal(heading.get(), { title: 'Заголовок' })
   equal(comment.get(), { title: 'Комментарий' })
-  events = []
+
+  equal(i18n.loading.get(), false)
+  equal(getCalls, [])
 })
 
 test('after mount should load translations with different prefix', async () => {
-  equal(i18n.loading.get(), false)
-  equal(getCalls, [])
-
+  events = []
   let userUnbind = user.subscribe(t => {
     events.push(t.title)
   })
@@ -113,20 +113,20 @@ test('after mount should load translations with different prefix', async () => {
   ])
   userUnbind()
   gamesUnbind()
-  events = []
 })
 
 test("component mounting shouldn't load cached translations", async () => {
+  events = []
   commentUnbind = comment.subscribe(t => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), false)
   equal(getCalls, [])
   equal(events, ['Комментарий'])
-  events = []
 })
 
 test('loads translation after component mounted', async () => {
+  events = []
   message.subscribe(t => {
     events.push(t.title)
   })
@@ -148,18 +148,18 @@ test('loads translation after component mounted', async () => {
     'Сообщение'
   ])
   equal(message.get(), { title: 'Сообщение' })
-  events = []
 })
 
 test("locale changing shouldn't load cached translations", async () => {
+  events = []
   locale.set('en')
   equal(i18n.loading.get(), false)
   equal(getCalls, [])
   equal(events, ['Post', 'Title', 'Comment', 'Message'])
-  events = []
 })
 
 test('locale changing should load translations for mounted only', async () => {
+  events = []
   postUnbind()
   headingUnbind()
   commentUnbind()
@@ -182,10 +182,10 @@ test('locale changing should load translations for mounted only', async () => {
   equal(heading.get(), { title: 'Title' })
   equal(comment.get(), { title: 'Comment' })
   equal(message.get(), { title: 'Le message' })
-  events = []
 })
 
 test('if get returns array, it transforms to object', async () => {
+  events = []
   locale.set('en')
 
   post.subscribe(t => {

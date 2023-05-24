@@ -1,11 +1,42 @@
-import { atom, onMount } from 'nanostores'
+import { atom, onMount, computed } from 'nanostores'
 
 export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
   let processors = opts.processors || []
-  let loading = atom(true)
+  let loadedLocale = atom(baseLocale)
   let mounted = new Set()
   let requested = new Set()
+
+  async function getTranslation(code, components) {
+    let newComponents = []
+    let newPrefixes = []
+    for (let name of components) {
+      let prefix = name.split('/')[0]
+      if (!requested.has(prefix)) {
+        newComponents.push(name)
+        newPrefixes.push(prefix)
+      }
+    }
+    if (newComponents.length === 0) return
+    loadedLocale.set(false)
+
+    for (let prefix of newPrefixes) requested.add(prefix)
+    let translations = await opts.get(code, newComponents)
+    if (Array.isArray(translations)) {
+      translations = translations.reduce((obj, item) =>
+        Object.assign(obj, item)
+      )
+    }
+    define.cache[code] = { ...define.cache[code], ...translations }
+    for (let name in translations) {
+      let prefix = name.split('/')[0]
+      requested.delete(prefix)
+    }
+
+    if (code === locale.get() && requested.size === 0) {
+      loadedLocale.set(code)
+    }
+  }
 
   let define = (componentName, base) => {
     let transforms = {}
@@ -65,27 +96,19 @@ export function createI18n(locale, opts) {
       if (isCached) {
         setTranslation(code)
       } else {
-        let prefix = componentName.split('/')[0]
-        if (!requested.has(prefix)) {
-          requested.add(prefix)
-          getTranslation(code, [componentName]).then(() => {
-            requested.delete(prefix)
-          })
-        }
+        getTranslation(code, [componentName])
       }
       for (let i in processors) {
         processors[i].from.listen(() => {
           setTranslation(code)
         })
       }
-      let unbindLoading = loading.listen(isLoading => {
-        if (!isLoading) {
-          setTranslation(locale.get())
-        }
+      let unbindLoaded = loadedLocale.listen(loaded => {
+        if (loaded) setTranslation(loaded)
       })
       return () => {
         mounted.delete(componentName)
-        unbindLoading()
+        unbindLoaded()
       }
     })
     return t
@@ -95,31 +118,21 @@ export function createI18n(locale, opts) {
     ...opts.cache,
     [baseLocale]: {}
   }
-  define.loading = loading
+  define.loading = computed([locale, loadedLocale], (current, loaded) => {
+    return current !== loaded
+  })
 
-  async function getTranslation(code, components) {
-    loading.set(true)
-    let translations = await opts.get(code, components)
-    if (Array.isArray(translations)) {
-      translations = translations.reduce((obj, item) =>
-        Object.assign(obj, item)
-      )
-    }
-    define.cache[code] = { ...define.cache[code], ...translations }
-    if (code === locale.get()) loading.set(false)
-  }
-
-  locale.listen(code => {
+  locale.subscribe(code => {
     let nonCached = Array.from(mounted).filter(
       component => !(define.cache[code] && define.cache[code][component])
     )
+    requested.clear()
     if (nonCached.length) {
       getTranslation(code, nonCached)
     } else {
-      loading.set(false)
+      loadedLocale.set(code)
     }
   })
 
-  loading.set(false)
   return define
 }

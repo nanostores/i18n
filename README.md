@@ -6,8 +6,7 @@
 Tiny and flexible JS library to make your web application translatable.
 Uses [Nano Stores] state manager and [JS Internationalization API].
 
-* **Small.** Between 654 and 1088 bytes (minified and gzipped).
-  Zero dependencies.
+* **Small.** Around 1 KB (minified and gzipped). Zero dependencies.
 * Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
 * Supports **tree-shaking** and translation **on-demand download**.
 * **Plain flat JSON** translations compatible with

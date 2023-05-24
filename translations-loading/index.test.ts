@@ -15,7 +15,7 @@ test('waits for translation loading', async () => {
       return new Promise(resolve => {
         finish = () => {
           resolve({
-            component: {
+            components: {
               title: ''
             }
           })
