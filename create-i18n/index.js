@@ -85,7 +85,12 @@ export function createI18n(locale, opts) {
       }
       t.set(translations)
     }
-    setTranslation(baseLocale)
+
+    if (locale.get() !== baseLocale && define.cache[locale.get()]) {
+      setTranslation(locale.get())
+    } else {
+      setTranslation(baseLocale)
+    }
 
     onMount(t, () => {
       mounted.add(componentName)
