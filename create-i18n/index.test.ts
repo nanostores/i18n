@@ -245,4 +245,16 @@ test('tracks double definition', () => {
   match(warn.calls[0][0], /defined multiple times/)
 })
 
+test('cache is used on first use', async () => {
+  let locale = atom('ru')
+  let i18n = createI18n(locale, {
+    get,
+    cache: {
+      ru: { games: { title: 'Игры' } }
+    }
+  })
+  let gamesWithCache = i18n('games', { title: 'Games' })
+  equal(gamesWithCache.value?.title, 'Игры')
+})
+
 test.run()
