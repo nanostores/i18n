@@ -44,7 +44,7 @@
     "@logux/eslint-config": "^50.0.0",
     "@nanostores/persistent": "^0.9.0",
     "@size-limit/preset-small-lib": "^8.2.4",
-    "@types/node": "^20.2.3",
+    "@types/node": "^20.2.4",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "c8": "^7.13.0",
