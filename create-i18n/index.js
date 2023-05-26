@@ -1,11 +1,11 @@
-import { atom, onMount, computed } from 'nanostores'
+import { atom, onMount } from 'nanostores'
 
 export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
   let processors = opts.processors || []
-  let loadedLocale = atom(baseLocale)
-  let mounted = new Set()
+  let mounted = []
   let requested = new Set()
+  let rerenders = new Set()
 
   async function getTranslation(code, components) {
     let newComponents = []
@@ -18,7 +18,7 @@ export function createI18n(locale, opts) {
       }
     }
     if (newComponents.length === 0) return
-    loadedLocale.set(false)
+    define.loading.set(true)
 
     for (let prefix of newPrefixes) requested.add(prefix)
     let translations = await opts.get(code, newComponents)
@@ -34,7 +34,8 @@ export function createI18n(locale, opts) {
     }
 
     if (code === locale.get() && requested.size === 0) {
-      loadedLocale.set(code)
+      rerenders.forEach(rerender => rerender(code))
+      define.loading.set(false)
     }
   }
 
@@ -93,7 +94,7 @@ export function createI18n(locale, opts) {
     }
 
     onMount(t, () => {
-      mounted.add(componentName)
+      mounted.push(componentName)
       let code = locale.get()
       let isCached =
         code === baseLocale ||
@@ -108,12 +109,10 @@ export function createI18n(locale, opts) {
           setTranslation(code)
         })
       }
-      let unbindLoaded = loadedLocale.listen(loaded => {
-        if (loaded) setTranslation(loaded)
-      })
+      rerenders.add(setTranslation)
       return () => {
-        mounted.delete(componentName)
-        unbindLoaded()
+        mounted = mounted.filter(i => i !== componentName)
+        rerenders.delete(setTranslation)
       }
     })
     return t
@@ -123,19 +122,18 @@ export function createI18n(locale, opts) {
     ...opts.cache,
     [baseLocale]: {}
   }
-  define.loading = computed([locale, loadedLocale], (current, loaded) => {
-    return current !== loaded
-  })
+  define.loading = atom(false)
 
   locale.subscribe(code => {
-    let nonCached = Array.from(mounted).filter(
-      component => !(define.cache[code] && define.cache[code][component])
-    )
     requested.clear()
+    let nonCached = define.cache[code]
+      ? mounted.filter(component => !define.cache[code][component])
+      : mounted
     if (nonCached.length) {
       getTranslation(code, nonCached)
     } else {
-      loadedLocale.set(code)
+      rerenders.forEach(rerender => rerender(code))
+      define.loading.set(false)
     }
   })
 
