@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "unit": "tsm node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
-    "test": "c8 yarn unit && eslint . && check-dts && size-limit",
+    "test": "c8 yarn unit && eslint . --report-unused-disable-directives && check-dts && size-limit",
     "start": "vite demo/"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
