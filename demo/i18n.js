@@ -1,6 +1,6 @@
 import { persistentAtom } from '@nanostores/persistent'
 
-import { createI18n, localeFrom, browser, formatter } from '../index.js'
+import { browser, createI18n, formatter, localeFrom } from '../index.js'
 
 export let localeSetting = persistentAtom('locale')
 
@@ -16,8 +16,8 @@ export let i18n = createI18n(locale, {
         setTimeout(() => {
           resolve({
             page: {
-              title: 'Демо интернационализации',
-              desc: 'Сегодня {date}'
+              desc: 'Сегодня {date}',
+              title: 'Демо интернационализации'
             }
           })
         }, 1000)

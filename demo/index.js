@@ -1,2 +1,2 @@
-import './page.js'
 import './footer.js'
+import './page.js'

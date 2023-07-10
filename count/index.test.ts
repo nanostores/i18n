@@ -1,10 +1,9 @@
-import type { ComponentsJSON } from '../index.js'
-
-import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
-import { createI18n, count } from '../index.js'
+import { count, createI18n } from '../index.js'
+import type { ComponentsJSON } from '../index.js'
 
 let resolveGet: (translations: ComponentsJSON) => void = () => {}
 
@@ -23,12 +22,12 @@ let i18n = createI18n(locale, { get })
 
 test('uses pluralization rules', async () => {
   let messages = i18n('templates', {
-    robots: count({
-      one: '{count} robot',
-      many: '{count} robots'
-    }),
     onlyMany: count({
       many: 'many'
+    }),
+    robots: count({
+      many: '{count} robots',
+      one: '{count} robot'
     })
   })
 
@@ -36,13 +35,13 @@ test('uses pluralization rules', async () => {
 
   await getResponse({
     templates: {
-      robots: {
-        one: '{count} робот',
-        few: '{count} робота',
-        many: '{count} роботов'
-      },
       onlyMany: {
         many: 'много'
+      },
+      robots: {
+        few: '{count} робота',
+        many: '{count} роботов',
+        one: '{count} робот'
       }
     }
   })

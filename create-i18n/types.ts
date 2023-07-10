@@ -1,4 +1,4 @@
-import { localeFrom, browser, createI18n, params, count } from '../index.js'
+import { browser, count, createI18n, localeFrom, params } from '../index.js'
 
 let locale = localeFrom(
   browser({
@@ -33,17 +33,17 @@ let i18n2 = createI18n(locale, {
 })
 
 let messages2 = i18n2('post', {
-  title: params('Title: {name}'),
-  posts: count({
-    one: '1 post',
-    many: '{count} posts'
-  }),
   pages: params<{ category: number }>(
     count({
-      one: 'One page in {category}',
-      many: '{count} pages in {category}'
+      many: '{count} pages in {category}',
+      one: 'One page in {category}'
     })
-  )
+  ),
+  posts: count({
+    many: '{count} posts',
+    one: '1 post'
+  }),
+  title: params('Title: {name}')
 })
 let t = messages2.get()
 testString(t.title({ name: 'Post' }))

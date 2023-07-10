@@ -1,4 +1,4 @@
-import { transform, strings } from '../transforms/index.js'
+import { strings, transform } from '../transforms/index.js'
 
 export const count = transform((locale, translation, num) => {
   let form = new Intl.PluralRules(locale).select(num)

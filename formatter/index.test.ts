@@ -1,8 +1,7 @@
 import type { StoreValue } from 'nanostores'
-
-import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
 import { formatter } from '../index.js'
 

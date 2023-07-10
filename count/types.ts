@@ -1,16 +1,16 @@
 import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
-import type { TranslationFunction } from '../create-i18n'
 
 import { count, params } from '..'
+import type { TranslationFunction } from '../create-i18n'
 
 const f1 = count({
-  one: 'One page',
-  many: '{count} pages'
+  many: '{count} pages',
+  one: 'One page'
 })
 const f2 = count(
   params<{ category: number }>({
-    one: 'One page in {category}',
-    many: '{count} pages in {category}'
+    many: '{count} pages in {category}',
+    one: 'One page in {category}'
   })
 )
 const f21 = f2({ category: 12 })

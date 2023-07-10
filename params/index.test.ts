@@ -1,6 +1,6 @@
-import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
 import { createI18n, params } from '../index.js'
 
@@ -11,10 +11,10 @@ let i18n = createI18n(locale, {
 
 test('replaces templates', () => {
   let messages = i18n('templates', {
-    multiple: params('{one} {one} {two}'),
-    noParams: params('no params'),
     doubleEscaped1: params<{ '{param}': 1 }>('{{param}}'),
-    doubleEscaped2: params<{ param: 1 }>('{{param}}')
+    doubleEscaped2: params<{ param: 1 }>('{{param}}'),
+    multiple: params('{one} {one} {two}'),
+    noParams: params('no params')
   })
   equal(messages.get().multiple({ one: 1, two: 2 }), '1 1 2')
   equal((messages as any).value.multiple({ one: 1, two: 2 }), '1 1 2')

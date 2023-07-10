@@ -1,4 +1,5 @@
 import type { ReadableAtom } from 'nanostores'
+
 import type { LocaleStore } from '../locale-from/index.js'
 import type { Processor } from '../processor/index.js'
 
@@ -14,7 +15,7 @@ export interface ComponentsJSON {
 
 export interface TranslationFunction<
   Arguments extends any[] = any[],
-  Output = TranslationJSON | Translation
+  Output = Translation | TranslationJSON
 > {
   (...args: Arguments): Output
 }
@@ -40,8 +41,8 @@ export type Messages<Body extends Translations = Translations> =
   ReadableAtom<Body>
 
 export interface I18n<Locale extends string = string> {
-  loading: ReadableAtom<boolean>
   cache: Record<Locale, Translations>
+  loading: ReadableAtom<boolean>
 
   <Body extends Translations>(
     componentName: string,

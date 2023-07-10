@@ -1,9 +1,9 @@
-import { i18n, format } from './i18n.js'
 import { params } from '../index.js'
+import { format, i18n } from './i18n.js'
 
 let messages = i18n('page', {
-  title: 'I18n demo',
-  desc: params('Today is {date}')
+  desc: params('Today is {date}'),
+  title: 'I18n demo'
 })
 
 let title = document.querySelector('h1')
@@ -14,9 +14,9 @@ messages.subscribe(t => {
   title.innerText = t.title
   desc.innerText = t.desc({
     date: time(new Date(), {
-      year: 'numeric',
+      day: 'numeric',
       month: 'long',
-      day: 'numeric'
+      year: 'numeric'
     })
   })
 })

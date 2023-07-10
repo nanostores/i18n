@@ -1,11 +1,11 @@
-import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { equal } from 'uvu/assert'
 import { delay } from 'nanodelay'
+import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
 import { localeFrom } from '../index.js'
 
-type Locale = 'en' | 'ru' | 'fr'
+type Locale = 'en' | 'fr' | 'ru'
 
 test('subscribes to stores before store with locale', async () => {
   let a = atom<Locale | undefined>()

@@ -1,17 +1,17 @@
 import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
 
 import {
-  type ExtractTemplateParams,
-  type TranslationFunction,
   count,
-  params
+  type ExtractTemplateParams,
+  params,
+  type TranslationFunction
 } from '../index.js'
 
 const f1 = params('Pages in {category}')
 const f2 = params<{ category: number }>(
   count({
-    one: 'One page in {category}',
-    many: '{count} pages in {category}'
+    many: '{count} pages in {category}',
+    one: 'One page in {category}'
   })
 )
 const f21 = f2({ category: 12 })
@@ -26,7 +26,7 @@ type cases = [
   Assert<
     IsExact<
       typeof f1,
-      TranslationFunction<[{ category: string | number }], string>
+      TranslationFunction<[{ category: number | string }], string>
     >
   >,
   Assert<IsExact<ReturnType<typeof f1>, string>>,
@@ -59,29 +59,29 @@ type cases = [
   Assert<
     IsExact<
       ExtractTemplateParams<'test {param_1} {param_2}'>,
-      { param_1: string | number; param_2: string | number }
+      { param_1: number | string; param_2: number | string }
     >
   >,
   Assert<
     IsExact<
       ExtractTemplateParams<'{param_1} {param_2}'>,
-      { param_1: string | number; param_2: string | number }
+      { param_1: number | string; param_2: number | string }
     >
   >,
   Assert<
-    IsExact<ExtractTemplateParams<'{param_1}'>, { param_1: string | number }>
+    IsExact<ExtractTemplateParams<'{param_1}'>, { param_1: number | string }>
   >,
   Assert<IsExact<ExtractTemplateParams<'test'>, {}>>,
   Assert<
     IsExact<
       ExtractTemplateParams<'{param_1} test'>,
-      { param_1: string | number }
+      { param_1: number | string }
     >
   >,
   Assert<
     IsExact<
       ExtractTemplateParams<'{param_1} {param_2} test'>,
-      { param_1: string | number; param_2: string | number }
+      { param_1: number | string; param_2: number | string }
     >
   >
 ]

@@ -1,7 +1,8 @@
 import type { ReadableAtom } from 'nanostores'
+
 import type {
-  TranslationJSON,
-  TranslationFunction
+  TranslationFunction,
+  TranslationJSON
 } from '../create-i18n/index.js'
 
 export interface Processor<Key extends string = string> {

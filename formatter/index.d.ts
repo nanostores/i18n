@@ -1,4 +1,5 @@
 import type { ReadableAtom } from 'nanostores'
+
 import type { LocaleStore } from '../locale-from/index.js'
 
 export interface Formatter {

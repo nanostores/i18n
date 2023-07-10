@@ -1,11 +1,11 @@
 import type {
-  TranslationFunctionAlternatives,
-  TranslationFunction
+  TranslationFunction,
+  TranslationFunctionAlternatives
 } from '../create-i18n/index.js'
 
 type ExtractTemplateParams<Str extends string> =
   Str extends `${infer Pre}{${infer Param}}${infer Post}`
-    ? { [key in Param]: string | number } & ExtractTemplateParams<Pre> &
+    ? { [key in Param]: number | string } & ExtractTemplateParams<Pre> &
         ExtractTemplateParams<Post>
     : {}
 
@@ -36,13 +36,13 @@ interface Params {
       : [ExtractTemplateParams<Input>],
     string
   >
-  <Parameters extends Record<string, string | number>>(
+  <Parameters extends Record<string, number | string>>(
     input: string
   ): TranslationFunction<[Parameters], string>
-  <Parameters extends Record<string, string | number>>(
+  <Parameters extends Record<string, number | string>>(
     input: TranslationFunction<[number], string>
   ): TranslationFunctionAlternatives<Parameters>
-  <Parameters extends Record<string, string | number>>(
+  <Parameters extends Record<string, number | string>>(
     input: any
   ): TranslationFunction<[Parameters], any>
 }

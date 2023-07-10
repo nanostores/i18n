@@ -1,6 +1,6 @@
 import { browser } from '../index.js'
 
-function test(locale: 'ru' | 'en'): void {
+function test(locale: 'en' | 'ru'): void {
   console.log(locale)
 }
 

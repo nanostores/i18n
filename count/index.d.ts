@@ -1,13 +1,13 @@
 import type {
-  TranslationJSON,
   TranslationFunction,
-  TranslationFunctionAlternatives
+  TranslationFunctionAlternatives,
+  TranslationJSON
 } from '../create-i18n/index.js'
 
 export type CountInput = {
-  one?: TranslationJSON
   few?: TranslationJSON
   many: TranslationJSON
+  one?: TranslationJSON
 }
 
 interface Count {
@@ -33,7 +33,7 @@ interface Count {
    * @param input Pluralization variants.
    * @return Transform for translation.
    */
-  <Parameters extends Record<string, string | number>>(
+  <Parameters extends Record<string, number | string>>(
     input: TranslationFunction<[Parameters], string>
   ): TranslationFunctionAlternatives<Parameters>
   <Input extends CountInput>(input: Input): TranslationFunction<

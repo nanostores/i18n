@@ -1,4 +1,4 @@
-import { transform, strings } from '../transforms/index.js'
+import { strings, transform } from '../transforms/index.js'
 
 export const params = transform((locale, translation, values) => {
   return strings(translation, string => {

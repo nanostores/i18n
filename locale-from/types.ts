@@ -1,8 +1,8 @@
 import { atom } from 'nanostores'
 
-import { localeFrom, browser } from '../index.js'
+import { browser, localeFrom } from '../index.js'
 
-let localeSettings = atom<'ru' | 'en' | undefined>()
+let localeSettings = atom<'en' | 'ru' | undefined>()
 
 let locale = localeFrom(
   localeSettings,

@@ -1,11 +1,10 @@
-import type { ComponentsJSON } from '../index.js'
-
-import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { equal } from 'uvu/assert'
 import { delay } from 'nanodelay'
+import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
 import { createI18n } from '../index.js'
+import type { ComponentsJSON } from '../index.js'
 
 let getCalls: object[] = []
 let resolveGet: (translations: ComponentsJSON[]) => void = () => {}
@@ -34,7 +33,7 @@ test.after.each(() => {
   getCalls = []
 })
 
-let locale = atom<'en' | 'ru' | 'fr' | 'de'>('ru')
+let locale = atom<'de' | 'en' | 'fr' | 'ru'>('ru')
 let i18n = createI18n(locale, { get })
 let events: string[] = []
 
@@ -67,9 +66,9 @@ test("after mount shouldn't load translations with same prefix", async () => {
 test('loads translations partial', async () => {
   await getResponse([
     {
-      'main/post': { title: 'Публикация' },
+      'main/comment': { title: 'Комментарий' },
       'main/heading': { title: 'Заголовок' },
-      'main/comment': { title: 'Комментарий' }
+      'main/post': { title: 'Публикация' }
     }
   ])
   equal(i18n.loading.get(), false)
@@ -207,19 +206,19 @@ test('if get returns array, it transforms to object', async () => {
 
   await getResponse([
     {
-      'main/post': { title: 'Publikation' },
+      'main/comment': { title: 'Kommentar' },
       'main/heading': { title: 'Titel' },
-      'main/comment': { title: 'Kommentar' }
+      'main/post': { title: 'Publikation' }
     },
     {
       'chat/message': { title: 'Nachricht' }
     }
   ])
   equal(i18n.cache.de, {
-    'main/post': { title: 'Publikation' },
-    'main/heading': { title: 'Titel' },
+    'chat/message': { title: 'Nachricht' },
     'main/comment': { title: 'Kommentar' },
-    'chat/message': { title: 'Nachricht' }
+    'main/heading': { title: 'Titel' },
+    'main/post': { title: 'Publikation' }
   })
   equal(i18n.loading.get(), false)
   equal(events, [

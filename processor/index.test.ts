@@ -1,6 +1,6 @@
-import { equal } from 'uvu/assert'
 import { atom } from 'nanostores'
 import { test } from 'uvu'
+import { equal } from 'uvu/assert'
 
 import { createI18n, createProcessor } from '../index.js'
 

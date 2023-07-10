@@ -1,13 +1,12 @@
-import type { StoreValue } from 'nanostores'
-import type { ComponentsJSON } from '../index.js'
-
-import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { restoreAll, spyOn } from 'nanospy'
-import { equal, match } from 'uvu/assert'
 import { delay } from 'nanodelay'
+import { restoreAll, spyOn } from 'nanospy'
+import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
+import type { StoreValue } from 'nanostores'
 import { test } from 'uvu'
+import { equal, match } from 'uvu/assert'
 
-import { createI18n, params, count } from '../index.js'
+import { count, createI18n, params } from '../index.js'
+import type { ComponentsJSON } from '../index.js'
 
 let getCalls: string[] = []
 let resolveGet: (translations: ComponentsJSON) => void = () => {}
@@ -49,7 +48,7 @@ test('is loaded from the start', () => {
 })
 
 test('loads locale', async () => {
-  let locale = atom<'en' | 'ru' | 'fr'>('ru')
+  let locale = atom<'en' | 'fr' | 'ru'>('ru')
   let i18n = createI18n(locale, { get })
 
   equal(i18n.loading.get(), false)
@@ -92,7 +91,7 @@ test('loads locale', async () => {
 })
 
 test('is ready for locale change in the middle of request', async () => {
-  let locale = atom<'en' | 'ru' | 'fr'>('en')
+  let locale = atom<'en' | 'fr' | 'ru'>('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
@@ -108,7 +107,7 @@ test('is ready for locale change in the middle of request', async () => {
 })
 
 test('is ready for wrong response order', async () => {
-  let locale = atom<'en' | 'ru' | 'fr'>('en')
+  let locale = atom<'en' | 'fr' | 'ru'>('en')
   let i18n = createI18n(locale, { get })
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
@@ -160,7 +159,7 @@ test('mixes translations with base', async () => {
   let i18n = createI18n(locale, { get })
   equal(i18n.loading.get(), false)
 
-  let messages = i18n('component', { title: 'Title', other: 'Other' })
+  let messages = i18n('component', { other: 'Other', title: 'Title' })
   let events: string[] = []
   messages.subscribe(t => {
     events.push(t.other)
@@ -184,8 +183,8 @@ test('applies transforms', async () => {
   let messages = i18n('component', {
     pages: params<{ category: number }>(
       count({
-        one: 'One page in {category}',
-        many: '{count} pages in {category}'
+        many: '{count} pages in {category}',
+        one: 'One page in {category}'
       })
     )
   })
@@ -202,9 +201,9 @@ test('applies transforms', async () => {
   await getResponse({
     component: {
       pages: {
-        one: '{count} страница в {category}',
         few: '{count} страницы в {category}',
-        many: '{count} страниц в {category}'
+        many: '{count} страниц в {category}',
+        one: '{count} страница в {category}'
       }
     }
   })
@@ -217,8 +216,8 @@ test('supports reverse transform', () => {
   let messages = i18n('component', {
     reverse: count(
       params<{ category: number }>({
-        one: 'One page in {category}',
-        many: '{count} pages in {category}'
+        many: '{count} pages in {category}',
+        one: 'One page in {category}'
       })
     )
   })
@@ -248,10 +247,10 @@ test('tracks double definition', () => {
 test('cache is used on first use', async () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, {
-    get,
     cache: {
       ru: { games: { title: 'Игры' } }
-    }
+    },
+    get
   })
   let gamesWithCache = i18n('games', { title: 'Games' })
   equal(gamesWithCache.value?.title, 'Игры')

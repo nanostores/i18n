@@ -1,4 +1,4 @@
-import { locale, localeSetting, i18n } from './i18n.js'
+import { i18n, locale, localeSetting } from './i18n.js'
 
 let currentLocale = document.querySelector('strong')
 let changeLocale = document.querySelector('select')
