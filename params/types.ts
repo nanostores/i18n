@@ -1,10 +1,11 @@
 import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
-import type { TranslationFunction } from '../create-i18n'
-import type { ExtractTemplateParams } from '.'
 
-import { params } from '.'
-// eslint-disable-next-line import/extensions
-import { count } from '../count'
+import type {
+  type ExtractTemplateParams,
+  type TranslationFunction,
+  count,
+  params
+} from '../index.js'
 
 const f1 = params('Pages in {category}')
 const f2 = params<{ category: number }>(
