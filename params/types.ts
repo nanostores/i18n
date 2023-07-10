@@ -1,6 +1,6 @@
 import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
 
-import type {
+import {
   type ExtractTemplateParams,
   type TranslationFunction,
   count,
