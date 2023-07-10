@@ -23,7 +23,7 @@ import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   title: 'Post details',
-  published: params('Was published at {at}'),
+  published: params('Was published at {at}'), // TypeScript will get `at` type
   comments: count({
     one: '{count} comment',
     many: '{count} comments'
