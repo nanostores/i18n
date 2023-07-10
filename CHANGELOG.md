@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.11
+* Added automatic type generation for `params()` (by Daniil Demenev).
+
 ## 0.10
 * Moved to Nano Stores 0.9.
 * Fixed wrong language on first use (by Sergey Kozlov).
