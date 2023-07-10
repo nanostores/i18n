@@ -15,7 +15,9 @@ const f2 = params<{ category: number }>(
 )
 const f21 = f2({ category: 12 })
 const f22 = f2(12)
-const incorrectParamsType = params<{ categor: number }>('Pages in {category}')
+const incorrectParamsType = params<{ incorrect_param: number }>(
+  'Pages in {category}'
+)
 const noParams = params('No params')
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,7 +50,7 @@ type cases = [
   Assert<
     IsExact<
       typeof incorrectParamsType,
-      TranslationFunction<[{ categor: number }], any>
+      TranslationFunction<[{ incorrect_param: number }], any>
     >
   >,
   Assert<IsExact<typeof noParams, TranslationFunction<[], string>>>,

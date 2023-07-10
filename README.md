@@ -23,8 +23,7 @@ import { i18n, format } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   title: 'Post details',
-  // You need to manually mark interpolation like {at} for better TS support
-  published: params<{ at: string }>('Was published at {at}'),
+  published: params('Was published at {at}'),
   comments: count({
     one: '{count} comment',
     many: '{count} comments'
@@ -264,7 +263,7 @@ for TypeScript types and translation functions (`count()`, `params()`, etc).
 ```ts
 export const messages = i18n('post', {
   title: 'Post details',
-  published: params<{ at: string }>('Was published at {at}'),
+  published: params('Was published at {at}'),
   comments: count({
     one: '{count} comment',
     many: '{count} comments'
@@ -303,7 +302,7 @@ import { params } from '@nanostores/i18n'
 import { i18n } from '../stores/i18n.js'
 
 export const messages = i18n('hi', {
-  hello: params<{ name: string }>('Hello, {name}')
+  hello: params('Hello, {name}')
 })
 
 export const Robots = ({ name }) => {
@@ -316,6 +315,26 @@ You can use `time()` and `number()` [formatting functions].
 
 [formatting functions]: https://github.com/nanostores/i18n/#date--number-format
 
+And you can also use the [`count()`](https://github.com/nanostores/i18n#pluralization) function:
+
+```ts
+import { count, params } from '@nanostores/i18n'
+import { i18n } from '../stores/i18n'
+
+export const messages = i18n('pagination', {
+  page: params<{ category: string }>(
+    count({
+      one: 'One page in {category}',
+      many: '{count} pages in {category}'
+    })
+  )
+})
+
+export const RobotsListInfo = ({ count }) => {
+  const t = useStore(messages)
+  return t.page({ category: 'robots' })(count)
+}
+```
 
 #### Pluralization
 

@@ -18,7 +18,7 @@ interface Params {
    * import { i18n } from '../stores/i18n'
    *
    * export const messages = i18n('pagination', {
-   *   page: params<{ page: number, all: numbers }>('Page {page} from {all}')
+   *   page: params('Page {page} from {all}')
    * })
    * ```
    *
@@ -27,7 +27,7 @@ interface Params {
    * t.page({ page: 1, all: 10 })
    * ```
    *
-   * @param input Template string.
+   * @param input Template string or `TranslationFunction`.
    * @return Transform for translation.
    */
   <Input extends string>(input: Input): TranslationFunction<
