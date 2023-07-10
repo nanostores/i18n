@@ -33,7 +33,7 @@ let i18n2 = createI18n(locale, {
 })
 
 let messages2 = i18n2('post', {
-  title: params<{ name: string }>('Title: {name}'),
+  title: params('Title: {name}'),
   posts: count({
     one: '1 post',
     many: '{count} posts'
