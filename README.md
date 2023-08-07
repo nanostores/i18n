@@ -410,17 +410,26 @@ export const messages = i18n('hi', {
 The good I18n support is not about the I18n library,
 but about translation process.
 
-1. Developer creates base translation in component’s source.
+1. Developer creates base translation in component’s source and export
+   it as `messages`.
+
+   ```ts
+   export const messages = i18n('welcome', {
+     hello: params('Hello, %1')
+   })
+   ```
+
 2. CI runs script to extract base translation to JSON.
 
    ```ts
    import { messagesToJSON } from '@nanostores/i18n'
 
-   const files = await glob('src/*.tsx')
-   const components = await Promise.all(files.map(async (file) => {
-     return (await import(file).messages)
+   const components = await glob('src/*.tsx')
+   const translations = await Promise.all(components.map(async (file) => {
+     return (await import(file).messages) // Replace import if you export
+                                          // i18n() result with a different name
    }))
-   const json = messagesToJSON(...components)
+   const json = messagesToJSON(...translations)
    ```
 
 3. CI uploads JSON with base translation to online translation service.
