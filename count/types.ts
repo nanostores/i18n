@@ -1,7 +1,7 @@
 import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
 
-import { count, params } from '..'
-import type { TranslationFunction } from '../create-i18n'
+import type { TranslationFunction } from '../create-i18n/index.js'
+import { count, params } from '../index.js'
 
 const f1 = count({
   many: '{count} pages',
