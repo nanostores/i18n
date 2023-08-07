@@ -424,7 +424,7 @@ but about translation process.
    ```ts
    import { messagesToJSON } from '@nanostores/i18n'
 
-   const components = await glob('src/*.tsx')
+   const components = await glob('./src/*.tsx', { absolute: true })
    const translations = await Promise.all(components.map(async (file) => {
      return (await import(file).messages) // Replace import if you export
                                           // i18n() result with a different name
