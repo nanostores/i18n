@@ -16,7 +16,7 @@ export let i18n = createI18n(locale, {
         setTimeout(() => {
           resolve({
             page: {
-              desc: 'Сегодня {date}',
+              desc: 'Сегодня {date}, a {relativeDate} станет лучше',
               title: 'Демо интернационализации'
             }
           })

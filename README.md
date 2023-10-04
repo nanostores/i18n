@@ -194,7 +194,7 @@ locale.set('fr')
 [Intl locale format]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation
 
 
-### Date & Number Format
+### Date, Number & Relative Time Format
 
 `formatter()` creates a store with a functions to format number and time.
 
@@ -204,7 +204,7 @@ import { formatter } from '@nanostores/i18n'
 export const format = formatter(locale)
 ```
 
-This store will have `time()` and `number()` functions.
+This store will have `time()`, `number()` and `relativeTime()` functions.
 
 ```js
 import { useStore } from '@nanostores/react'
@@ -217,7 +217,8 @@ export const Date = (date) => {
 ```
 
 These functions accepts options
-of [`Intl.DateTimeFormat`] and [`Intl.NumberFormat`].
+of [`Intl.DateTimeFormat`], [`Intl.NumberFormat`]
+and [`Intl.RelativeTimeFormat`].
 
 ```ts
 time(date, {
@@ -227,10 +228,13 @@ time(date, {
   hour: 'numeric',
   minute: 'numeric'
 }) //=> "November 1, 01:56:33"
+
+relativeTime(-1, 'day', { numeric: 'auto' }) //=> "yesterday"
 ```
 
-[`Intl.DateTimeFormat`]: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+[`Intl.DateTimeFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
 [`Intl.NumberFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+[`Intl.RelativeTimeFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
 
 
 ### I18n Object
@@ -311,7 +315,7 @@ export const Robots = ({ name }) => {
 }
 ```
 
-You can use `time()` and `number()` [formatting functions].
+You can use `time()`, `number()` and `relativeTime()` [formatting functions].
 
 [formatting functions]: https://github.com/nanostores/i18n/#date--number-format
 
