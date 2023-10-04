@@ -4,7 +4,7 @@ import type { LocaleStore } from '../locale-from/index.js'
 
 export interface Formatter {
   number(num: number, opts?: Intl.NumberFormatOptions): string
-  relative(
+  relativeTime(
     num: number,
     unit: Intl.RelativeTimeFormatUnit,
     opts?: Intl.RelativeTimeFormatOptions

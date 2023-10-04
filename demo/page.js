@@ -10,7 +10,7 @@ let title = document.querySelector('h1')
 let desc = document.querySelector('span')
 
 messages.subscribe(t => {
-  let { relative, time } = format.get()
+  let { relativeTime, time } = format.get()
   title.innerText = t.title
   desc.innerText = t.desc({
     date: time(new Date(), {
@@ -18,6 +18,6 @@ messages.subscribe(t => {
       month: 'long',
       year: 'numeric'
     }),
-    relativeDate: relative(1, 'day', { numeric: 'auto' })
+    relativeDate: relativeTime(1, 'day', { numeric: 'auto' })
   })
 })

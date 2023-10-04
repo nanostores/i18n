@@ -204,7 +204,7 @@ import { formatter } from '@nanostores/i18n'
 export const format = formatter(locale)
 ```
 
-This store will have `time()`, `number()` and `relative()` functions.
+This store will have `time()`, `number()` and `relativeTime()` functions.
 
 ```js
 import { useStore } from '@nanostores/react'
@@ -229,7 +229,7 @@ time(date, {
   minute: 'numeric'
 }) //=> "November 1, 01:56:33"
 
-relative(-1, 'day', { numeric: 'auto' }) //=> "yesterday"
+relativeTime(-1, 'day', { numeric: 'auto' }) //=> "yesterday"
 ```
 
 [`Intl.DateTimeFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
@@ -315,7 +315,7 @@ export const Robots = ({ name }) => {
 }
 ```
 
-You can use `time()`, `number()` and `relative()` [formatting functions].
+You can use `time()`, `number()` and `relativeTime()` [formatting functions].
 
 [formatting functions]: https://github.com/nanostores/i18n/#date--number-format
 
