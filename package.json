@@ -45,30 +45,32 @@
     "nanostores": "^0.9.0"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^51.0.1",
+    "@logux/eslint-config": "^52.0.1",
     "@nanostores/persistent": "^0.9.1",
-    "@size-limit/preset-small-lib": "^8.2.6",
-    "@types/node": "^20.4.8",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
+    "@size-limit/preset-small-lib": "^9.0.0",
+    "@types/node": "^20.8.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
     "c8": "^8.0.1",
     "check-dts": "^0.7.2",
     "clean-publish": "^4.2.0",
     "conditional-type-checks": "^1.0.6",
-    "eslint": "^8.46.0",
+    "eslint": "^8.50.0",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-node-imports": "^1.0.2",
+    "eslint-plugin-perfectionist": "^2.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "nanodelay": "^2.0.2",
     "nanospy": "^1.0.0",
     "nanostores": "^0.9.3",
-    "size-limit": "^8.2.6",
+    "size-limit": "^9.0.0",
     "tsm": "^2.3.0",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "uvu": "^0.5.6",
-    "vite": "^4.4.8"
+    "vite": "^4.4.10"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -83,11 +85,16 @@
       "**/*.test.*"
     ],
     "lines": 100,
-    "reporter": "lcov",
-    "check-coverage": true
+    "check-coverage": true,
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "skip-full": true,
+    "clean": true
   },
   "eslintConfig": {
-    "extends": "@logux/eslint-config/esm",
+    "extends": "@logux/eslint-config",
     "rules": {
       "@typescript-eslint/no-explicit-any": "off",
       "consistent-return": "off"
