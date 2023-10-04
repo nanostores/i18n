@@ -4,13 +4,19 @@ import type { LocaleStore } from '../locale-from/index.js'
 
 export interface Formatter {
   number(num: number, opts?: Intl.NumberFormatOptions): string
+  relative(
+    num: number,
+    unit: Intl.RelativeTimeFormatUnit,
+    opts?: Intl.RelativeTimeFormatOptions
+  ): string
   time(date?: Date | number, opts?: Intl.DateTimeFormatOptions): string
 }
 
 /**
  * Create time/number formatter connected to current locale.
  *
- * See `Intl.DateTimeFormat` and `Intl.NumberFormat` for options.
+ * See `Intl.DateTimeFormat`, `Intl.NumberFormat`
+ * and `Intl.RelativeTimeFormat` for options.
  *
  * ```js
  * import { formatter, localeFrom } from '@nanostores/i18n'
@@ -24,7 +30,7 @@ export interface Formatter {
  * import { useStore } from 'nanostores'
  * import { format } from '../stores/i18n.js'
  *
- * export Date = (date) => {
+ * export let Date = (date) => {
  *   let { time } = useStore(format)
  *   return time(date)
  * }

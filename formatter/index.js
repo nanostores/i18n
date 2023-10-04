@@ -6,6 +6,9 @@ export function formatter(locale) {
       number(num, opts) {
         return new Intl.NumberFormat(code, opts).format(num)
       },
+      relative(num, unit, opts) {
+        return new Intl.RelativeTimeFormat(code, opts).format(num, unit)
+      },
       time(date, opts) {
         return new Intl.DateTimeFormat(code, opts).format(date)
       }

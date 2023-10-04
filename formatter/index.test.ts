@@ -5,7 +5,7 @@ import { equal } from 'uvu/assert'
 
 import { formatter } from '../index.js'
 
-test('has number and date formatter', () => {
+test('has number, date and relative time formatters', () => {
   let locale = atom('en')
   let format = formatter(locale)
 
@@ -19,11 +19,15 @@ test('has number and date formatter', () => {
   equal(f.number(10000, { useGrouping: false }), '10000')
   equal(f.time(new Date(86400000)), '1/2/1970')
   equal(f.time(new Date(86400000), { month: '2-digit' }), '01')
+  equal(f.relative(-1, 'day'), '1 day ago')
+  equal(f.relative(-1, 'day', { numeric: 'auto' }), 'yesterday')
 
   if (!process.version.startsWith('v12.')) {
     locale.set('ru')
     equal(f.number(10000), '10 000')
     equal(f.time(new Date(86400000)), '02.01.1970')
+    equal(f.relative(-1, 'day'), '1 день назад')
+    equal(f.relative(-1, 'day', { numeric: 'auto' }), 'вчера')
   }
 })
 
