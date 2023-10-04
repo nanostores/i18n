@@ -67,7 +67,7 @@
     "nanospy": "^1.0.0",
     "nanostores": "^0.9.3",
     "size-limit": "^9.0.0",
-    "tsm": "^2.3.0",
+    "tsx": "^3.13.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.10"
   },
