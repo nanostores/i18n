@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { test } from 'node:test'
+import { deepStrictEqual } from 'node:assert'
 
 import { count, createI18n, messagesToJSON, params } from '../index.js'
 
@@ -21,7 +21,7 @@ test('converts base translations to JSON', () => {
     title: 'Title'
   })
 
-  equal(messagesToJSON(messages1, messages2), {
+  deepStrictEqual(messagesToJSON(messages1, messages2), {
     list: {
       pages: {
         many: '{count} pages in {category}',
@@ -33,5 +33,3 @@ test('converts base translations to JSON', () => {
     }
   })
 })
-
-test.run()

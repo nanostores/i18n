@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { test } from 'node:test'
+import { equal } from 'node:assert'
 
 import { createI18n, params } from '../index.js'
 
@@ -25,5 +25,3 @@ test('replaces templates', () => {
   equal(messages.get().doubleEscaped2({ param: 1 }), '{1}')
   equal((messages as any).value.doubleEscaped2({ param: 1 }), '{1}')
 })
-
-test.run()

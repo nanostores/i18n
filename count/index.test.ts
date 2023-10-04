@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { test } from 'node:test'
+import { equal } from 'node:assert'
 
 import { count, createI18n } from '../index.js'
 import type { ComponentsJSON } from '../index.js'
@@ -54,5 +54,3 @@ test('uses pluralization rules', async () => {
   equal(messages.get().onlyMany(1), 'много')
   equal(messages.get().onlyMany(2), 'много')
 })
-
-test.run()

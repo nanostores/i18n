@@ -2,8 +2,8 @@ import { delay } from 'nanodelay'
 import { restoreAll, spyOn } from 'nanospy'
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
 import type { StoreValue } from 'nanostores'
-import { test } from 'uvu'
-import { equal, match } from 'uvu/assert'
+import { afterEach, test } from 'node:test'
+import { deepStrictEqual, equal, match } from 'node:assert'
 
 import { count, createI18n, params } from '../index.js'
 import type { ComponentsJSON } from '../index.js'
@@ -31,7 +31,7 @@ async function getResponse(
   }
 }
 
-test.after.each(() => {
+afterEach(() => {
   getCalls = []
   restoreAll()
 })
@@ -41,10 +41,10 @@ test('is loaded from the start', () => {
   let i18n = createI18n(locale, { get })
 
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
+  deepStrictEqual(getCalls, [])
 
   let messages = i18n('component', { title: 'Title' })
-  equal(messages.get(), { title: 'Title' })
+  deepStrictEqual(messages.get(), { title: 'Title' })
 })
 
 test('loads locale', async () => {
@@ -52,7 +52,7 @@ test('loads locale', async () => {
   let i18n = createI18n(locale, { get })
 
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
+  deepStrictEqual(getCalls, [])
 
   let messages = i18n('component', { title: 'Title' })
   let events: string[] = []
@@ -60,34 +60,34 @@ test('loads locale', async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(getCalls, ['ru'])
-  equal(events, ['Title'])
+  deepStrictEqual(getCalls, ['ru'])
+  deepStrictEqual(events, ['Title'])
 
   await getResponse({
     component: { title: 'Заголовок' }
   })
-  equal(events, ['Title', 'Заголовок'])
-  equal(messages.get(), { title: 'Заголовок' })
+  deepStrictEqual(events, ['Title', 'Заголовок'])
+  deepStrictEqual(messages.get(), { title: 'Заголовок' })
 
   locale.set('en')
   equal(i18n.loading.get(), false)
-  equal(events, ['Title', 'Заголовок', 'Title'])
+  deepStrictEqual(events, ['Title', 'Заголовок', 'Title'])
 
   locale.set('ru')
   equal(i18n.loading.get(), false)
-  equal(getCalls, ['ru'])
-  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
+  deepStrictEqual(getCalls, ['ru'])
+  deepStrictEqual(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
 
   locale.set('fr')
   equal(i18n.loading.get(), true)
-  equal(getCalls, ['ru', 'fr'])
-  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
+  deepStrictEqual(getCalls, ['ru', 'fr'])
+  deepStrictEqual(events, ['Title', 'Заголовок', 'Title', 'Заголовок'])
 
   await getResponse({
     component: { title: 'Titre' }
   })
   equal(i18n.loading.get(), false)
-  equal(events, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
+  deepStrictEqual(events, ['Title', 'Заголовок', 'Title', 'Заголовок', 'Titre'])
 })
 
 test('is ready for locale change in the middle of request', async () => {
@@ -103,7 +103,7 @@ test('is ready for locale change in the middle of request', async () => {
   locale.set('fr')
   await getResponse({ component: { title: 'Titre' } })
   equal(i18n.loading.get(), false)
-  equal(events, ['Title', 'Titre'])
+  deepStrictEqual(events, ['Title', 'Titre'])
 })
 
 test('is ready for wrong response order', async () => {
@@ -119,13 +119,13 @@ test('is ready for wrong response order', async () => {
   locale.set('fr')
 
   await getResponse({ component: { title: 'Заголовок' } }, 'ru')
-  equal(i18n.cache.ru, { component: { title: 'Заголовок' } })
+  deepStrictEqual(i18n.cache.ru, { component: { title: 'Заголовок' } })
   equal(i18n.loading.get(), true)
-  equal(events, ['Title'])
+  deepStrictEqual(events, ['Title'])
 
   await getResponse({ component: { title: 'Titre' } }, 'fr')
   equal(i18n.loading.get(), false)
-  equal(events, ['Title', 'Titre'])
+  deepStrictEqual(events, ['Title', 'Titre'])
 })
 
 test('changes base locale', () => {
@@ -133,10 +133,10 @@ test('changes base locale', () => {
   let i18n = createI18n(locale, { baseLocale: 'ru', get })
 
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
+  deepStrictEqual(getCalls, [])
 
   let messages = i18n('component', { title: 'Заголовок' })
-  equal(messages.get(), { title: 'Заголовок' })
+  deepStrictEqual(messages.get(), { title: 'Заголовок' })
 })
 
 test('removes listeners', async () => {
@@ -171,10 +171,10 @@ test('mixes translations with base', async () => {
     post: { name: 'Публикация' }
   })
   equal(i18n.loading.get(), false)
-  equal(events, ['Other', 'Other'])
+  deepStrictEqual(events, ['Other', 'Other'])
 
   let messages2 = i18n('post', { name: 'Post', page: 'Page' })
-  equal(messages2.get(), { name: 'Публикация', page: 'Page' })
+  deepStrictEqual(messages2.get(), { name: 'Публикация', page: 'Page' })
 })
 
 test('applies transforms', async () => {
@@ -255,5 +255,3 @@ test('cache is used on first use', async () => {
   let gamesWithCache = i18n('games', { title: 'Games' })
   equal(gamesWithCache.value?.title, 'Игры')
 })
-
-test.run()

@@ -1,5 +1,5 @@
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { afterEach, test } from 'node:test'
+import { equal } from 'node:assert'
 
 import { browser } from '../index.js'
 
@@ -8,7 +8,7 @@ function setLanguages(languages: string[]): void {
   global.navigator = { languages }
 }
 
-test.after.each(() => {
+afterEach(() => {
   // @ts-expect-error
   delete global.navigator
 })
@@ -36,5 +36,3 @@ test('is ready for lack of languages support', () => {
   global.navigator = { language: 'fr' }
   equal(browser({ available: ['fr', 'pt', 'en'] as const }).get(), 'fr')
 })
-
-test.run()

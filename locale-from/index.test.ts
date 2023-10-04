@@ -1,7 +1,7 @@
 import { delay } from 'nanodelay'
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { test } from 'node:test'
+import { deepStrictEqual, equal } from 'node:assert'
 
 import { localeFrom } from '../index.js'
 
@@ -22,20 +22,18 @@ test('subscribes to stores before store with locale', async () => {
   let unbind = locale.listen(() => {})
 
   equal(locale.get(), 'en')
-  equal(storesListeners(), [1, 1, 1, 0, 0])
+  deepStrictEqual(storesListeners(), [1, 1, 1, 0, 0])
 
   b.set('fr')
   equal(locale.get(), 'fr')
-  equal(storesListeners(), [1, 1, 0, 0, 0])
+  deepStrictEqual(storesListeners(), [1, 1, 0, 0, 0])
 
   b.set(undefined)
   c.set(undefined)
   equal(locale.get(), 'ru')
-  equal(storesListeners(), [1, 1, 1, 1, 1])
+  deepStrictEqual(storesListeners(), [1, 1, 1, 1, 1])
 
   unbind()
   await delay(STORE_UNMOUNT_DELAY)
-  equal(storesListeners(), [0, 0, 0, 0, 0])
+  deepStrictEqual(storesListeners(), [0, 0, 0, 0, 0])
 })
-
-test.run()

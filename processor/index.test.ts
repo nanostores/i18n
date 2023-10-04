@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { test } from 'node:test'
+import { equal } from 'node:assert'
 
 import { createI18n, createProcessor } from '../index.js'
 
@@ -24,5 +24,3 @@ test('uses size processor', () => {
   screenSize.set('small')
   equal(messages.get().title(), 'small screen')
 })
-
-test.run()

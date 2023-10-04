@@ -1,7 +1,7 @@
 import { delay } from 'nanodelay'
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { afterEach, test } from 'node:test'
+import { deepStrictEqual, equal } from 'node:assert'
 
 import { createI18n } from '../index.js'
 import type { ComponentsJSON } from '../index.js'
@@ -29,7 +29,7 @@ async function getResponse(
   }
 }
 
-test.after.each(() => {
+afterEach(() => {
   getCalls = []
 })
 
@@ -50,7 +50,7 @@ let commentUnbind: () => void
 
 test("after mount shouldn't load translations with same prefix", async () => {
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
+  deepStrictEqual(getCalls, [])
 
   postUnbind = post.subscribe(t => {
     events.push(t.title)
@@ -59,8 +59,8 @@ test("after mount shouldn't load translations with same prefix", async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(getCalls, [{ ru: ['main/post'] }])
-  equal(events, ['Post', 'Title'])
+  deepStrictEqual(getCalls, [{ ru: ['main/post'] }])
+  deepStrictEqual(events, ['Post', 'Title'])
 })
 
 test('loads translations partial', async () => {
@@ -72,13 +72,13 @@ test('loads translations partial', async () => {
     }
   ])
   equal(i18n.loading.get(), false)
-  equal(events, ['Post', 'Title', 'Публикация', 'Заголовок'])
-  equal(post.get(), { title: 'Публикация' })
-  equal(heading.get(), { title: 'Заголовок' })
-  equal(comment.get(), { title: 'Комментарий' })
+  deepStrictEqual(events, ['Post', 'Title', 'Публикация', 'Заголовок'])
+  deepStrictEqual(post.get(), { title: 'Публикация' })
+  deepStrictEqual(heading.get(), { title: 'Заголовок' })
+  deepStrictEqual(comment.get(), { title: 'Комментарий' })
 
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
+  deepStrictEqual(getCalls, [])
 })
 
 test('after mount should load translations with different prefix', async () => {
@@ -90,8 +90,8 @@ test('after mount should load translations with different prefix', async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(getCalls, [{ ru: ['settings/user'] }, { ru: ['games'] }])
-  equal(events, ['User', 'Games'])
+  deepStrictEqual(getCalls, [{ ru: ['settings/user'] }, { ru: ['games'] }])
+  deepStrictEqual(events, ['User', 'Games'])
 
   await getResponse([
     {
@@ -102,7 +102,7 @@ test('after mount should load translations with different prefix', async () => {
     }
   ])
   equal(i18n.loading.get(), false)
-  equal(events, [
+  deepStrictEqual(events, [
     'User',
     'Games',
     'Публикация',
@@ -120,8 +120,8 @@ test("component mounting shouldn't load cached translations", async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
-  equal(events, ['Комментарий'])
+  deepStrictEqual(getCalls, [])
+  deepStrictEqual(events, ['Комментарий'])
 })
 
 test('loads translation after component mounted', async () => {
@@ -130,8 +130,8 @@ test('loads translation after component mounted', async () => {
     events.push(t.title)
   })
   equal(i18n.loading.get(), true)
-  equal(getCalls, [{ ru: ['chat/message'] }])
-  equal(events, ['Message'])
+  deepStrictEqual(getCalls, [{ ru: ['chat/message'] }])
+  deepStrictEqual(events, ['Message'])
 
   await getResponse([
     {
@@ -139,22 +139,22 @@ test('loads translation after component mounted', async () => {
     }
   ])
   equal(i18n.loading.get(), false)
-  equal(events, [
+  deepStrictEqual(events, [
     'Message',
     'Публикация',
     'Заголовок',
     'Комментарий',
     'Сообщение'
   ])
-  equal(message.get(), { title: 'Сообщение' })
+  deepStrictEqual(message.get(), { title: 'Сообщение' })
 })
 
 test("locale changing shouldn't load cached translations", async () => {
   events = []
   locale.set('en')
   equal(i18n.loading.get(), false)
-  equal(getCalls, [])
-  equal(events, ['Post', 'Title', 'Comment', 'Message'])
+  deepStrictEqual(getCalls, [])
+  deepStrictEqual(events, ['Post', 'Title', 'Comment', 'Message'])
 })
 
 test('locale changing should load translations for mounted only', async () => {
@@ -167,8 +167,8 @@ test('locale changing should load translations for mounted only', async () => {
 
   locale.set('fr')
   equal(i18n.loading.get(), true)
-  equal(getCalls, [{ fr: ['chat/message'] }])
-  equal(events, [])
+  deepStrictEqual(getCalls, [{ fr: ['chat/message'] }])
+  deepStrictEqual(events, [])
 
   await getResponse([
     {
@@ -176,11 +176,11 @@ test('locale changing should load translations for mounted only', async () => {
     }
   ])
   equal(i18n.loading.get(), false)
-  equal(events, ['Le message'])
-  equal(post.get(), { title: 'Post' })
-  equal(heading.get(), { title: 'Title' })
-  equal(comment.get(), { title: 'Comment' })
-  equal(message.get(), { title: 'Le message' })
+  deepStrictEqual(events, ['Le message'])
+  deepStrictEqual(post.get(), { title: 'Post' })
+  deepStrictEqual(heading.get(), { title: 'Title' })
+  deepStrictEqual(comment.get(), { title: 'Comment' })
+  deepStrictEqual(message.get(), { title: 'Le message' })
 })
 
 test('if get returns array, it transforms to object', async () => {
@@ -199,10 +199,10 @@ test('if get returns array, it transforms to object', async () => {
 
   locale.set('de')
   equal(i18n.loading.get(), true)
-  equal(getCalls, [
+  deepStrictEqual(getCalls, [
     { de: ['chat/message', 'main/post', 'main/heading', 'main/comment'] }
   ])
-  equal(events, ['Message', 'Post', 'Title', 'Comment'])
+  deepStrictEqual(events, ['Message', 'Post', 'Title', 'Comment'])
 
   await getResponse([
     {
@@ -214,14 +214,14 @@ test('if get returns array, it transforms to object', async () => {
       'chat/message': { title: 'Nachricht' }
     }
   ])
-  equal(i18n.cache.de, {
+  deepStrictEqual(i18n.cache.de, {
     'chat/message': { title: 'Nachricht' },
     'main/comment': { title: 'Kommentar' },
     'main/heading': { title: 'Titel' },
     'main/post': { title: 'Publikation' }
   })
   equal(i18n.loading.get(), false)
-  equal(events, [
+  deepStrictEqual(events, [
     'Message',
     'Post',
     'Title',
@@ -232,5 +232,3 @@ test('if get returns array, it transforms to object', async () => {
     'Kommentar'
   ])
 })
-
-test.run()
