@@ -1,5 +1,5 @@
-import { afterEach, test } from 'node:test'
 import { equal } from 'node:assert'
+import { afterEach, test } from 'node:test'
 
 import { browser } from '../index.js'
 

@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'node:test'
 import { equal } from 'node:assert'
+import { test } from 'node:test'
 
 import { createI18n, createProcessor } from '../index.js'
 

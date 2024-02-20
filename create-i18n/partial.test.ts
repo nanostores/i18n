@@ -1,7 +1,7 @@
 import { delay } from 'nanodelay'
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { afterEach, test } from 'node:test'
 import { deepStrictEqual, equal } from 'node:assert'
+import { afterEach, test } from 'node:test'
 
 import { createI18n } from '../index.js'
 import type { ComponentsJSON } from '../index.js'

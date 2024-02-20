@@ -1,7 +1,7 @@
 import type { StoreValue } from 'nanostores'
 import { atom } from 'nanostores'
-import { test } from 'node:test'
 import { equal } from 'node:assert'
+import { test } from 'node:test'
 
 import { formatter } from '../index.js'
 

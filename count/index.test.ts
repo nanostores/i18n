@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'node:test'
 import { equal } from 'node:assert'
+import { test } from 'node:test'
 
 import { count, createI18n } from '../index.js'
 import type { ComponentsJSON } from '../index.js'

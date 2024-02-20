@@ -6,7 +6,7 @@
 Tiny and flexible JS library to make your web application translatable.
 Uses [Nano Stores] state manager and [JS Internationalization API].
 
-* **Small.** Around 1 KB (minified and gzipped). Zero dependencies.
+* **Small.** Around 1 KB (minified and brotlied). Zero dependencies.
 * Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
 * Supports **tree-shaking** and translation **on-demand download**.
 * **Plain flat JSON** translations compatible with
@@ -83,12 +83,13 @@ export const i18n = createI18n(locale, {
 
 [JS Internationalization API]: https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/
 [Nano Stores]: https://github.com/nanostores/nanostores
-[Weblate]: https://weblate.org/ru/
+[Weblate]: https://weblate.org/
 
-<a href="https://evilmartians.com/?utm_source=nanostores-i18n">
-  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-       alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
+---
+
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  Made in <b><a href="https://evilmartians.com/devtools?utm_source=nanostores-i18n&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
+
+---
 
 
 ## Install

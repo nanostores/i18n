@@ -1,7 +1,7 @@
 import { delay } from 'nanodelay'
 import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import { test } from 'node:test'
 import { deepStrictEqual, equal } from 'node:assert'
+import { test } from 'node:test'
 
 import { localeFrom } from '../index.js'
 

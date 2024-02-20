@@ -1,6 +1,6 @@
 import { atom } from 'nanostores'
-import { test } from 'node:test'
 import { deepStrictEqual } from 'node:assert'
+import { test } from 'node:test'
 
 import { count, createI18n, messagesToJSON, params } from '../index.js'
 
