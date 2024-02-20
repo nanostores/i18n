@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.12.1
+* Added Nano Stores 0.10 support.
+
 ## 0.12
 * Added `relativeTime()` (by Eduard Aksamitov).
 
