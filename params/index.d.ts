@@ -5,8 +5,8 @@ import type {
 
 type ExtractTemplateParams<Str extends string> =
   Str extends `${infer Pre}{${infer Param}}${infer Post}`
-    ? { [key in Param]: number | string } & ExtractTemplateParams<Pre> &
-        ExtractTemplateParams<Post>
+    ? { [key in Param]: number | string } & ExtractTemplateParams<Post> &
+        ExtractTemplateParams<Pre>
     : {}
 
 interface Params {
