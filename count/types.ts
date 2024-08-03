@@ -3,18 +3,20 @@ import type { AssertTrue as Assert, IsExact } from 'conditional-type-checks'
 import type { TranslationFunction } from '../create-i18n/index.js'
 import { count, params } from '../index.js'
 
-const f1 = count({
+let f1 = count({
   many: '{count} pages',
   one: 'One page'
 })
-const f2 = count(
+let f2 = count(
   params<{ category: number }>({
     many: '{count} pages in {category}',
     one: 'One page in {category}'
   })
 )
-const f21 = f2({ category: 12 })
-const f22 = f2(12)
+let f21 = f2({ category: 12 })
+let f22 = f2(12)
+
+console.log(f1, f21, f22)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type cases = [

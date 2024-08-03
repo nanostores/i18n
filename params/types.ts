@@ -7,19 +7,21 @@ import {
   type TranslationFunction
 } from '../index.js'
 
-const f1 = params('Pages in {category}')
-const f2 = params<{ category: number }>(
+let f1 = params('Pages in {category}')
+let f2 = params<{ category: number }>(
   count({
     many: '{count} pages in {category}',
     one: 'One page in {category}'
   })
 )
-const f21 = f2({ category: 12 })
-const f22 = f2(12)
-const incorrectParamsType = params<{ incorrect_param: number }>(
+let f21 = f2({ category: 12 })
+let f22 = f2(12)
+let incorrectParamsType = params<{ incorrect_param: number }>(
   'Pages in {category}'
 )
-const noParams = params('No params')
+let noParams = params('No params')
+
+console.log(f1, f21, f22, incorrectParamsType, noParams)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type cases = [
