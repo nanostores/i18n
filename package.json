@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@logux/eslint-config": "^55.2.1",
-    "@nanostores/persistent": "^0.10.2",
+    "@nanostores/persistent": "^1.0.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^22.14.0",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
