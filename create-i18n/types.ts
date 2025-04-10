@@ -12,12 +12,12 @@ function testString(arg: string): void {
 
 let i18n1 = createI18n(locale, {
   baseLocale: 'ru',
-  async get() {
-    return {
+  get() {
+    return Promise.resolve({
       post: {
         title: 'Title'
       }
-    }
+    })
   }
 })
 
@@ -27,8 +27,8 @@ let messages1 = i18n1('post', {
 console.log(messages1.get().title)
 
 let i18n2 = createI18n(locale, {
-  async get() {
-    return {}
+  get() {
+    return Promise.resolve({})
   }
 })
 

@@ -19,7 +19,7 @@ let string = browser({
 // THROWS 'string' is not assignable to parameter of type '"en" | "ru"
 test(string.get())
 
-// THROWS type '{ available: readonly ["ru", "fr"]; fallback: "ru" | "fr"; }
+// THROWS type '{ available: readonly ["ru", "fr"]; fallback: "fr" | "ru"; }
 browser({
   available: ['ru', 'fr'] as const
 })

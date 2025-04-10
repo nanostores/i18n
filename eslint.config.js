@@ -1,7 +1,7 @@
 import loguxTsConfig from '@logux/eslint-config/ts'
 import globals from 'globals'
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   { ignores: ['**/errors.ts'] },
   ...loguxTsConfig,

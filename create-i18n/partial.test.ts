@@ -18,7 +18,7 @@ function get(code: string, components: string[]): Promise<ComponentsJSON[]> {
   })
 }
 
-async function getResponse(
+function getResponse(
   translations: ComponentsJSON[],
   code?: string
 ): Promise<void> {
@@ -27,6 +27,7 @@ async function getResponse(
   } else {
     resolveGet(translations)
   }
+  return Promise.resolve()
 }
 
 afterEach(() => {
@@ -48,7 +49,7 @@ let postUnbind: () => void
 let headingUnbind: () => void
 let commentUnbind: () => void
 
-test("after mount shouldn't load translations with same prefix", async () => {
+test("after mount shouldn't load translations with same prefix", () => {
   equal(i18n.loading.get(), false)
   deepStrictEqual(getCalls, [])
 
@@ -114,7 +115,7 @@ test('after mount should load translations with different prefix', async () => {
   gamesUnbind()
 })
 
-test("component mounting shouldn't load cached translations", async () => {
+test("component mounting shouldn't load cached translations", () => {
   events = []
   commentUnbind = comment.subscribe(t => {
     events.push(t.title)
@@ -149,7 +150,7 @@ test('loads translation after component mounted', async () => {
   deepStrictEqual(message.get(), { title: 'Сообщение' })
 })
 
-test("locale changing shouldn't load cached translations", async () => {
+test("locale changing shouldn't load cached translations", () => {
   events = []
   locale.set('en')
   equal(i18n.loading.get(), false)

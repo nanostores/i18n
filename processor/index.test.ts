@@ -9,7 +9,9 @@ let screenSize = atom('big')
 let size = createProcessor(screenSize)
 
 let i18n = createI18n(locale, {
-  get: async () => ({}),
+  get() {
+    return Promise.resolve({})
+  },
   processors: [size]
 })
 

@@ -13,8 +13,9 @@ function get(): Promise<ComponentsJSON> {
   })
 }
 
-async function getResponse(translations: ComponentsJSON): Promise<void> {
+function getResponse(translations: ComponentsJSON): Promise<void> {
   resolveGet(translations)
+  return Promise.resolve()
 }
 
 let locale = atom('ru')

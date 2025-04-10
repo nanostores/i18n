@@ -7,8 +7,8 @@ let sizeStore = atom<'big' | 'small'>('big')
 let size = createProcessor(sizeStore)
 
 let i18n = createI18n(locale, {
-  async get() {
-    return {}
+  get() {
+    return Promise.resolve({})
   },
   processors: [size]
 })

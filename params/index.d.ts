@@ -7,7 +7,7 @@ type ExtractTemplateParams<Str extends string> =
   Str extends `${infer Pre}{${infer Param}}${infer Post}`
     ? { [key in Param]: number | string } & ExtractTemplateParams<Post> &
         ExtractTemplateParams<Pre>
-    : {}
+    : object
 
 interface Params {
   /**

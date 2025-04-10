@@ -6,7 +6,9 @@ import { createI18n, params } from '../index.js'
 
 let locale = atom('en')
 let i18n = createI18n(locale, {
-  get: async () => ({})
+  get() {
+    return Promise.resolve({})
+  }
 })
 
 test('replaces templates', () => {

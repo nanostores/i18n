@@ -73,7 +73,7 @@ type cases = [
   Assert<
     IsExact<ExtractTemplateParams<'{param_1}'>, { param_1: number | string }>
   >,
-  Assert<IsExact<ExtractTemplateParams<'test'>, {}>>,
+  Assert<IsExact<ExtractTemplateParams<'test'>, object>>,
   Assert<
     IsExact<
       ExtractTemplateParams<'{param_1} test'>,

@@ -6,7 +6,11 @@ import { count, createI18n, messagesToJSON, params } from '../index.js'
 
 test('converts base translations to JSON', () => {
   let locale = atom('en')
-  let i18n = createI18n(locale, { get: async () => ({}) })
+  let i18n = createI18n(locale, {
+    get() {
+      return Promise.resolve({})
+    }
+  })
 
   let messages1 = i18n('list', {
     pages: params<{ category: number }>(

@@ -20,7 +20,7 @@ function get(code: string): Promise<ComponentsJSON> {
   })
 }
 
-async function getResponse(
+function getResponse(
   translations: ComponentsJSON,
   code?: string
 ): Promise<void> {
@@ -29,6 +29,7 @@ async function getResponse(
   } else {
     resolveGet(translations)
   }
+  return Promise.resolve()
 }
 
 afterEach(() => {
@@ -244,7 +245,7 @@ test('tracks double definition', () => {
   match(warn.calls[0][0], /defined multiple times/)
 })
 
-test('cache is used on first use', async () => {
+test('cache is used on first use', () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, {
     cache: {

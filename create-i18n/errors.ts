@@ -43,7 +43,7 @@ console.log(messages.get().title2)
 let messages2 = i18n('post', {
   title: params('Title: {name}')
 })
-// THROWS 'named' does not exist in type '{ name: string | number; }'
+// THROWS 'named' does not exist in type '{ name: string | number; }
 testString(messages2.get().title({ named: 'Post' }))
 // THROWS is not assignable to parameter of type 'string'
 testString(messages2.get().title)
