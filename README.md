@@ -132,7 +132,7 @@ import { localeFrom, browser } from '@nanostores/i18n'
 
 export const locale = localeFrom(
   …,
-  browser({ available: ['en', 'fr', 'ru'] })
+  browser({ available: ['en', 'fr', 'ru'] as const })
 )
 ```
 
@@ -143,11 +143,14 @@ in `localStorage`.
 ```ts
 import { persistentAtom } from '@nanostores/persistent'
 
-export const localeSettings = persistentAtom<string>('locale')
+const LOCALES = ['en', 'fr', 'ru'] as const
+type Locale = (typeof LOCALES)[number]
+
+export const localeSettings = persistentAtom<Locale>('locale', 'en')
 
 export const locale = localeFrom(
   localeSettings,
-  browser({ available: ['en', 'fr', 'ru'] })
+  browser({ available: LOCALES })
 )
 ```
 
@@ -157,11 +160,18 @@ Or you can take user’s locale from URL router:
 import { computed } from 'nanostores'
 import { router } from './router.js'
 
-const urlLocale = computed(router, page => page?.params.locale)
+const LOCALES = ['en', 'fr', 'ru'] as const
+type Locale = (typeof LOCALES)[number]
+
+function validate(locale: string): Locale {
+  return LOCALES.includes(locale) ? locale : 'en'
+}
+
+const urlLocale = computed(router, page => validate(page?.params.locale))
 
 export const locale = localeFrom(
   urlLocale,
-  browser({ available: ['en', 'fr', 'ru'] })
+  browser({ available: LOCALES })
 )
 ```
 
