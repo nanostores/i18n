@@ -1,16 +1,14 @@
 import type { ReadableAtom } from 'nanostores'
 
-type AutodetectOpts<Locales extends readonly string[]> = Extract<
-  Locales[number],
-  'en'
-> extends never
-  ? {
-      available: Locales
-      fallback: Locales[number]
-    }
-  : {
-      available: Locales
-    }
+type AutodetectOpts<Locales extends readonly string[]> =
+  Extract<Locales[number], 'en'> extends never
+    ? {
+        available: Locales
+        fallback: Locales[number]
+      }
+    : {
+        available: Locales
+      }
 
 /**
  * A store which can be used in {@link localeAtom} to autodetects user’s locale
@@ -28,6 +26,6 @@ type AutodetectOpts<Locales extends readonly string[]> = Extract<
  * @param opts Languages supported by application and optional fallback.
  * @returns Store with browser language or fallback.
  */
-export function browser<Locales extends readonly string[]>(
+export function browser<const Locales extends readonly string[]>(
   opts: AutodetectOpts<Locales>
 ): ReadableAtom<Locales[number]>
