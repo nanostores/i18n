@@ -8,6 +8,7 @@ type AutodetectOpts<Locales extends readonly string[]> =
       }
     : {
         available: Locales
+        fallback?: Locales[number]
       }
 
 /**
