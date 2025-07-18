@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.1.0
+* Added translation preprocessors.
+
 ## 1.0.1
 * Fixed types to be able to miss `as const` in `browser()`.
 
