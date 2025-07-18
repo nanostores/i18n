@@ -29,7 +29,7 @@ export function strings<Body extends TranslationJSON>(
 ): Body
 
 /**
- * Create a transkation transformer like {@link count} or {@link params}.
+ * Create a translation transformer like {@link count} or {@link params}.
  *
  * ```js
  * import { transform } from '@nanostores/i18n'
