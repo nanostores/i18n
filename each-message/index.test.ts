@@ -2,7 +2,7 @@ import { atom } from 'nanostores'
 import { equal } from 'node:assert'
 import { test } from 'node:test'
 
-import { createI18n, eachMessage } from '../index.js'
+import { createI18n, eachMessage, count } from '../index.js'
 
 test('has global transform', () => {
   let locale = atom('en')
@@ -11,8 +11,18 @@ test('has global transform', () => {
     get() {
       return Promise.resolve({})
     },
-    preprocessors: [eachMessage(str => str.toLocaleUpperCase())]
+    preprocessors: [eachMessage(str => str.replace(/game/gi, 'GAME'))]
   })
-  let gamesWithCache = i18n('games', { title: 'Games' })
-  equal(gamesWithCache.value?.title, 'GAMES')
+  let messages = i18n('games', {
+    items: count({
+      many: '{count} games',
+      one: '{count} game'
+    }),
+    title: 'Games'
+  })
+
+  messages.subscribe(() => {})
+
+  equal(messages.get().title, 'GAMEs')
+  equal(messages.get().items(1), '1 GAME')
 })
