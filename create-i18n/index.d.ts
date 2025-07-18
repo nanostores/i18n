@@ -54,9 +54,14 @@ export interface TranslationLoader<
   Locale extends string = string,
   ComponentsNames extends string[] = string[]
 > {
-  (code: Locale, components: ComponentsNames):
-    | Promise<ComponentsJSON[]>
-    | Promise<ComponentsJSON>
+  (
+    code: Locale,
+    components: ComponentsNames
+  ): Promise<ComponentsJSON[]> | Promise<ComponentsJSON>
+}
+
+export interface Preprocessor {
+  (input: TranslationsJSON): TranslationsJSON
 }
 
 /**
@@ -69,7 +74,7 @@ export interface TranslationLoader<
  *
  * export const i18n = createI18n(locale, {
  *   get (code) {
- *     return fetchJson(`/translations/${code}.json`)
+ *     return fetch(`/translations/${code}.json`).then(res => res.json())
  *   }
  * })
  * ```
@@ -84,6 +89,7 @@ export function createI18n<Locale extends string, BaseLocale extends Locale>(
     baseLocale?: BaseLocale
     cache?: Record<Locale, Components>
     get: TranslationLoader<Locale>
+    preprocessors?: Preprocessor[]
     processors?: Processor[]
   }
 ): I18n<Locale>

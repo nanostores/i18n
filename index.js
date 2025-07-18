@@ -1,6 +1,7 @@
 export { browser } from './browser/index.js'
 export { count } from './count/index.js'
 export { createI18n } from './create-i18n/index.js'
+export { eachMessage } from './each-message/index.js'
 export { formatter } from './formatter/index.js'
 export { localeFrom } from './locale-from/index.js'
 export { messagesToJSON } from './messages-to-json/index.js'

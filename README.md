@@ -565,6 +565,23 @@ export { locale, i18n }
 ```
 
 
+### Preprocessors
+
+You can change all messages in your translation by preprocessors.
+
+For instance, you can apply typography rules.
+
+```ts
+import { createI18n, eachMessage } from '@nanostores/i18n'
+
+export const i18n = createI18n(locale, {
+  …
+  preprocessors: [
+    eachMessage(str => str.toLocaleLowerCase())
+  ]
+})
+```
+
 ### Processors
 
 You can register own custom type for translations to choose translation

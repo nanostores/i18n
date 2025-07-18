@@ -1,12 +1,10 @@
 import { delay } from 'nanodelay'
 import { restoreAll, spyOn } from 'nanospy'
-import { atom, STORE_UNMOUNT_DELAY } from 'nanostores'
-import type { StoreValue } from 'nanostores'
+import { atom, STORE_UNMOUNT_DELAY, type StoreValue } from 'nanostores'
 import { deepStrictEqual, equal, match } from 'node:assert'
 import { afterEach, test } from 'node:test'
 
-import { count, createI18n, params } from '../index.js'
-import type { ComponentsJSON } from '../index.js'
+import { type ComponentsJSON, count, createI18n, params } from '../index.js'
 
 let getCalls: string[] = []
 let resolveGet: (translations: ComponentsJSON) => void = () => {}

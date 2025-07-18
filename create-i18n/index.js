@@ -3,6 +3,7 @@ import { atom, onMount } from 'nanostores'
 export function createI18n(locale, opts) {
   let baseLocale = opts.baseLocale || 'en'
   let processors = opts.processors || []
+  let preprocessors = opts.preprocessors || []
   let mounted = []
   let requested = new Set()
   let rerenders = new Set()
@@ -78,6 +79,9 @@ export function createI18n(locale, opts) {
       let translations = {
         ...define.cache[baseLocale][componentName],
         ...define.cache[code][componentName]
+      }
+      for (let i of preprocessors) {
+        translations = i(translations)
       }
       for (let i in transforms) {
         let nodeTransform = transforms[i]
