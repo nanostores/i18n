@@ -567,8 +567,11 @@ export { locale, i18n }
 
 ### Processors
 
-Global translation processor applied to all messages.
-For instance, we can create screen size transform:
+You can register own custom type for translations to choose translation
+according to some state (and change translation on state changes).
+
+For instance, here is an example of changing translation
+depending on screen size:
 
 ```js
 // stores/i18n.js
