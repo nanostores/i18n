@@ -28,6 +28,9 @@ export function createI18n(locale, opts) {
         Object.assign(obj, item)
       )
     }
+    for (let i of preprocessors) {
+      translations = i(translations)
+    }
     define.cache[code] = { ...define.cache[code], ...translations }
     for (let name in translations) {
       let prefix = name.split('/')[0]
@@ -50,6 +53,9 @@ export function createI18n(locale, opts) {
       } else {
         baseTranslation[i] = base[i]
       }
+    }
+    for (let i of preprocessors) {
+      baseTranslation = i(baseTranslation)
     }
 
     let t = atom()
@@ -79,9 +85,6 @@ export function createI18n(locale, opts) {
       let translations = {
         ...define.cache[baseLocale][componentName],
         ...define.cache[code][componentName]
-      }
-      for (let i of preprocessors) {
-        translations = i(translations)
       }
       for (let i in transforms) {
         let nodeTransform = transforms[i]

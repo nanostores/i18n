@@ -61,7 +61,7 @@ export interface TranslationLoader<
 }
 
 export interface Preprocessor {
-  (input: TranslationsJSON): TranslationsJSON
+  (input: ComponentsJSON | TranslationsJSON): ComponentsJSON | TranslationsJSON
 }
 
 /**
