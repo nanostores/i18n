@@ -6,6 +6,7 @@ export {
   createI18n,
   I18n,
   Messages,
+  Preprocessor,
   Translation,
   TranslationFunction,
   TranslationJSON,
