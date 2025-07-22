@@ -89,6 +89,7 @@ export function createI18n<Locale extends string, BaseLocale extends Locale>(
     baseLocale?: BaseLocale
     cache?: Record<Locale, Components>
     get: TranslationLoader<Locale>
+    isSSR?: boolean
     preprocessors?: Preprocessor[]
     processors?: Processor[]
   }
