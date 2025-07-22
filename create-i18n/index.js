@@ -63,7 +63,8 @@ export function createI18n(locale, opts) {
       t.component = componentName
       t.base = base
       if (define.cache[baseLocale][componentName]) {
-        if (import.meta && (import.meta.hot || import.meta.webpackHot)) {
+        let isHMR = import.meta && (import.meta.hot || import.meta.webpackHot)
+        if (isHMR || opts.isSSR) {
           /* c8 ignore next 3 */
           for (let i in define.cache) {
             delete define.cache[i][componentName]

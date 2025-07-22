@@ -243,6 +243,18 @@ test('tracks double definition', () => {
   match(warn.calls[0][0], /defined multiple times/)
 })
 
+test('prevents double definition warning when SSR', () => {
+  let warn = spyOn(console, 'warn', () => {})
+  let locale = atom('en')
+  let i18n = createI18n(locale, { get, isSSR: true })
+
+  i18n('double', {})
+  equal(warn.callCount, 0)
+
+  i18n('double', {})
+  equal(warn.callCount, 0)
+})
+
 test('cache is used on first use', () => {
   let locale = atom('ru')
   let i18n = createI18n(locale, {
