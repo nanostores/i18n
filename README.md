@@ -98,6 +98,8 @@ export const i18n = createI18n(locale, {
 npm install nanostores @nanostores/i18n
 ```
 
+For Astro you need also [`astro-nanostores-i18n`](https://github.com/openscript/astro-i18n/tree/main/libs/astro-nanostores-i18n).
+
 
 ## Usage
 
