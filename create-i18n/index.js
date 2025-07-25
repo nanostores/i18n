@@ -64,12 +64,12 @@ export function createI18n(locale, opts) {
       t.base = base
       if (define.cache[baseLocale][componentName]) {
         let isHMR = import.meta && (import.meta.hot || import.meta.webpackHot)
-        if (isHMR || opts.isSSR) {
+        if (isHMR) {
           /* c8 ignore next 3 */
           for (let i in define.cache) {
             delete define.cache[i][componentName]
           }
-        } else {
+        } else if (!opts.isSSR) {
           // eslint-disable-next-line no-console
           console.warn(
             `I18n component ${componentName} was defined multiple times. ` +

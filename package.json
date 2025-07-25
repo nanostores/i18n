@@ -90,7 +90,7 @@
     {
       "name": "Minimum",
       "import": "{ localeFrom, createI18n }",
-      "limit": "652 B"
+      "limit": "651 B"
     },
     {
       "name": "Maximum",
