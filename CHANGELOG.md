@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.2.2
+* Fixed translations three-shaking.
+
 ## 1.2.1
 * Fixed setting cache with `isSSR` option (by @openscript).
 
