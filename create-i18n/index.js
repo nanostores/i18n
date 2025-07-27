@@ -43,7 +43,8 @@ export function createI18n(locale, opts) {
     }
   }
 
-  let define = (componentName, base) => {
+  /* @__NO_SIDE_EFFECTS__ */
+  function define(componentName, base) {
     let transforms = {}
     let baseTranslation = {}
     for (let i in base) {
