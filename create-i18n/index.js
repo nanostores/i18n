@@ -60,8 +60,9 @@ export function createI18n(locale, opts) {
     }
 
     let t = atom()
+    t.component = componentName
+
     if (process.env.NODE_ENV !== 'production') {
-      t.component = componentName
       t.base = base
       if (define.cache[baseLocale][componentName]) {
         let isHMR = import.meta && (import.meta.hot || import.meta.webpackHot)
@@ -127,11 +128,17 @@ export function createI18n(locale, opts) {
     return t
   }
 
+  async function getFromMessages(messages) {
+    await getTranslation(locale.get(), [messages.component])
+    return messages.get()
+  }
+
   define.cache = {
     ...opts.cache,
     [baseLocale]: {}
   }
   define.loading = atom(false)
+  define.getFromMessages = getFromMessages
 
   locale.subscribe(code => {
     requested.clear()

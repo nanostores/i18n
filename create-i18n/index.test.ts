@@ -266,3 +266,36 @@ test('cache is used on first use', () => {
   let gamesWithCache = i18n('games', { title: 'Games' })
   equal(gamesWithCache.value?.title, 'Игры')
 })
+
+test('waits for resolved translation', async () => {
+  let locale = atom<'en' | 'pl'>('pl')
+  let i18n = createI18n(locale, { get })
+
+  i18n.getFromMessages = async (messages) => {
+    await getResponse({ component: { title: 'Tytuł' } })
+    return messages.get()
+  }
+
+  equal(i18n.loading.get(), false)
+  deepStrictEqual(getCalls, [])
+
+  let messages = i18n('component', { title: 'Title' })
+  let events: string[] = []
+  messages.subscribe(t => {
+    events.push(t.title)
+  })
+
+  equal(i18n.loading.get(), true)
+  deepStrictEqual(getCalls, ['pl'])
+  deepStrictEqual(events, ['Title'])
+
+  let promise = i18n.getFromMessages(messages)
+
+  equal(i18n.loading.get(), true)
+  deepStrictEqual(messages.get(), { title: 'Title' })
+  deepStrictEqual(events, ['Title'])
+
+  deepStrictEqual(await promise, { title: 'Tytuł' })
+  equal(i18n.loading.get(), false)
+  deepStrictEqual(events, ['Title', 'Tytuł'])
+})

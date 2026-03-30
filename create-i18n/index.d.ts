@@ -38,10 +38,33 @@ export interface Components {
 }
 
 export type Messages<Body extends Translations = Translations> =
-  ReadableAtom<Body>
+  { component: string } & ReadableAtom<Body>
 
 export interface I18n<Locale extends string = string> {
   cache: Record<Locale, Translations>
+  
+  /**
+   * Return a promise resolved to loaded translation.
+   * 
+   * Useful in server-side rendering when you cannot subscribe to component changes and rerender the markup.
+   * 
+   * ```js
+   * export const i18n = createI18n(…)
+   * 
+   * export const messages = i18n('post', {
+   *   post: 'Post details'
+   * })
+   * 
+   * const t = await i18n.getFromMessages(messages)
+   * ```
+   * 
+   * @param messages defined i18n component
+   * @returns translation promise
+  */
+  getFromMessages<Body extends Translations = Translations>(
+    messages: Messages<Body>
+  ): Promise<Body>
+  
   loading: ReadableAtom<boolean>
 
   <Body extends Translations>(

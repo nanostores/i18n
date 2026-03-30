@@ -566,6 +566,16 @@ if (isServer) {
 export { locale, i18n }
 ```
 
+Alternatively you can use `getFromMessages` method on `i18n` object.
+
+```js
+export const messages = i18n('main/post', {
+  post: 'Post details'
+})
+
+const t = await i18n.getFromMessages(messages)
+```
+
 
 ### Preprocessors
 
