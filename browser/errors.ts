@@ -6,10 +6,10 @@ function test(locale: 'ru' | 'en'): void {
 
 let strict = browser({
   available: ['ru', 'es'] as const,
-  // THROWS "fr"' is not assignable to type '"ru" | "es"
+  // THROWS "fr"' is not assignable to type '"es" | "ru"'
   fallback: 'fr'
 })
-// THROWS "ru" | "es"' is not assignable to parameter of type '"en" | "ru"
+// THROWS "es" | "ru"' is not assignable to parameter of type '"en" | "ru"
 test(strict.get())
 
 let string = browser({

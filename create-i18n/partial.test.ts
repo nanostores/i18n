@@ -23,7 +23,7 @@ function getResponse(
   code?: string
 ): Promise<void> {
   if (code) {
-    requestsByLocale[code](translations)
+    requestsByLocale[code]!(translations)
   } else {
     resolveGet(translations)
   }

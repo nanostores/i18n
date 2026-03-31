@@ -6,13 +6,13 @@
 Tiny and flexible JS library to make your web application translatable.
 Uses [Nano Stores] state manager and [JS Internationalization API].
 
-* **Small.** Around 1 KB (minified and brotlied). Zero dependencies.
-* Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
-* Supports **tree-shaking** and translation **on-demand download**.
-* **Plain flat JSON** translations compatible with
+- **Small.** Around 1 KB (minified and brotlied). Zero dependencies.
+- Works with **React**, **Preact**, **Vue**, **Svelte**, and plain JS.
+- Supports **tree-shaking** and translation **on-demand download**.
+- **Plain flat JSON** translations compatible with
   online translation services like [Weblate].
-* Out of the box **TypeScript** support for translations.
-* **Flexible variable translations**. You can change translation,
+- Out of the box **TypeScript** support for translations.
+- **Flexible variable translations**. You can change translation,
   for instance, depends on screen size.
 
 ```tsx
@@ -33,11 +33,13 @@ export const messages = i18n('post', {
 export const Post = ({ author, comments, publishedAt }) => {
   const t = useStore(messages)
   const { time } = useStore(format)
-  return <article>
-    <h1>{t.title}</h1>
-    <p>{t.published({ at: time(publishedAt) })}</p>
-    <p>{t.comments(comments.length)}</p>
-  </article>
+  return (
+    <article>
+      <h1>{t.title}</h1>
+      <p>{t.published({ at: time(publishedAt) })}</p>
+      <p>{t.comments(comments.length)}</p>
+    </article>
+  )
 }
 ```
 
@@ -49,8 +51,9 @@ import { persistentAtom } from '@nanostores/persistent'
 export const setting = persistentAtom<string | undefined>('locale', undefined)
 
 export const locale = localeFrom(
-  setting,  // User’s locale from localStorage
-  browser({ // or browser’s locale auto-detect
+  setting, // User’s locale from localStorage
+  browser({
+    // or browser’s locale auto-detect
     available: ['en', 'fr', 'ru'],
     fallback: 'en'
   })
@@ -59,7 +62,7 @@ export const locale = localeFrom(
 export const format = formatter(locale)
 
 export const i18n = createI18n(locale, {
-  get (code) {
+  get(code) {
     return fetchJSON(`/translations/${code}.json`)
   }
 })
@@ -82,15 +85,14 @@ export const i18n = createI18n(locale, {
 ```
 
 [JS Internationalization API]: https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/
-[Nano Stores]: https://github.com/nanostores/nanostores
+[Nano Stores]: https://github.com/nanostores/nanostores
 [Weblate]: https://weblate.org/
 
 ---
 
-<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  Made at <b><a href="https://evilmartians.com/devtools?utm_source=nanostores-i18n&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" /> Made at <b><a href="https://evilmartians.com/devtools?utm_source=nanostores-i18n&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
 
 ---
-
 
 ## Install
 
@@ -100,7 +102,6 @@ npm install nanostores @nanostores/i18n
 
 For Astro you need also [`astro-nanostores-i18n`](https://github.com/openscript/astro-i18n/tree/main/libs/astro-nanostores-i18n).
 
-
 ## Usage
 
 We store locale, time/number formatting functions and translations
@@ -108,7 +109,6 @@ in Nano Stores’ atoms. See [Nano Stores docs] to learn how to use atoms
 in your framework.
 
 [Nano Stores docs]: https://github.com/nanostores/nanostores#guide
-
 
 ### Locale
 
@@ -171,10 +171,7 @@ function validate(locale: string): Locale {
 
 const urlLocale = computed(router, page => validate(page?.params.locale))
 
-export const locale = localeFrom(
-  urlLocale,
-  browser({ available: LOCALES })
-)
+export const locale = localeFrom(urlLocale, browser({ available: LOCALES }))
 ```
 
 You can use locale as any Nano Store:
@@ -206,7 +203,6 @@ locale.set('fr')
 
 [Intl locale format]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation
 
-
 ### Date, Number & Relative Time Format
 
 `formatter()` creates a store with a functions to format number and time.
@@ -223,7 +219,7 @@ This store will have `time()`, `number()` and `relativeTime()` functions.
 import { useStore } from '@nanostores/react'
 import { format } from '../stores/i18n.js'
 
-export const Date = (date) => {
+export const Date = date => {
   let { time } = useStore(format)
   return time(date)
 }
@@ -249,7 +245,6 @@ relativeTime(-1, 'day', { numeric: 'auto' }) //=> "yesterday"
 [`Intl.NumberFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 [`Intl.RelativeTimeFormat`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
 
-
 ### I18n Object
 
 I18n objects is used to define new component and download translations
@@ -259,7 +254,7 @@ on locale changes.
 import { createI18n } from '@nanostores/i18n'
 
 export const i18n = createI18n(locale, {
-  async get (code) {
+  async get(code) {
     return await fetchJSON(`/translations/${code}.json`)
   }
 })
@@ -268,7 +263,6 @@ export const i18n = createI18n(locale, {
 In every component you will have base translation with functions and types.
 This translation will not be download from the server. By default, you should
 use English. You can change base locale in components with `baseLocale` option.
-
 
 ### Translations
 
@@ -307,7 +301,6 @@ export const messages = i18n('post', {
 Translations should be a flat structure (key → translation), without a nested
 keys. pluralization (`count()`) and other helpers doesn’t introduce
 additional nesting, since they are count as an translation.
-
 
 #### Parameters
 
@@ -395,7 +388,6 @@ export const Robots = ({ robots }) => {
 
 [`Intl.PluralRules`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules
 
-
 #### Custom Variable Translations
 
 In additional to `params()` and `count()` you can define your own translation
@@ -421,7 +413,6 @@ export const messages = i18n('hi', {
 })
 ```
 
-
 ### Translation Process
 
 The good I18n support is not about the I18n library,
@@ -442,17 +433,18 @@ but about translation process.
    import { messagesToJSON } from '@nanostores/i18n'
 
    const components = await glob('./src/*.tsx', { absolute: true })
-   const translations = await Promise.all(components.map(async (file) => {
-     return (await import(file).messages) // Replace import if you export
-                                          // i18n() result with a different name
-   }))
+   const translations = await Promise.all(
+     components.map(async file => {
+       return await import(file).messages // Replace import if you export
+       // i18n() result with a different name
+     })
+   )
    const json = messagesToJSON(...translations)
    ```
 
 3. CI uploads JSON with base translation to online translation service.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
-
 
 ### Lazy loading
 
@@ -461,7 +453,7 @@ translations on locale change.
 
 ```ts
 export const i18n = createI18n(locale, {
-  async get (code) {
+  async get(code) {
     return fetchJSON(`/translations/${code}.json`)
   }
 })
@@ -478,7 +470,7 @@ export const messages = i18n('post', {
 Many application parts are rarely used, so there is a way to get
 translations for them partial.
 
-1. We can use component names like `main/post` or `settings/user`.
+1.  We can use component names like `main/post` or `settings/user`.
 
     ```ts
     export const messages = i18n('main/post', {
@@ -486,10 +478,10 @@ translations for them partial.
     })
     ```
 
-2. We can define that components are more commonly used and give them
-same prefixes like `main/heading` , `main/post` and `main/comment`.
+2.  We can define that components are more commonly used and give them
+    same prefixes like `main/heading` , `main/post` and `main/comment`.
 
-3. Translations should be named:
+3.  Translations should be named:
 
     ```js
     // public/translations/ru/main.json
@@ -507,36 +499,34 @@ same prefixes like `main/heading` , `main/post` and `main/comment`.
     // public/translations/ru/settings.json
     ```
 
-4. During rendering `i18n` saves all component names that are used.
-When locale changed `i18n` send names to `get` function.
+4.  During rendering `i18n` saves all component names that are used.
+    When locale changed `i18n` send names to `get` function.
 
-5. We can pass `get` function that split the prefixes, filter unique
-of them and make fetch for needed translations.
+5.  We can pass `get` function that split the prefixes, filter unique
+    of them and make fetch for needed translations.
 
-    ```ts
-    export const i18n = createI18n(locale, {
-      async get(code, components) {
-        let prefixes = components.map(name => name.split('/')[0])
-        let unique = Array.from(new Set(prefixes))
-        return Promise.all(
-          unique.map(chunk =>
-            fetchJSON(`/translations/${code}/${chunk}.json`)
-          )
-        )
-      }
-    })
-    ```
+        ```ts
+        export const i18n = createI18n(locale, {
+          async get(code, components) {
+            let prefixes = components.map(name => name.split('/')[0])
+            let unique = Array.from(new Set(prefixes))
+            return Promise.all(
+              unique.map(chunk =>
+                fetchJSON(`/translations/${code}/${chunk}.json`)
+              )
+            )
+          }
+        })
+        ```
 
-6. After each of new renderings `i18n` checks translations in cache.
-If not in cache:
-    * Splits component unique prefix or get name without prefix.
-    * Checks if translations for it were fetched, but response not
-    received yet.
-    * Calls `get` function for component name if needed -
+6.  After each of new renderings `i18n` checks translations in cache.
+    If not in cache:
+    _ Splits component unique prefix or get name without prefix.
+    _ Checks if translations for it were fetched, but response not
+    received yet. \* Calls `get` function for component name if needed -
     `main` or `settings`.
 
-7. Fetch will be called for all new rendered component with unique name. To prevent this we might want to give them same prefixes.
-
+7.  Fetch will be called for all new rendered component with unique name. To prevent this we might want to give them same prefixes.
 
 ### Server-Side Rendering
 
@@ -565,7 +555,6 @@ if (isServer) {
 
 export { locale, i18n }
 ```
-
 
 ### Preprocessors
 

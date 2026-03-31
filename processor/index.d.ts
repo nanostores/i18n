@@ -6,7 +6,7 @@ import type {
 } from '../create-i18n/index.js'
 
 export interface Processor<Key extends string = string> {
-  from: ReadableAtom<Key>
+  from: ReadableAtom<Key>;
   <Input extends Record<Key, TranslationJSON>>(
     input: Input
   ): TranslationFunction<[], Input[keyof Input]>

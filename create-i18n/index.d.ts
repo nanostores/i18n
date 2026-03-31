@@ -42,7 +42,7 @@ export type Messages<Body extends Translations = Translations> =
 
 export interface I18n<Locale extends string = string> {
   cache: Record<Locale, Translations>
-  loading: ReadableAtom<boolean>
+  loading: ReadableAtom<boolean>;
 
   <Body extends Translations>(
     componentName: string,

@@ -36,10 +36,9 @@ interface Count {
   <Parameters extends Record<string, number | string>>(
     input: TranslationFunction<[Parameters], string>
   ): TranslationFunctionAlternatives<Parameters>
-  <Input extends CountInput>(input: Input): TranslationFunction<
-    [number],
-    Input[keyof Input]
-  >
+  <Input extends CountInput>(
+    input: Input
+  ): TranslationFunction<[number], Input[keyof Input]>
 }
 
 export const count: Count
