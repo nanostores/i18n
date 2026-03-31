@@ -128,17 +128,11 @@ export function createI18n(locale, opts) {
     return t
   }
 
-  async function getFromMessages(messages) {
-    await getTranslation(locale.get(), [messages.component])
-    return messages.get()
-  }
-
   define.cache = {
     ...opts.cache,
     [baseLocale]: {}
   }
   define.loading = atom(false)
-  define.getFromMessages = getFromMessages
 
   locale.subscribe(code => {
     requested.clear()
