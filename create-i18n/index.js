@@ -60,10 +60,10 @@ export function createI18n(locale, opts) {
     }
 
     let t = atom()
-    t.component = componentName
 
     if (process.env.NODE_ENV !== 'production') {
       t.base = base
+      t.component = componentName
       if (define.cache[baseLocale][componentName]) {
         let isHMR = import.meta && (import.meta.hot || import.meta.webpackHot)
         if (isHMR) {

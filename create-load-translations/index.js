@@ -1,15 +1,10 @@
-export function createLoadTranslations(i18n, locale, get) {
+import { translationsLoading } from '../translations-loading/index.js'
+
+export function createLoadTranslations(i18n) {
   async function loadTranslations(messages) {
-    let code = locale.get()
+    void messages.get()
+    await translationsLoading(i18n)
 
-    let translations = await get(code, [messages.component])
-    if (Array.isArray(translations)) {
-      translations = translations.reduce((obj, item) =>
-        Object.assign(obj, item)
-      )
-    }
-
-    i18n.cache[code] = { ...i18n.cache[code], translations }
     return messages.get()
   }
 

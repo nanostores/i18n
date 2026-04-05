@@ -38,7 +38,7 @@ export interface Components {
 }
 
 export type Messages<Body extends Translations = Translations> =
-  { component: string } & ReadableAtom<Body>
+  ReadableAtom<Body>
 
 export interface I18n<Locale extends string = string> {
   cache: Record<Locale, Translations>

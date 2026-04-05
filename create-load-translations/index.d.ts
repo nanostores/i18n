@@ -12,26 +12,20 @@ export interface LoadTranslations {
 
 /**
  * Create a function to asynchronously load translations from i18n components.
- * 
+ *
  * ```js
  * import { createI18n, localeFrom, createLoadTranslations } from '@nanostores/i18n'
  *
- * const get = (code, components) => {
+ * function get(code, components) {
  *   // your fetching logic
  * }
  *
  * export const locale = localeFrom(…)
  * export const i18n = createI18n(locale, { get })
- * export const loadTranslations = createLoadTranslations(i18n, locale, get)
+ * export const loadTranslations = createLoadTranslations(i18n)
  * ```
- * 
+ *
  * @param i18n Component definition function.
- * @param locale Store with user’s locale.
- * @param get Component loader function.
  * @returns Asynchronous translations loader.
  */
-export function createLoadTranslations<Locale extends string>(
-  i18n: I18n<Locale>,
-  locale: LocaleStore<Locale>,
-  get: TranslationLoader<Locale>
-): LoadTranslations
+export function createLoadTranslations(i18n: I18n): LoadTranslations

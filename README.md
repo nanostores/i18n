@@ -555,33 +555,36 @@ if (isServer) {
 
 export { locale, i18n }
 ```
+
 ### Loading translations asynchronously
 
-For rendering on the server where you're fine with waiting for the translations to load you can create a `loadTranslations` function:
+When rendering content completely on the server without client hydration, i.e. when using React server components, you can create a `loadTranslations` function. It ensures the translations will be loaded before you use them.
 
 ```js
 import { createI18n, createLoadTranslations } from '@nanostores/i18n'
 import { atom } from 'nanostores'
 
 const locale = atom('en')
-const get = async (code, components) => {
-  return // your fetching logic
-}
 
-const i18n = createI18n(locale, { get })
-const loadTranslations = createLoadTranslations(i18n, locale, get)
+const i18n = createI18n(locale, {
+  get(code, components) {
+    // your fetching logic
+  }
+})
+const loadTranslations = createLoadTranslations(i18n)
 ```
 
 Then you can get translations by passing i18n component into this function:
 
 ```jsx
+// components/post.jsx
 import { i18n, loadTranslations } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   post: 'Post details'
 })
 
-export const Post = async () => {
+async function Post() {
   const t = await loadTranslations(messages)
   return <span>{t.post}</span>
 }
