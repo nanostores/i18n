@@ -30,7 +30,9 @@ interface Params {
    * @param input Template string or `TranslationFunction`.
    * @return Transform for translation.
    */
-  <Input extends string>(input: Input): TranslationFunction<
+  <Input extends string>(
+    input: Input
+  ): TranslationFunction<
     keyof ExtractTemplateParams<Input> extends never
       ? []
       : [ExtractTemplateParams<Input>],

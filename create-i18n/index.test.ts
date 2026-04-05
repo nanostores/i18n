@@ -23,7 +23,7 @@ function getResponse(
   code?: string
 ): Promise<void> {
   if (code) {
-    requestsByLocale[code](translations)
+    requestsByLocale[code]!(translations)
   } else {
     resolveGet(translations)
   }
@@ -240,7 +240,7 @@ test('tracks double definition', () => {
 
   i18n('double', {})
   equal(warn.callCount, 1)
-  match(warn.calls[0][0], /defined multiple times/)
+  match(warn.calls[0]![0], /defined multiple times/)
 })
 
 test('prevents double definition warning when SSR', () => {
