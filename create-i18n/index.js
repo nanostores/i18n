@@ -62,6 +62,7 @@ export function createI18n(locale, opts) {
     let t = atom()
 
     if (process.env.NODE_ENV !== 'production') {
+      t.i18n = define
       t.base = base
       t.component = componentName
       if (define.cache[baseLocale][componentName]) {

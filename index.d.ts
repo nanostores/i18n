@@ -14,10 +14,7 @@ export {
   Translations,
   TranslationsJSON
 } from './create-i18n/index.js'
-export {
-  createLoadTranslations,
-  LoadTranslations
-} from './create-load-translations/index.js'
+export { loadTranslations } from './load-translations/index.js'
 export { eachMessage } from './each-message/index.js'
 export { formatter, Formatter } from './formatter/index.js'
 export { localeFrom, LocaleStore } from './locale-from/index.js'

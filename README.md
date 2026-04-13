@@ -446,7 +446,7 @@ but about translation process.
 4. Translators translate application on this service.
 5. CI or translation service download translation JSONs to the project.
 
-### Lazy loading
+### Lazy Loading
 
 In general case developer pass `get` function like this to fetch all
 translations on locale change.
@@ -556,29 +556,16 @@ if (isServer) {
 export { locale, i18n }
 ```
 
-### Loading translations asynchronously
+### Server-Only Rendering
 
-When rendering content completely on the server without client hydration, i.e. when using React server components, you can create a `loadTranslations` function. It ensures the translations will be loaded before you use them.
-
-```js
-import { createI18n, createLoadTranslations } from '@nanostores/i18n'
-import { atom } from 'nanostores'
-
-const locale = atom('en')
-
-const i18n = createI18n(locale, {
-  get(code, components) {
-    // your fetching logic
-  }
-})
-const loadTranslations = createLoadTranslations(i18n)
-```
-
-Then you can get translations by passing i18n component into this function:
+When rendering content completely on the server without client hydration,
+you can create a `loadTranslations` helper. It ensures the translations
+will be loaded before you use them.
 
 ```jsx
 // components/post.jsx
-import { i18n, loadTranslations } from '../stores/i18n.js'
+import { loadTranslations } from '@nanostores/i18n'
+import { i18n } from '../stores/i18n.js'
 
 export const messages = i18n('post', {
   post: 'Post details'
