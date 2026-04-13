@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.0
+
+- Added `loadTranslations` helper (by @lunarW1TCH).
+
 ## 1.2.2
 
 - Fixed translations three-shaking.
