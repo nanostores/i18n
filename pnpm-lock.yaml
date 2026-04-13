@@ -35,6 +35,9 @@ importers:
       conditional-type-checks:
         specifier: ^1.0.6
         version: 1.0.6
+      eslint-plugin-prefer-let:
+        specifier: ^4.2.2
+        version: 4.2.2
       globals:
         specifier: ^17.4.0
         version: 17.4.0

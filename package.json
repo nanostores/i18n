@@ -47,6 +47,7 @@
     "check-dts": "^1.0.0",
     "clean-publish": "^6.0.5",
     "conditional-type-checks": "^1.0.6",
+    "eslint-plugin-prefer-let": "^4.2.2",
     "globals": "^17.4.0",
     "nanodelay": "^2.0.2",
     "nanospy": "^1.0.0",
