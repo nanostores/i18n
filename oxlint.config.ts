@@ -5,8 +5,8 @@ export default defineConfig({
   extends: [loguxOxlintConfig],
   ignorePatterns: ['*/errors.ts'],
   rules: {
-    'typescript/unbound-method': 'off',
-    'typescript/no-floating-promises': 'off'
+    'typescript/no-floating-promises': 'off',
+    'typescript/no-unnecessary-type-parameters': 'off'
   },
   overrides: [
     {
