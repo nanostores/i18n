@@ -26,7 +26,7 @@ export const messages = i18n('post', {
   published: params('Was published at {at}'), // TypeScript will get `at` type
   comments: count({
     one: '{count} comment',
-    many: '{count} comments'
+    other: '{count} comments'
   })
 })
 
