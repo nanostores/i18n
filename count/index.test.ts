@@ -18,7 +18,7 @@ function getResponse(translations: ComponentsJSON): Promise<void> {
   return Promise.resolve()
 }
 
-let locale = atom('pl')
+let locale = atom<'ru' | 'pl'>('ru')
 let i18n = createI18n(locale, { get })
 
 test('uses pluralization rules', async () => {
@@ -36,6 +36,29 @@ test('uses pluralization rules', async () => {
   })
 
   messages.subscribe(() => {})
+
+  await getResponse({
+    templates: {
+      onlyMany: {
+        many: 'много'
+      },
+      robots: {
+        few: '{count} робота',
+        many: '{count} роботов',
+        one: '{count} робот'
+      }
+    }
+  })
+
+  equal(messages.get().robots(1), '1 робот')
+  equal(messages.get().robots(21), '21 робот')
+  equal(messages.get().robots(2), '2 робота')
+  equal(messages.get().robots(5), '5 роботов')
+
+  equal(messages.get().onlyMany(1), 'много')
+  equal(messages.get().onlyMany(2), 'много')
+
+  locale.set('pl')
 
   await getResponse({
     templates: {
