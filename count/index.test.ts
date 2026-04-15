@@ -18,7 +18,7 @@ function getResponse(translations: ComponentsJSON): Promise<void> {
   return Promise.resolve()
 }
 
-let locale = atom('ru')
+let locale = atom('pl')
 let i18n = createI18n(locale, { get })
 
 test('uses pluralization rules', async () => {
@@ -26,8 +26,11 @@ test('uses pluralization rules', async () => {
     onlyMany: count({
       many: 'many'
     }),
+    onlyOther: count({
+      other: 'other'
+    }),
     robots: count({
-      many: '{count} robots',
+      other: '{count} robots',
       one: '{count} robot'
     })
   })
@@ -37,21 +40,29 @@ test('uses pluralization rules', async () => {
   await getResponse({
     templates: {
       onlyMany: {
-        many: 'много'
+        many: 'wiele'
+      },
+      onlyOther: {
+        other: 'inne'
       },
       robots: {
-        few: '{count} робота',
-        many: '{count} роботов',
-        one: '{count} робот'
+        one: '{count} robot',
+        few: '{count} roboty',
+        many: '{count} robotów',
+        other: '{count} robota'
       }
     }
   })
 
-  equal(messages.get().robots(1), '1 робот')
-  equal(messages.get().robots(21), '21 робот')
-  equal(messages.get().robots(2), '2 робота')
-  equal(messages.get().robots(5), '5 роботов')
+  equal(messages.get().robots(0), '0 robotów')
+  equal(messages.get().robots(1), '1 robot')
+  equal(messages.get().robots(2), '2 roboty')
+  equal(messages.get().robots(5), '5 robotów')
+  equal(messages.get().robots(2.5), '2.5 robota')
 
-  equal(messages.get().onlyMany(1), 'много')
-  equal(messages.get().onlyMany(2), 'много')
+  equal(messages.get().onlyMany(1), 'wiele')
+  equal(messages.get().onlyMany(2), 'wiele')
+
+  equal(messages.get().onlyOther(1), 'inne')
+  equal(messages.get().onlyOther(2), 'inne')
 })

@@ -277,7 +277,7 @@ export const messages = i18n('post', {
   published: params('Was published at {at}'),
   comments: count({
     one: '{count} comment',
-    many: '{count} comments'
+    other: '{count} comments'
   })
 })
 ```
@@ -335,7 +335,7 @@ export const messages = i18n('pagination', {
   page: params<{ category: string }>(
     count({
       one: 'One page in {category}',
-      many: '{count} pages in {category}'
+      other: '{count} pages in {category}'
     })
   )
 })
@@ -350,7 +350,7 @@ export const RobotsListInfo = ({ count }) => {
 
 In many languages, text could be different depends on items count.
 Compare `1 robot`/`2 robots` in English with
-`1 робот`/`2 робота`/`3 робота`/`21 робот` in Russian.
+`1 robot`/`2 roboty`/`2.5 robota`/`10 robotów` in Polish.
 
 We hide this complexity with `count()` translation transform:
 
@@ -362,7 +362,7 @@ import { i18n } from '../stores/i18n.js'
 export const messages = i18n('robots', {
   howMany: count({
     one: '{count} robot',
-    many: '{count} robots'
+    other: '{count} robots'
   })
 })
 
@@ -376,9 +376,10 @@ export const Robots = ({ robots }) => {
 {
   "robots": {
     "howMany": {
-      "one": "{count} робот",
-      "few": "{count} робота",
-      "many": "{count} роботов"
+      "one": "{count} robot",
+      "few": "{count} roboty",
+      "many": "{count} robotów",
+      "other": "{count} robota"
     }
   }
 }

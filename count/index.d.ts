@@ -4,11 +4,23 @@ import type {
   TranslationJSON
 } from '../create-i18n/index.js'
 
-export type CountInput = {
-  few?: TranslationJSON
-  many: TranslationJSON
-  one?: TranslationJSON
-}
+export type CountInput =
+  | {
+      zero?: TranslationJSON
+      one?: TranslationJSON
+      two?: TranslationJSON
+      few?: TranslationJSON
+      many: TranslationJSON
+      other?: TranslationJSON
+    }
+  | {
+      zero?: TranslationJSON
+      one?: TranslationJSON
+      two?: TranslationJSON
+      few?: TranslationJSON
+      many?: TranslationJSON
+      other: TranslationJSON
+    }
 
 interface Count {
   /**
@@ -21,7 +33,7 @@ interface Count {
    * export const messages = i18n('pagination', {
    *   pages: count({
    *     one: 'One page',
-   *     many: '{count} pages'
+   *     other: '{count} pages'
    *   })
    * })
    * ```
