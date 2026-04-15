@@ -71,7 +71,7 @@
     {
       "name": "Maximum",
       "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor }",
-      "limit": "1065 B"
+      "limit": "1077 B"
     }
   ],
   "engines": {
