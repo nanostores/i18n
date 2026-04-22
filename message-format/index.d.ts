@@ -85,6 +85,31 @@ type ExtractMessageParams<S extends string> =
     : Prettify<InternalExtract<S>>
 
 interface MessageFormat {
+  /**
+   * Add parameters to translation strings using MessageFormat 2 (MF2) standard.
+   * @link https://messageformat.unicode.org/
+   *
+   * @example
+   * ```ts
+   * import { messageFormat } from '@nanostores/i18n'
+   * import { i18n } from '../stores/i18n'
+   *
+   * export const messages = i18n('component', {
+   *   click: messageFormat('Click {#link}here{/link}'),
+   *   greeting: messageFormat('Welcome {$user}! {#star/}')
+   * })
+   * ```
+   *
+   * @example
+   * ```js
+   * const t = useStore(messages)
+   * t.click({ link: (content) => `<a href='some_url'>${content}</a>` })
+   * t.greeting({ user: 'Jane', star: () => '⭐' })
+   * ```
+   *
+   * @param input MessageFormat template string.
+   * @returns Transform for translation.
+   */
   <Input extends string>(
     input: Input
   ): ExtractMessageParams<Input> extends never
