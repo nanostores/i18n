@@ -1,3 +1,5 @@
+import type { TranslationFunction } from '../create-i18n/index.js'
+
 type MessageMarkupPart = {
   type: 'markup'
   kind: 'open' | 'close' | 'standalone'
@@ -14,6 +16,8 @@ type MessageStringPart = {
   name: string
   value: string
 }
+
+type MessagePart = MessageMarkupPart | MessageStringPart | MessageTextPart
 
 type ExtractTagName<
   S extends string,
@@ -75,7 +79,22 @@ type InternalExtract<S extends string> =
         ? InternalExtract<Tail>
         : object
 
-export type ExtractMessageParams<S extends string> =
+type ExtractMessageParams<S extends string> =
   HasConflict<InternalExtract<S>> extends true
     ? never
     : Prettify<InternalExtract<S>>
+
+interface MessageFormat {
+  <Input extends string>(
+    input: Input
+  ): ExtractMessageParams<Input> extends never
+    ? never
+    : TranslationFunction<
+        keyof ExtractMessageParams<Input> extends never
+          ? []
+          : [ExtractMessageParams<Input>],
+        string
+      >
+}
+
+export const messageFormat: MessageFormat
