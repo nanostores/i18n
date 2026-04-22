@@ -75,47 +75,7 @@ type InternalExtract<S extends string> =
         ? InternalExtract<Tail>
         : object
 
-type ExtractMessageParams<S extends string> =
+export type ExtractMessageParams<S extends string> =
   HasConflict<InternalExtract<S>> extends true
     ? never
     : Prettify<InternalExtract<S>>
-
-// Future test types:
-
-type TestResult = ExtractMessageParams<TestStr>
-
-type T1 = ExtractMessageParams<'Hello {$name}!'>
-
-type T2 = ExtractMessageParams<'Click {#link}here{/link}'>
-
-type T3 = ExtractMessageParams<'Warning {#icon/}'>
-
-type T4 = ExtractMessageParams<'{$user} clicked {#link}here{/link} {#star/}'>
-
-type T5 = ExtractMessageParams<'You have {#bold}{$amount}{/bold} notifications'>
-
-type T6 =
-  ExtractMessageParams<'{#bold}Click {#link}here{/link} for details{/bold}'>
-
-type T7 = ExtractMessageParams<'{#a}A{/a} {#b/} {#c}C{/c}'>
-
-type T8 = ExtractMessageParams<'{#bold}one{/bold} and {#bold}two{/bold}'>
-
-type T9 =
-  ExtractMessageParams<'Invalid: {#link}here{/wrong}, Valid: {#bold}text{/bold}'>
-
-type T10 =
-  ExtractMessageParams<'Welcome {$user}! {#bold}Check your {#link}{$item_count} items{/link} {#star/} {/bold}'>
-
-type T11 = ExtractMessageParams<'{#empty}{/empty}'>
-
-type T12 = ExtractMessageParams<'{#a} Outer {#a} Inner {/a} {/a}'>
-
-type T13 =
-  ExtractMessageParams<'{#a} Outer {$outerVar} {#a} Inner {$innerVar} {/a} {/a}'>
-
-type T14 = ExtractMessageParams<'{#amount}You have {$amount} items{/amount}'>
-
-type T15 = ExtractMessageParams<'Hello { $user }! Click {# link }here{/ link }'>
-
-type T16 = ExtractMessageParams<'hello!'>
