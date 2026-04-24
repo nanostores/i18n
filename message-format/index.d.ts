@@ -1,24 +1,5 @@
 import type { TranslationFunction } from '../create-i18n/index.js'
 
-type MessageMarkupPart = {
-  type: 'markup'
-  kind: 'open' | 'close' | 'standalone'
-  name: string
-}
-
-type MessageTextPart = {
-  type: 'text'
-  value: string
-}
-
-type MessageStringPart = {
-  type: 'string'
-  name: string
-  value: string
-}
-
-type MessagePart = MessageMarkupPart | MessageStringPart | MessageTextPart
-
 type ExtractTagName<
   S extends string,
   Name extends string = ''
@@ -123,3 +104,51 @@ interface MessageFormat {
 }
 
 export const messageFormat: MessageFormat
+
+export type MessageFormatMarkupPart = {
+  type: 'markup'
+  kind: 'open' | 'close' | 'standalone'
+  name: string
+}
+
+export type MessageFormatTextPart = {
+  type: 'text'
+  value: string
+}
+
+export type MessageFormatStringPart = {
+  type: 'string'
+  name: string
+}
+
+export type MessageFormatPart =
+  | MessageFormatMarkupPart
+  | MessageFormatStringPart
+  | MessageFormatTextPart
+
+/**
+ * Extract message parts from MessageFormat translation string.
+ * Useful for implementing custom rendering logic or framework adapters.
+ *
+ * @example
+ * ```jsx
+ * import { getMessageFormatParts } from '@nanostores/i18n'
+ * import Star from './components/Star.jsx'
+ *
+ * function FancyText({ children }) {
+ *   return getMessageFormatParts(children).map(part => {
+ *     if (part.type === 'markup' && part.name === 'star') return <Star />
+ *     return <span>{part.value}</span>
+ *   })
+ * }
+ *
+ * function App() {
+ *   const translation = 'I am fancy! {#star/}'
+ *   return <FancyText>{translation}</FancyText>
+ * }
+ * ```
+ *
+ * @param translation MessageFormat translation string.
+ * @returns Array of MessageFormat parts.
+ */
+export function getMessageFormatParts(translation: string): MessageFormatPart[]
