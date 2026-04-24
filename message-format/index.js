@@ -38,7 +38,5 @@ export function getMessageFormatParts(translation) {
   return parts
 }
 
-getMessageFormatParts('no markup')
-
 // oxlint-disable-next-line no-unused-vars <temp>
 export const messageFormat = transform((locale, translation, params) => {})

@@ -25,7 +25,7 @@ test('extracts message format parts', () => {
   ])
 })
 
-test('extracts from plain test', () => {
+test('extracts from plain text', () => {
   let translation = 'I do not have any markup or variables.'
   let parts = getMessageFormatParts(translation)
 
