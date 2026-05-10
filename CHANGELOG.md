@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.3
+
+- Fixed Astro support (by @openscript).
+
 ## 1.3.2
 
 - Fixed plural rules for some locales (by @lunarW1TCH).
