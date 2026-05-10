@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.3.2
 
-- Fix plural rules for some locales (by @lunarW1TCH).
+- Fixed plural rules for some locales (by @lunarW1TCH).
 
 ## 1.3.1
 
