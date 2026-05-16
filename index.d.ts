@@ -23,3 +23,11 @@ export { ExtractTemplateParams, params } from './params/index.js'
 export { createProcessor } from './processor/index.js'
 export { strings, transform, TranslationTransform } from './transforms/index.js'
 export { translationsLoading } from './translations-loading/index.js'
+export {
+  messageFormat,
+  getMessageFormatParts,
+  MessageFormatPart,
+  MessageFormatMarkupPart,
+  MessageFormatStringPart,
+  MessageFormatTextPart
+} from './message-format/index.js'
