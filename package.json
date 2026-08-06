@@ -70,8 +70,8 @@
     },
     {
       "name": "Maximum",
-      "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor }",
-      "limit": "1077 B"
+      "import": "{ localeFrom, browser, createI18n, params, count, formatter, createProcessor, messageFormat, getMessageFormatParts }",
+      "limit": "1295 B"
     }
   ],
   "engines": {
