@@ -27,3 +27,19 @@ test('replaces templates', () => {
   equal(messages.get().doubleEscaped2({ param: 1 }), '{1}')
   equal((messages as any).value.doubleEscaped2({ param: 1 }), '{1}')
 })
+
+test('inserts values literally', () => {
+  let messages = i18n('literal', {
+    dot: params<{ 'a.b': string }>('{a.b} and {axb}'),
+    hi: params<{ name: string }>('Hi {name}!'),
+    post: params<{ text: string; user: string }>('{user}: {text}')
+  })
+  equal(messages.get().hi({ name: 'Ma$$ive' }), 'Hi Ma$$ive!')
+  equal(messages.get().hi({ name: '$&' }), 'Hi $&!')
+  equal(messages.get().hi({ name: 'a$`b' }), 'Hi a$`b!')
+  equal(
+    messages.get().post({ text: 'hello', user: 'Bob {text}' }),
+    'Bob {text}: hello'
+  )
+  equal(messages.get().dot({ 'a.b': 'X' }), 'X and {axb}')
+})
