@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.4
+
+- Fixed `$` and `{param}` in `params()` values (by @trackoor).
+- Added npm provenance.
+
 ## 1.3.3
 
 - Fixed Astro support (by @openscript).
